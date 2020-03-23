@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-//ciaoooooo a tutti SWEEEEEEEEEEEEEEEEEEE
+//ciaoooooo a tutti
 int main()
 {
     cout << "Hello World!" << endl;
