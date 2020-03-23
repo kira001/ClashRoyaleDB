@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+void fun(){
+//Prima Funzione
+}
+
 
 int main()
 {
