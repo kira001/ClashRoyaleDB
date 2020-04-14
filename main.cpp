@@ -2,7 +2,7 @@
 
 int main(){
 
-    prova per gerardo kokokokokokokokokoko
+    
 
-    std::cout<<"Hello"<<std::endl;
+    std::cout<<"Hello prova"<<std::endl;
    }
