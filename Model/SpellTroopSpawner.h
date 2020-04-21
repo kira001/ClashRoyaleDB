@@ -1,4 +1,4 @@
-#ifndef SPELL_H
-#define SPELL_H
+#ifndef SPELLTROOPSPAWNER_H
+#define SPELLTROOPSPAWNER_H
 
-#endif // SPELL_H
+#endif // SPELLTROOPSPAWNER_H

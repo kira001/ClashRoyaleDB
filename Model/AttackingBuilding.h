@@ -1,4 +1,4 @@
-#ifndef SPELL_H
-#define SPELL_H
+#ifndef ATTACKINGBUILDING_H
+#define ATTACKINGBUILDING_H
 
-#endif // SPELL_H
+#endif // ATTACKINGBUILDING

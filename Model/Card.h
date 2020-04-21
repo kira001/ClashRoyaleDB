@@ -1,5 +1,5 @@
-#ifndef SPELL_H
-#define SPELL_H
+#ifndef CARD_H
+#define CARD_H
 
 #include <string>
 using std::string;
@@ -42,4 +42,4 @@ public:
 
 
 };
-#endif // SPELL_H
+#endif // CARD_H
