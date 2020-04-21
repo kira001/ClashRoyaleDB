@@ -15,28 +15,25 @@ private:
     string description;
     unsigned int MaxLevel;
 public:
-    // costruttori
+    // CONSTRUCTORS/DESTRUCTORS
     Card();
     Card(string, unsigned int, rarity, unsigned int,string);
     Card(const Card&);
-
-    // SET method
+    // SETTERS
     void setName(string n);
     void setManaCost(unsigned int mana);
     void setCardRarity(rarity rar);
     void setCardLevel(unsigned int cLevel);
     void setDescription(string desc);
     void setMaxLevel(rarity rar);
-
-    //GET method
+    // GETTERs
     string getName() const;
     unsigned int getManaCost() const;
     rarity getCardRarity() const;
     unsigned int getCardLevel() const;
     string getDescription() const;
     unsigned int getMaxLevel() const;
-
-    // Conversione enum<--->string
+    // CONVESION ENUM<--->STRING
     string RarityToString() const;
     static rarity StringToRarity(std::string);
 
