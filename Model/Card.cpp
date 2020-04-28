@@ -22,7 +22,7 @@ unsigned int Card::getMaxLevel() const{ return MaxLevel; }
 //SETTERS
 void Card::setName(string n){ name=n; }
 void Card::setManaCost(unsigned int mana){ manaCost=mana; }
-void Card::setCardRarity(Card::rarity rar){ cardRarity=rar; }
+void Card::setCardRarity(Card::rarity rar){ cardRarity=rar;  Card::setMaxLevel(rar); }
 void Card::setCardLevel(unsigned int cLevel){ cardLevel=cLevel; }
 void Card::setDescription(string desc){ description=desc; }
 void Card::setMaxLevel(Card::rarity rar){

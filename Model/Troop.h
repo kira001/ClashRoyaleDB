@@ -26,7 +26,8 @@ public:
     unsigned int getSpawnDD() const;
     double getRange() const;
     unsigned int getCount() const;
-
+    //metodi
+    //damage(hitxSec*damagexSec)
 };
 
 

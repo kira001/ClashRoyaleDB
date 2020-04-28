@@ -14,6 +14,8 @@ private:
     unsigned int cardLevel;
     string description;
     unsigned int MaxLevel;
+
+     void setMaxLevel(rarity rar);
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Card();
@@ -25,7 +27,7 @@ public:
     void setCardRarity(rarity rar);
     void setCardLevel(unsigned int cLevel);
     void setDescription(string desc);
-    void setMaxLevel(rarity rar);
+
     // GETTERs
     string getName() const;
     unsigned int getManaCost() const;
