@@ -5,9 +5,7 @@ Troop::Troop():Card(){}
 Troop::Troop(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int s,
              unsigned int th, double hxs, double dxs, unsigned int sdd, double r, unsigned int c):
 Card(n,mana,rar,cLevel,desc), shield(s), troopHealth(th), hitxSec(hxs), damagexSec(dxs), spawnDD(sdd),
-  range(r),count(c){
-    //controlli sui valori con relativa eccezione?
-}
+  range(r),count(c){}
 Troop::Troop(const Troop&x):Card(x),shield(x.getShield()),troopHealth(x.getTroopHealth()),hitxSec(x.getHitxSec()),
 damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(x.getCount())
 {}
@@ -22,3 +20,12 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    unsigned int Troop::getSpawnDD()const{return spawnDD;}
    double Troop::getRange()const{return range;}
    unsigned int Troop::getCount()const{return count;}
+
+//SETTERS
+   void Troop::setShield(unsigned int s){shield=s;}
+   void Troop::setTroopHealth(unsigned int th){troopHealth=th;}
+   void Troop::setHitxSec(double hxs){hitxSec=hxs;}
+   void Troop::setDamagexSec(double dxs){damagexSec=dxs;}
+   void Troop::setSpawnDD(unsigned int sdd){spawnDD=sdd;}
+   void Troop::getRange(double r){range=r;}
+   void Troop::getCount(unsigned int c){count=c;}

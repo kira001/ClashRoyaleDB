@@ -26,6 +26,14 @@ public:
     unsigned int getSpawnDD() const;
     double getRange() const;
     unsigned int getCount() const;
+    // SETTERS
+    void setShield(unsigned int);
+    void setTroopHealth(unsigned int);
+    void setHitxSec(double);
+    void setDamagexSec(double);
+    void setSpawnDD(unsigned int);
+    void setRange(double);
+    void setCount(unsigned int);
     //metodi
     //damage(hitxSec*damagexSec)
 };
