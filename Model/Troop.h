@@ -3,7 +3,7 @@
 
 #include "Card.h"
 
-class Troop:public Card{
+class Troop:virtual public Card{
 private:
     unsigned int shield;
     unsigned int troopHealth;
