@@ -22,8 +22,6 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-     Template/container.h\
-     Template/deepptr.h\
      Model/Building.h \
      Model/AttackingBuilding.h \
      Model/BuildingTroopSpawner.h \

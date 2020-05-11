@@ -1,11 +1,11 @@
 #ifndef SPELLTROOPSPAWNER_H
 #define SPELLTROOPSPAWNER_H
 
-
 #include "Spell.h"
 #include "Troop.h"
 #include <string>
 using std::string;
+
 class SpellTroopSpawner:public Spell, public Troop{
 private:
    string timeSpawn;

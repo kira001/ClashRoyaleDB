@@ -15,8 +15,8 @@ private:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Troop();
-    Troop(string, unsigned int, rarity, unsigned int,string
-          , unsigned int, unsigned int, double, double, unsigned int, double, unsigned int);
+    Troop(string, unsigned int, rarity, unsigned int,string ,
+          unsigned int, unsigned int, double, double, unsigned int, double, unsigned int);
     Troop(const Troop&);
     // GETTERS
     unsigned int getShield() const;
@@ -34,8 +34,8 @@ public:
     void setSpawnDD(unsigned int);
     void setRange(double);
     void setCount(unsigned int);
-    //metodi
-    //damage(hitxSec*damagexSec)
+    // METHODS
+    double damage() const;
 };
 
 

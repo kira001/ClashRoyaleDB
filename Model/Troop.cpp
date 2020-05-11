@@ -6,11 +6,11 @@ Troop::Troop(string n, unsigned int mana, rarity rar, unsigned int cLevel,string
              unsigned int th, double hxs, double dxs, unsigned int sdd, double r, unsigned int c):
 Card(n,mana,rar,cLevel,desc), shield(s), troopHealth(th), hitxSec(hxs), damagexSec(dxs), spawnDD(sdd),
   range(r),count(c){}
-Troop::Troop(const Troop&x):Card(x),shield(x.getShield()),troopHealth(x.getTroopHealth()),hitxSec(x.getHitxSec()),
+Troop::Troop(const Troop& x):Card(x),shield(x.getShield()),troopHealth(x.getTroopHealth()),hitxSec(x.getHitxSec()),
 damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(x.getCount())
 {}
 
-/******************** GETTERS/SETTERS ********************/
+/******************** METHODS ********************/
 
 //GETTERS
    unsigned int Troop::getShield() const{return shield;}
@@ -27,5 +27,8 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    void Troop::setHitxSec(double hxs){hitxSec=hxs;}
    void Troop::setDamagexSec(double dxs){damagexSec=dxs;}
    void Troop::setSpawnDD(unsigned int sdd){spawnDD=sdd;}
-   void Troop::getRange(double r){range=r;}
-   void Troop::getCount(unsigned int c){count=c;}
+   void Troop::setRange(double r){range=r;}
+   void Troop::setCount(unsigned int c){count=c;}
+
+//METHODS
+   double Troop::damage() const{return hitxSec*damagexSec;}
