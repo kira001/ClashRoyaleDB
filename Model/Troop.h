@@ -38,10 +38,7 @@ public:
     double damage() const;
 };
 
-//test
 
-
-//testv1
 
 
 
