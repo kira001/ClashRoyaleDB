@@ -29,6 +29,8 @@ HEADERS += \
      Model/Spell.h \
      Model/SpellTroopSpawner.h \
      Model/Troop.h \
-     Model/TroopSpawner.h
+     Model/TroopSpawner.h \
+     Template/container.h \
+     Template/deepptr.h
 
 
