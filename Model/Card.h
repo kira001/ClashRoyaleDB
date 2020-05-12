@@ -21,6 +21,7 @@ public:
     Card();
     Card(string, unsigned int, rarity, unsigned int,string);
     Card(const Card&);
+
     // SETTERS
     void setName(string n);
     void setManaCost(unsigned int mana);
@@ -35,10 +36,23 @@ public:
     unsigned int getCardLevel() const;
     string getDescription() const;
     unsigned int getMaxLevel() const;
-    // CONVESION ENUM<--->STRING
+
+    // CONVERSION ENUM<--->STRING
     string RarityToString() const;
     static rarity StringToRarity(std::string);
 
+    /*
+     Metodo virtuale puro lvlUpgrade stats
+     Metodo virtuale puro lvlDowngrade stats
 
+     aggiungere le variabili con solo :
+        -string timeSpawn;
+        - unsigned int maxSpawned;
+     di conseguenza aggiornare i cotruttori e metodi
+     Distruttori
+     Operatori
+     Clone
+     Gestore dei Json
+    */
 };
 #endif // CARD_H

@@ -17,5 +17,7 @@ public:
     void setDamagePerSecond(double dPerSecond);
     double getRange() const;
     void setRange(double rng);
+
+    // Metodo damage()
 };
 #endif // ATTACKINGBUILDING

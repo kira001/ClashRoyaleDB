@@ -36,6 +36,9 @@ public:
     void setCount(unsigned int);
     // METHODS
     double damage() const;
+    /*
+    Metodo ritorna stringa distanza(Melee) in base al range
+    */
 };
 
 
