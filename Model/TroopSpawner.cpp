@@ -6,7 +6,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                            unsigned int s,unsigned int th,double hxs,double dxs,
                            unsigned int sdd,double r,unsigned int c,float t,string d)
                            :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),time(t),description(d){}
-TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),time(x.getTime()),description(x.getWhy()){}
+TroopSpawner::TroopSpawner(const TroopSpawner& x):Troop(x),time(x.getTime()),description(x.getWhy()){}
 
 /******************** METHODS ********************/
 
