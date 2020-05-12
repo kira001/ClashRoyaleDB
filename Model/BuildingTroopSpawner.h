@@ -8,7 +8,15 @@ private:
     double spawnSpeed;
 public:
     BuildingTroopSpawner();
-    BuildingTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double sSpeed);
+    BuildingTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int bHealth, unsigned int lTime,
+    unsigned int shld,
+    unsigned int tHealth,
+    double hxSec,
+    double dxSec,
+    unsigned int sDD,
+    double rng,
+    unsigned int cnt,
+    double sSpeed);
     BuildingTroopSpawner(const BuildingTroopSpawner& bts);
 
     double getSpawnSpeed() const;
