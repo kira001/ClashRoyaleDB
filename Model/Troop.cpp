@@ -62,9 +62,7 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    string Troop::DimRange(double s) const
    {
        if(s>1) return "Medium Range";
-
        if(s>2) return "Large Range";
-
            return "Short Range";
    }
 
