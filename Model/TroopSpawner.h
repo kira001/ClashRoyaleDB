@@ -5,22 +5,18 @@
 
 class TroopSpawner: public Troop {
 private:
-    float time;
-    string description;
+    string TimeDesc; //time and description
 public:
     // CONSTRUCTORS/DESTRUCTORS
     TroopSpawner();
     TroopSpawner(string,unsigned int,rarity,unsigned int,string,unsigned int,
                  unsigned int,double,double,unsigned int,double,unsigned int,
-                 float,string);
+                 string);
     TroopSpawner(const TroopSpawner&);
     // GETTERS
-    float getTime()const;
-    string getWhy()const;
+    string getTimeDesc()const;
     // SETTERS
-    void setTime(float);
-    void setWhy(string);
-
+    void setTimeDesc(string);
 };
 
 

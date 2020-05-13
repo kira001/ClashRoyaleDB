@@ -20,7 +20,10 @@ public:
     string getTimeSpawn() const;
     // SETTERS
     void setTimeSpawn(string);
-
+    // METHODS
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual SpellTroopSpawner* clone() const;
 
 
 };

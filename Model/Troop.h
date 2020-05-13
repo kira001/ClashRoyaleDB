@@ -34,11 +34,19 @@ public:
     void setSpawnDD(unsigned int);
     void setRange(double);
     void setCount(unsigned int);
+    // OPERATORS OVERLOADING
+    bool operator==(const Troop&) const;
+    bool operator!=(const Troop&) const;
     // METHODS
     double damage() const;
+    string DimRange(double) const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual Troop* clone() const;
     /*
     Metodo ritorna stringa distanza(Melee) in base al range
     */
+
 };
 
 
