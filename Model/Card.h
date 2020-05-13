@@ -1,7 +1,15 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include <iostream>
+
 #include <string>
+/*
+#include <QString>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+*/
 using std::string;
 class Card
 {
@@ -21,6 +29,7 @@ public:
     Card();
     Card(string, unsigned int, rarity, unsigned int,string);
     Card(const Card&);
+    virtual ~Card() = default;
 
     // SETTERS
     void setName(string n);
@@ -37,14 +46,22 @@ public:
     string getDescription() const;
     unsigned int getMaxLevel() const;
 
+    // OPERATORS OVERLOADING
+    bool operator==(const Card&) const;
+    bool operator!=(const Card&) const;
+
     // CONVERSION ENUM<--->STRING
     string RarityToString() const;
     static rarity StringToRarity(std::string);
 
-    /*
-     Metodo virtuale puro lvlUpgrade stats
-     Metodo virtuale puro lvlDowngrade stats
+    // METHODS
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual Card* clone() const = 0;
+   // virtual QJsonObject serialize() const;
+   // virtual void deserialize(const QJsonObject& obj);
 
+/*
      aggiungere le variabili con solo :
         -string timeSpawn;
         - unsigned int maxSpawned;

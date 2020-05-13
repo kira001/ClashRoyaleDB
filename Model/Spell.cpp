@@ -19,3 +19,27 @@ double Spell::getRadius() const{return radius;}
 void Spell::setSpellDamage(unsigned int spellD){spellDamage=spellD;}
 void Spell::setCrownTowerDamage(unsigned int crownTD){crownTowerDamage=crownTD;}
 void Spell::setRadius(double rad){radius=rad;}
+
+
+/***************** OPERATORS OVERLOADING*****************/
+bool Spell::operator==(const Spell& spell) const{
+    return  Card::operator==(spell) &&
+            spellDamage==spell.getSpellDamage() &&
+            crownTowerDamage==spell.getCrownTowerDamage() &&
+            radius==spell.getRadius();
+}
+bool Spell::operator!=(const Spell& spell) const{
+    return  Card::operator!=(spell) &&
+            spellDamage!=spell.getSpellDamage() &&
+            crownTowerDamage!=spell.getCrownTowerDamage() &&
+            radius!=spell.getRadius();
+}
+
+/********************** METHODS *********************/
+void Spell::lvlUpgrade(){
+    Card::lvlUpgrade();
+}
+void Spell::lvlDowngrade(){
+    Card::lvlDowngrade();
+}
+Spell* Spell::clone() const { return new Spell(*this); }

@@ -23,6 +23,15 @@ public:
     void setSpellDamage(unsigned int);
     void setCrownTowerDamage(unsigned int);
     void setRadius(double);
+
+    // OPERATORS OVERLOADING
+    bool operator==(const Spell&) const;
+    bool operator!=(const Spell&) const;
+
+    //METHODS
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual Spell* clone() const;
 };
 
 
