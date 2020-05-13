@@ -55,7 +55,7 @@ bool Card::operator!=(const Card& card) const{
 }
 
 
-/******************** CONVESION ENUM<--->STRING ********************/
+/******************** CONVERSION ENUM<--->STRING ********************/
 string Card::RarityToString() const{
     switch (cardRarity)
        {

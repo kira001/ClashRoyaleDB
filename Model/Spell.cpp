@@ -38,8 +38,12 @@ bool Spell::operator!=(const Spell& spell) const{
 /********************** METHODS *********************/
 void Spell::lvlUpgrade(){
     Card::lvlUpgrade();
+    spellDamage=spellDamage+((spellDamage/100)*5*Card::getCardLevel());//aumento delle stats
+    crownTowerDamage=crownTowerDamage+((crownTowerDamage/100)*3*Card::getCardLevel());
 }
 void Spell::lvlDowngrade(){
     Card::lvlDowngrade();
+    spellDamage=spellDamage-((spellDamage/100)*5*Card::getCardLevel());//aumento delle stats
+    crownTowerDamage=crownTowerDamage-((crownTowerDamage/100)*3*Card::getCardLevel());
 }
 Spell* Spell::clone() const { return new Spell(*this); }

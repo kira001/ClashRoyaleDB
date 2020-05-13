@@ -20,6 +20,9 @@ public:
     string getTimeSpawn() const;
     // SETTERS
     void setTimeSpawn(string);
+
+
+
 };
 
 #endif // SPELLTROOPSPAWNER_H
