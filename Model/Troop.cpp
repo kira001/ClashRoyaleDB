@@ -73,16 +73,14 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
       hitxSec=hitxSec+((hitxSec/100)*5*Card::getCardLevel());
       damagexSec=damagexSec+((damagexSec/100)*5*Card::getCardLevel());
       spawnDD=spawnDD+((spawnDD/100)*6*Card::getCardLevel());
-      count=count-2;//riduco il tempo dei costi
 
    }
    void Troop::lvlDowngrade(){
-      Card::lvlUpgrade();
+      Card::lvlDowngrade();
       shield=shield-((shield/100)*8*Card::getCardLevel());
       troopHealth=troopHealth-((troopHealth/100)*10*Card::getCardLevel());
       hitxSec=hitxSec-((hitxSec/100)*5*Card::getCardLevel());
       damagexSec=damagexSec-((damagexSec/100)*5*Card::getCardLevel());
       spawnDD=spawnDD-((spawnDD/100)*6*Card::getCardLevel());
-      count=count+2;//aumento il tempo dei costi
    }
    Troop* Troop::clone() const{return new Troop(*this);}
