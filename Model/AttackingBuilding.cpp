@@ -1,33 +1,43 @@
 #include "AttackingBuilding.h"
 
-double AttackingBuilding::getHitPerSecond() const
-{
+double AttackingBuilding::getHitPerSecond() const{
     return hitPerSecond;
 }
 
-void AttackingBuilding::setHitPerSecond(double hPerSecond)
-{
+void AttackingBuilding::setHitPerSecond(double hPerSecond){
     hitPerSecond = hPerSecond;
 }
 
-double AttackingBuilding::getDamagePerSecond() const
-{
+double AttackingBuilding::getDamagePerSecond() const{
     return damagePerSecond;
 }
 
-void AttackingBuilding::setDamagePerSecond(double dPerSecond)
-{
+void AttackingBuilding::setDamagePerSecond(double dPerSecond){
     damagePerSecond = dPerSecond;
 }
 
-double AttackingBuilding::getRange() const
-{
+double AttackingBuilding::getRange() const{
     return range;
 }
 
-void AttackingBuilding::setRange(double rng)
-{
+void AttackingBuilding::setRange(double rng){
     range = rng;
+}
+
+void AttackingBuilding::lvlUpgrade(){
+    damagePerSecond*=105/100;
+}
+
+void AttackingBuilding::lvlDowngrade(){
+    damagePerSecond*=100/105;
+}
+
+AttackingBuilding *AttackingBuilding::clone() const{
+    return new AttackingBuilding(*this);
+}
+
+double AttackingBuilding::damage() const{
+    return getDamagePerSecond()*getHitPerSecond();
 }
 
 AttackingBuilding::AttackingBuilding(){}
