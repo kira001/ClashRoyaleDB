@@ -31,30 +31,6 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    void Troop::setCount(unsigned int c){count=c;}
 
 
-/***************** OPERATORS OVERLOADING*****************/
-   bool Troop::operator==(const Troop& x) const{
-       return  Card::operator==(x) &&
-               shield==x.getShield() &&
-               troopHealth==x.getTroopHealth() &&
-               hitxSec==x.getHitxSec() &&
-               damagexSec==x.getDamagexSec() &&
-               spawnDD==x.getSpawnDD() &&
-               range==x.getRange() &&
-               count==x.getCount();
-   }
-
-   bool Troop::operator!=(const Troop& x) const{
-
-       return  Card::operator!=(x) &&
-               shield != x.getShield() &&
-               troopHealth != x.getTroopHealth() &&
-               hitxSec != x.getHitxSec() &&
-               damagexSec != x.getDamagexSec() &&
-               spawnDD != x.getSpawnDD() &&
-               range != x.getRange() &&
-               count != x.getCount();
-   }
-
 /******************** METHODS ********************/
 
    double Troop::damage() const{return hitxSec*damagexSec;}
