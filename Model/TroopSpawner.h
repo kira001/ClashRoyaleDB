@@ -17,6 +17,11 @@ public:
     string getTimeDesc()const;
     // SETTERS
     void setTimeDesc(string);
+    // METHODS
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual TroopSpawner* clone() const;
+
 };
 
 

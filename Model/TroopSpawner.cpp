@@ -18,3 +18,11 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Troop(x),TimeDesc(x.getTimeDes
 
 /******************** METHODS ********************/
 
+   void TroopSpawner::lvlUpgrade(){
+       Troop::lvlUpgrade();
+   }
+   void TroopSpawner::lvlDowngrade(){
+       Troop::lvlDowngrade();
+   }
+
+   TroopSpawner* TroopSpawner::clone() const{return new TroopSpawner(*this);}
