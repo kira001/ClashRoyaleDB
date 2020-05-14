@@ -10,12 +10,14 @@ BuildingTroopSpawner::BuildingTroopSpawner(std::string n, unsigned int mana, Car
 BuildingTroopSpawner::BuildingTroopSpawner(const BuildingTroopSpawner &bts):
 Building(bts),Troop(bts), spawnSpeed(bts.getSpawnSpeed()){}
 
-double BuildingTroopSpawner::getSpawnSpeed() const
-{
+double BuildingTroopSpawner::getSpawnSpeed() const{
     return spawnSpeed;
 }
 
-void BuildingTroopSpawner::setSpawnSpeed(double sSpeed)
-{
+void BuildingTroopSpawner::setSpawnSpeed(double sSpeed){
     spawnSpeed = sSpeed;
+}
+
+BuildingTroopSpawner *BuildingTroopSpawner::clone() const{
+    return new BuildingTroopSpawner(*this);
 }

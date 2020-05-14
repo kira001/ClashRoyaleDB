@@ -21,5 +21,9 @@ public:
 
     double getSpawnSpeed() const;
     void setSpawnSpeed(double sSpeed);
+
+    virtual void lvlUpgrade();
+    virtual void lvlDowngrade();
+    virtual BuildingTroopSpawner* clone() const;
 };
 #endif // BUILDINGTROOPSPAWNER_H
