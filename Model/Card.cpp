@@ -35,24 +35,6 @@ void Card::setMaxLevel(Card::rarity rar){
        }
 }
 
-/***************** OPERATORS OVERLOADING*****************/
-
-bool Card::operator==(const Card& card) const{
-    return  name==card.getName() &&
-            manaCost==card.getManaCost() &&
-            cardRarity==card.getCardRarity() &&
-            cardLevel==card.getCardLevel() &&
-            description==card.getDescription() &&
-            MaxLevel==card.getMaxLevel();
-}
-bool Card::operator!=(const Card& card) const{
-    return  name!=card.getName() &&
-            manaCost!=card.getManaCost() &&
-            cardRarity!=card.getCardRarity() &&
-            cardLevel!=card.getCardLevel() &&
-            description!=card.getDescription() &&
-            MaxLevel!=card.getMaxLevel();
-}
 
 
 /******************** CONVERSION ENUM<--->STRING ********************/

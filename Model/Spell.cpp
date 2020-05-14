@@ -21,29 +21,19 @@ void Spell::setCrownTowerDamage(unsigned int crownTD){crownTowerDamage=crownTD;}
 void Spell::setRadius(double rad){radius=rad;}
 
 
-/***************** OPERATORS OVERLOADING*****************/
-bool Spell::operator==(const Spell& spell) const{
-    return  Card::operator==(spell) &&
-            spellDamage==spell.getSpellDamage() &&
-            crownTowerDamage==spell.getCrownTowerDamage() &&
-            radius==spell.getRadius();
-}
-bool Spell::operator!=(const Spell& spell) const{
-    return  Card::operator!=(spell) &&
-            spellDamage!=spell.getSpellDamage() &&
-            crownTowerDamage!=spell.getCrownTowerDamage() &&
-            radius!=spell.getRadius();
-}
 
 /********************** METHODS *********************/
 void Spell::lvlUpgrade(){
     Card::lvlUpgrade();
-    spellDamage=spellDamage+((spellDamage/100)*5*Card::getCardLevel());//aumento delle stats
-    crownTowerDamage=crownTowerDamage+((crownTowerDamage/100)*3*Card::getCardLevel());
+    spellDamage*= static_cast<unsigned int>( (100+3*Card::getCardLevel())/100);
+    crownTowerDamage*=static_cast<unsigned int>( (100+2*Card::getCardLevel())/100);
+
 }
 void Spell::lvlDowngrade(){
+    if(Card::getCardLevel()>1){
+    spellDamage*= static_cast<unsigned int>(100/(100+3*Card::getCardLevel()));
+    crownTowerDamage*=static_cast<unsigned int>( 100/(100+2*Card::getCardLevel()));
     Card::lvlDowngrade();
-    spellDamage=spellDamage-((spellDamage/100)*5*Card::getCardLevel());//aumento delle stats
-    crownTowerDamage=crownTowerDamage-((crownTowerDamage/100)*3*Card::getCardLevel());
+    }
 }
 Spell* Spell::clone() const { return new Spell(*this); }

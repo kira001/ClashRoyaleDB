@@ -46,9 +46,6 @@ public:
     string getDescription() const;
     unsigned int getMaxLevel() const;
 
-    // OPERATORS OVERLOADING
-    bool operator==(const Card&) const;
-    bool operator!=(const Card&) const;
 
     // CONVERSION ENUM<--->STRING
     string RarityToString() const;

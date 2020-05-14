@@ -20,9 +20,6 @@ public:
     string getTimeSpawn() const;
     // SETTERS
     void setTimeSpawn(string);
-    // OPERATORS OVERLOADING
-    bool operator==(const SpellTroopSpawner&) const;
-    bool operator!=(const SpellTroopSpawner&) const;
 
     // METHODS
     virtual void lvlUpgrade();
