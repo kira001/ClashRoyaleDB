@@ -1,23 +1,35 @@
 #include "Building.h"
 
-unsigned int Building::getBuildHealth() const
-{
+unsigned int Building::getBuildHealth() const{
     return buildHealth;
 }
 
-void Building::setBuildHealth(unsigned int bHealth)
-{
+void Building::setBuildHealth(unsigned int bHealth){
     buildHealth = bHealth;
 }
 
-unsigned int Building::getLifeTime() const
-{
+unsigned int Building::getLifeTime() const{
     return lifeTime;
 }
 
-void Building::setLifeTime(unsigned int lTime)
-{
+void Building::setLifeTime(unsigned int lTime){
     lifeTime = lTime;
+}
+
+void Building::lvlUpgrade(){
+    Card::lvlUpgrade();
+    buildHealth*= 107/100;
+    lifeTime*= 105/100;
+}
+
+void Building::lvlDowngrade(){
+    Card::lvlDowngrade();
+    buildHealth*= 100/107;
+    lifeTime*= 100/105;
+}
+
+Building *Building::clone() const{
+    return new Building(*this);
 }
 
 Building::Building(){}
