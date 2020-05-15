@@ -25,11 +25,11 @@ void AttackingBuilding::setRange(double rng){
 }
 
 void AttackingBuilding::lvlUpgrade(){
-    damagePerSecond*=105/100;
+    damagePerSecond*=(100+5*Card::getCardLevel())/100;
 }
 
 void AttackingBuilding::lvlDowngrade(){
-    damagePerSecond*=100/105;
+    damagePerSecond*=100/(100+5*Card::getCardLevel());
 }
 
 AttackingBuilding *AttackingBuilding::clone() const{

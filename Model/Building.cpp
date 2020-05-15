@@ -18,14 +18,14 @@ void Building::setLifeTime(unsigned int lTime){
 
 void Building::lvlUpgrade(){
     Card::lvlUpgrade();
-    buildHealth*= 107/100;
-    lifeTime*= 105/100;
+    buildHealth*= (100+7*Card::getCardLevel())/100;
+    lifeTime*= (100+5*Card::getCardLevel())/100;
 }
 
 void Building::lvlDowngrade(){
     Card::lvlDowngrade();
-    buildHealth*= 100/107;
-    lifeTime*= 100/105;
+    buildHealth*= 100/(100+7*Card::getCardLevel());
+    lifeTime*= 100/(100+5*Card::getCardLevel());
 }
 
 Building *Building::clone() const{
