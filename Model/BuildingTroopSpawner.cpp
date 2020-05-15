@@ -1,10 +1,9 @@
 #include"BuildingTroopSpawner.h"
 
-BuildingTroopSpawner::BuildingTroopSpawner(){}
 
 BuildingTroopSpawner::BuildingTroopSpawner(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, unsigned int bHealth, unsigned int lTime, unsigned int shld, unsigned int tHealth, double hxSec, double dxSec, unsigned int sDD, double rng, unsigned int cnt, double sSpeed):
-                                        Troop(n,mana,rar,cLevel,desc, shld, tHealth, hxSec, dxSec, sDD, rng, cnt),
-                                         Building(n,mana,rar,cLevel,desc,bHealth,lTime), spawnSpeed(sSpeed){}
+                                         Building(n,mana,rar,cLevel,desc,bHealth,lTime),
+                                         Troop(n,mana,rar,cLevel,desc, shld, tHealth, hxSec, dxSec, sDD, rng, cnt), spawnSpeed(sSpeed){}
 
 
 BuildingTroopSpawner::BuildingTroopSpawner(const BuildingTroopSpawner &bts):
@@ -18,6 +17,16 @@ void BuildingTroopSpawner::setSpawnSpeed(double sSpeed){
     spawnSpeed = sSpeed;
 }
 
-BuildingTroopSpawner *BuildingTroopSpawner::clone() const{
+void BuildingTroopSpawner::lvlUpgrade()
+{
+
+}
+
+void BuildingTroopSpawner::lvlDowngrade()
+{
+
+}
+
+BuildingTroopSpawner* BuildingTroopSpawner::clone() const{
     return new BuildingTroopSpawner(*this);
 }

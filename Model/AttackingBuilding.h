@@ -8,7 +8,7 @@ private:
     double damagePerSecond;
     double range;
 public:
-    AttackingBuilding();
+    AttackingBuilding()=default;
     AttackingBuilding(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double hPerSecond, double dPerSecond, double rng);
     AttackingBuilding(const AttackingBuilding& ab);
 

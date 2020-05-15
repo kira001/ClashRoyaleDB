@@ -8,7 +8,7 @@ private:
     string TimeDesc; //time and description
 public:
     // CONSTRUCTORS/DESTRUCTORS
-    TroopSpawner();
+    TroopSpawner()=default;
     TroopSpawner(string,unsigned int,rarity,unsigned int,string,unsigned int,
                  unsigned int,double,double,unsigned int,double,unsigned int,
                  string);

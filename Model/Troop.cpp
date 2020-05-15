@@ -1,7 +1,6 @@
 #include "Troop.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-Troop::Troop():Card(){}
 Troop::Troop(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int s,
              unsigned int th, double hxs, double dxs, unsigned int sdd, double r, unsigned int c):
 Card(n,mana,rar,cLevel,desc), shield(s), troopHealth(th), hitxSec(hxs), damagexSec(dxs), spawnDD(sdd),
@@ -47,7 +46,8 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
       shield*=(100*8*Card::getCardLevel())/100;
       troopHealth*=(100*10*Card::getCardLevel())/100;
       hitxSec*=(100*5*Card::getCardLevel())/100;
-      damagexSec*=(100*5*Card::getCardLevel())/100;
+       damagexSec= (damagexSec*(100+5*Card::getCardLevel()))/100;
+
       spawnDD*=(100*6*Card::getCardLevel())/100;
 
    }

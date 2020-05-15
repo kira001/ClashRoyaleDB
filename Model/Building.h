@@ -8,7 +8,7 @@ private:
     unsigned int lifeTime;
 public:
 
-    Building();
+    Building()=default;
     Building(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int bHealth, unsigned int lTime);
     Building(const Building& b);
 

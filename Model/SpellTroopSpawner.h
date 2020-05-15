@@ -12,7 +12,7 @@ private:
 
 public:
     // CONSTRUCTORS/DESTRUCTORS
-    SpellTroopSpawner();
+    SpellTroopSpawner()=default;
     SpellTroopSpawner(string, unsigned int, rarity, unsigned int,string,unsigned int,unsigned int,double
                       , unsigned int, unsigned int, double, double, unsigned int, double, unsigned int,string);
     SpellTroopSpawner(const SpellTroopSpawner&);

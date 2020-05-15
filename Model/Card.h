@@ -26,7 +26,7 @@ private:
      void setMaxLevel(rarity rar);
 public:
     // CONSTRUCTORS/DESTRUCTORS
-    Card();
+    Card()=default;
     Card(string, unsigned int, rarity, unsigned int,string);
     Card(const Card&);
     virtual ~Card() = default;
@@ -69,4 +69,6 @@ public:
      Gestore dei Json
     */
 };
+
+//unsigned int Card::MaxLevel=13;
 #endif // CARD_H

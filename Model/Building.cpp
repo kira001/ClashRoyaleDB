@@ -28,11 +28,10 @@ void Building::lvlDowngrade(){
     lifeTime*= 100/(100+5*Card::getCardLevel());
 }
 
-Building *Building::clone() const{
+Building* Building::clone() const{
     return new Building(*this);
 }
 
-Building::Building(){}
 
 Building::Building(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, unsigned int bHealth, unsigned int lTime):
     Card(n,mana,rar,cLevel,desc), buildHealth(bHealth), lifeTime(lTime){}

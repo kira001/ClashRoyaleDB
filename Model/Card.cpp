@@ -1,7 +1,6 @@
 #include "Card.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-Card::Card(){}
 Card::Card(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
            name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
            {Card::setMaxLevel(rar);}
@@ -28,10 +27,10 @@ void Card::setDescription(string desc){ description=desc; }
 void Card::setMaxLevel(Card::rarity rar){
     switch (rar)
        {
-         case Card::rarity::common: MaxLevel=13;
-         case Card::rarity::rare: MaxLevel=11;
-         case Card::rarity::epic: MaxLevel=8;
-         case Card::rarity::legendary: MaxLevel=5;
+         case Card::rarity::common: MaxLevel=13; break;
+         case Card::rarity::rare: MaxLevel=11;break;
+         case Card::rarity::epic: MaxLevel=8;break;
+         case Card::rarity::legendary: MaxLevel=5;break;
        }
 }
 
@@ -48,7 +47,7 @@ string Card::RarityToString() const{
        }
 }
 
-Card::rarity StringToRarity(string sRar){
+Card::rarity Card::StringToRarity(string sRar){
     if(sRar=="Comune") return Card::rarity::common;
     if(sRar=="Rara") return Card::rarity::rare;
     if(sRar=="Epica") return Card::rarity::epic;

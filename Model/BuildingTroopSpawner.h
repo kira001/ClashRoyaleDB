@@ -7,7 +7,7 @@ class BuildingTroopSpawner: public Building, public Troop{
 private:
     double spawnSpeed;
 public:
-    BuildingTroopSpawner();
+    BuildingTroopSpawner()=default;
     BuildingTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int bHealth, unsigned int lTime,
     unsigned int shld,
     unsigned int tHealth,
@@ -21,7 +21,6 @@ public:
 
     double getSpawnSpeed() const;
     void setSpawnSpeed(double sSpeed);
-
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual BuildingTroopSpawner* clone() const;

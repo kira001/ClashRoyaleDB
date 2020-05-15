@@ -1,7 +1,6 @@
 #include "TroopSpawner.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-TroopSpawner::TroopSpawner():Troop(){};
 TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
                            unsigned int s,unsigned int th,double hxs,double dxs,
                            unsigned int sdd,double r,unsigned int c,string td)

@@ -40,7 +40,6 @@ double AttackingBuilding::damage() const{
     return getDamagePerSecond()*getHitPerSecond();
 }
 
-AttackingBuilding::AttackingBuilding(){}
 
 AttackingBuilding::AttackingBuilding(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double hPerSecond, double dPerSecond, double rng):
     Card(n,mana,rar,cLevel,desc), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}

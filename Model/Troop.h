@@ -14,7 +14,7 @@ private:
     unsigned int count;
 public:
     // CONSTRUCTORS/DESTRUCTORS
-    Troop();
+    Troop()=default;
     Troop(string, unsigned int, rarity, unsigned int,string ,
           unsigned int, unsigned int, double, double, unsigned int, double, unsigned int);
     Troop(const Troop&);
