@@ -6,22 +6,22 @@
 class Spell:virtual public Card{
 private:
     double spellDamage;
-    unsigned int crownTowerDamage;
+    double crownTowerDamage;
     double radius;
 
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Spell()=default;
     Spell(string, unsigned int, rarity, unsigned int,string
-          ,double,unsigned int,double);
+          ,double,double,double);
     Spell(const Spell&);
     // GETTERS
     double getSpellDamage() const;
-    unsigned int getCrownTowerDamage() const;
+    double getCrownTowerDamage() const;
     double getRadius() const;
     // SETTERS
     void setSpellDamage(double);
-    void setCrownTowerDamage(unsigned int);
+    void setCrownTowerDamage(double);
     void setRadius(double);
 
     //METHODS

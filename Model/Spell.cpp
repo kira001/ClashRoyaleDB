@@ -2,7 +2,7 @@
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 
-Spell::Spell(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc,double spellD,unsigned int crownTD,double rad):
+Spell::Spell(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc,double spellD,double crownTD,double rad):
           Card(n,mana,rar,cLevel,desc),spellDamage(spellD),crownTowerDamage(crownTD),radius(rad){}
 
 
@@ -12,12 +12,12 @@ Spell::Spell(const Spell& s):Card(s),spellDamage(s.getSpellDamage()),crownTowerD
 
 //GETTERS
 double Spell::getSpellDamage() const{return spellDamage;}
-unsigned int Spell::getCrownTowerDamage() const{return crownTowerDamage;}
+double Spell::getCrownTowerDamage() const{return crownTowerDamage;}
 double Spell::getRadius() const{return radius;}
 
 //SETTERS
 void Spell::setSpellDamage(double spellD){spellDamage=spellD;}
-void Spell::setCrownTowerDamage(unsigned int crownTD){crownTowerDamage=crownTD;}
+void Spell::setCrownTowerDamage(double crownTD){crownTowerDamage=crownTD;}
 void Spell::setRadius(double rad){radius=rad;}
 
 
