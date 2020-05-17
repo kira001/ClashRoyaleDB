@@ -4,18 +4,18 @@
 
 class Building: virtual public Card{
 private:
-    unsigned int buildHealth;
-    unsigned int lifeTime;
+    double buildHealth;
+    double lifeTime;
 public:
 
     Building()=default;
-    Building(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, unsigned int bHealth, unsigned int lTime);
+    Building(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime);
     Building(const Building& b);
 
-    unsigned int getBuildHealth() const;
-    void setBuildHealth(unsigned int bHealth);
-    unsigned int getLifeTime() const;
-    void setLifeTime(unsigned int lTime);
+    double getBuildHealth() const;
+    void setBuildHealth(double bHealth);
+    double getLifeTime() const;
+    void setLifeTime(double lTime);
 
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();

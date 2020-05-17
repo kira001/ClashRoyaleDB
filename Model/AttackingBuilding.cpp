@@ -25,11 +25,11 @@ void AttackingBuilding::setRange(double rng){
 }
 
 void AttackingBuilding::lvlUpgrade(){
-    damagePerSecond*=(100+5*Card::getCardLevel())/100;
+    damagePerSecond= (damagePerSecond*(100+5*Card::getCardLevel()))/100;
 }
 
 void AttackingBuilding::lvlDowngrade(){
-    damagePerSecond*=100/(100+5*Card::getCardLevel());
+    damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
 }
 
 AttackingBuilding *AttackingBuilding::clone() const{
@@ -41,8 +41,8 @@ double AttackingBuilding::damage() const{
 }
 
 
-AttackingBuilding::AttackingBuilding(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double hPerSecond, double dPerSecond, double rng):
-    Card(n,mana,rar,cLevel,desc), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}
+AttackingBuilding::AttackingBuilding(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):
+    Card(n,mana,rar,cLevel,desc),Building(bHealth, lTime), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}
 
 AttackingBuilding::AttackingBuilding(const AttackingBuilding &ab):
-                    Card(ab), hitPerSecond(ab.getHitPerSecond()), damagePerSecond(ab.getDamagePerSecond()), range(ab.getRange()){}
+                    Card(ab),Building(ab), hitPerSecond(ab.getHitPerSecond()), damagePerSecond(ab.getDamagePerSecond()), range(ab.getRange()){}
