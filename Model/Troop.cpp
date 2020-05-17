@@ -34,33 +34,41 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
 
    double Troop::damage() const{return hitxSec*damagexSec;}
 
-   string Troop::DimRange(double s) const
+   string Troop::DimRange() const
    {
-       if(s>1) return "Medium Range";
-       if(s>2) return "Large Range";
+       if(range>1) return "Medium Range";
+       if(range>2) return "Large Range";
            return "Short Range";
    }
+
+   void Troop::upgradeStats(){
+       shield= (shield*(100+4*Card::getCardLevel()))/100;
+       troopHealth=(troopHealth*(100+8*Card::getCardLevel()))/100;
+       hitxSec= (hitxSec*(100+5*Card::getCardLevel()))/100;
+       damagexSec=(damagexSec*(100+5*Card::getCardLevel()))/100;
+       spawnDD= (spawnDD*(100+6*Card::getCardLevel()))/100;
+   }
+   void Troop::downgradeStats(){
+       shield= (shield*100/(100+4*Card::getCardLevel()));
+       troopHealth=(troopHealth*100/(100+8*Card::getCardLevel()));
+       hitxSec=(hitxSec*100/(100+5*Card::getCardLevel()));
+       damagexSec=(damagexSec*100/(100+5*Card::getCardLevel()));
+       spawnDD=(spawnDD*100/(100+6*Card::getCardLevel()));
+   }
+
 
    void Troop::lvlUpgrade(){
 
       if(Card::getCardLevel()<Card::getMaxLevel()){
-      Card::lvlUpgrade();
-      shield= (shield*(100+8*Card::getCardLevel()))/100;
-      troopHealth=(troopHealth*(100+10*Card::getCardLevel()))/100;
-      hitxSec= (hitxSec*(100+5*Card::getCardLevel()))/100;
-      damagexSec=(damagexSec*(100+5*Card::getCardLevel()))/100;
-      spawnDD= (spawnDD*(100+6*Card::getCardLevel()))/100;
+            Card::lvlUpgrade();
+            upgradeStats();
       }
    }
 
    void Troop::lvlDowngrade(){
        if(Card::getCardLevel()>1){
-       shield= (shield*100/(100+8*Card::getCardLevel()));
-       troopHealth=(troopHealth*100/(100+10*Card::getCardLevel()));
-       hitxSec=(hitxSec*100/(100+5*Card::getCardLevel()));
-       damagexSec=(damagexSec*100/(100+5*Card::getCardLevel()));
-       spawnDD=(spawnDD*100/(100+6*Card::getCardLevel()));
-       Card::lvlDowngrade();
+            downgradeStats();
+            Card::lvlDowngrade();
        }
    }
 

@@ -23,18 +23,24 @@ void Spell::setRadius(double rad){radius=rad;}
 
 
 /********************** METHODS *********************/
-void Spell::lvlUpgrade(){
-     if(Card::getCardLevel()<Card::getMaxLevel()){
-    Card::lvlUpgrade();
+void Spell::upgradeStats(){
     spellDamage= (spellDamage*(100+3*Card::getCardLevel()))/100;
     crownTowerDamage=(crownTowerDamage*(100+2*Card::getCardLevel()))/100;
+}
+void Spell::downgradeStats(){
+    spellDamage= (spellDamage*100/(100+3*Card::getCardLevel()));
+    crownTowerDamage=(crownTowerDamage*100/(100+2*Card::getCardLevel()));
+}
+void Spell::lvlUpgrade(){
+    if(Card::getCardLevel()<Card::getMaxLevel()){
+        Card::lvlUpgrade();
+        upgradeStats();
     }
 }
 void Spell::lvlDowngrade(){
     if(Card::getCardLevel()>1){
-    spellDamage= (spellDamage*100/(100+3*Card::getCardLevel()));
-    crownTowerDamage=(crownTowerDamage*100/(100+2*Card::getCardLevel()));
-    Card::lvlDowngrade();
+        downgradeStats();
+        Card::lvlDowngrade();
     }
 }
 Spell* Spell::clone() const { return new Spell(*this); }

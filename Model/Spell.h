@@ -8,7 +8,9 @@ private:
     double spellDamage;
     double crownTowerDamage;
     double radius;
-
+protected:
+    void upgradeStats();
+    void downgradeStats();
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Spell()=default;

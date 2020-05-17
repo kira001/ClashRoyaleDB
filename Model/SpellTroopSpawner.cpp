@@ -11,7 +11,7 @@ Troop(n,mana,rar,cLevel,desc,s,th,hxs,dxs,sdd,r,c),timeSpawn(timeSp){}
 
 
 SpellTroopSpawner::SpellTroopSpawner(const SpellTroopSpawner& stp):
-                   Spell(stp),Troop(stp),timeSpawn(stp.getTimeSpawn()){}
+                   Card(stp),Spell(stp),Troop(stp),timeSpawn(stp.getTimeSpawn()){}
 
 /******************** GETTERS/SETTERS ********************/
 
@@ -24,15 +24,18 @@ void SpellTroopSpawner::setTimeSpawn(string timeSp){timeSpawn=timeSp;}
 
 /********************** METHODS *********************/
 void SpellTroopSpawner::lvlUpgrade(){
-    Spell::lvlUpgrade();
-     Card::lvlDowngrade();
-    Troop::lvlUpgrade();
-
+    if(Card::getCardLevel()<Card::getMaxLevel()){
+        Card::lvlUpgrade();
+        Spell::upgradeStats();
+        Troop::upgradeStats();
+    }
 }
 void SpellTroopSpawner::lvlDowngrade(){
-    Spell::lvlDowngrade();
-    Card::lvlUpgrade();
-    Troop::lvlDowngrade();
+    if(Card::getCardLevel()>1){
 
+       Spell::downgradeStats();
+       Troop::downgradeStats();
+       Card::lvlDowngrade();
+    }
 }
 SpellTroopSpawner* SpellTroopSpawner::clone() const { return new SpellTroopSpawner(*this); }

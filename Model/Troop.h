@@ -12,6 +12,9 @@ private:
     double spawnDD; //SpawnDeathDamage
     double range;
     unsigned int count;
+protected:
+    void upgradeStats();
+    void downgradeStats();
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Troop()=default;
@@ -36,10 +39,12 @@ public:
     void setCount(unsigned int);
     // METHODS
     double damage() const;
-    string DimRange(double) const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
+    string DimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual Troop* clone() const;
+
+
     /*
     Metodo ritorna stringa distanza(Melee) in base al range
     */
