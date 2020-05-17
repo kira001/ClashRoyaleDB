@@ -9,11 +9,11 @@ private:
 public:
     BuildingTroopSpawner()=default;
     BuildingTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime,
-    unsigned int shld,
-    unsigned int tHealth,
+    double shld,
+    double tHealth,
     double hxSec,
     double dxSec,
-    unsigned int sDD,
+    double sDD,
     double rng,
     unsigned int cnt,
     double sSpeed);
