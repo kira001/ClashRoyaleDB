@@ -5,33 +5,33 @@
 
 class Troop:virtual public Card{
 private:
-    unsigned int shield;
-    unsigned int troopHealth;
+    double shield;
+    double troopHealth;
     double hitxSec;
     double damagexSec;
-    unsigned int spawnDD; //SpawnDeathDamage
+    double spawnDD; //SpawnDeathDamage
     double range;
     unsigned int count;
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Troop()=default;
     Troop(string, unsigned int, rarity, unsigned int,string ,
-          unsigned int, unsigned int, double, double, unsigned int, double, unsigned int);
+          double, double, double, double, double, double, unsigned int);
     Troop(const Troop&);
     // GETTERS
-    unsigned int getShield() const;
-    unsigned int getTroopHealth() const;
+    double getShield() const;
+    double getTroopHealth() const;
     double getHitxSec() const;
     double getDamagexSec() const;
-    unsigned int getSpawnDD() const;
+    double getSpawnDD() const;
     double getRange() const;
     unsigned int getCount() const;
     // SETTERS
-    void setShield(unsigned int);
-    void setTroopHealth(unsigned int);
+    void setShield(double);
+    void setTroopHealth(double);
     void setHitxSec(double);
     void setDamagexSec(double);
-    void setSpawnDD(unsigned int);
+    void setSpawnDD(double);
     void setRange(double);
     void setCount(unsigned int);
     // METHODS
