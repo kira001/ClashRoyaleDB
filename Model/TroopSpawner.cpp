@@ -2,8 +2,8 @@
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
-                           unsigned int s,unsigned int th,double hxs,double dxs,
-                           unsigned int sdd,double r,unsigned int c,string td)
+                           double s,double th,double hxs,double dxs,
+                           double sdd,double r,unsigned int c,string td)
                            :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
 TroopSpawner::TroopSpawner(const TroopSpawner& x):Troop(x),TimeDesc(x.getTimeDesc()){}
 
