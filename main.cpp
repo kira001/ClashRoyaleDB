@@ -3,6 +3,8 @@
 #include "Model/Card.h"
 #include "Model/Spell.h"
 #include "Model/SpellTroopSpawner.h"
+#include "Template/container.h"
+#include "Template/deepptr.h"
 int main(){
 
  /*Spell s("Koko",10,Card::StringToRarity("Comune"),1,"koko is a gorilla!!!!",500,300,3);
@@ -55,10 +57,10 @@ for(int i=0;i<13;i++){
   std::cout<<s.getCrownTowerDamage()<<"\n";
   std::cout<<s.getRadius()<<"\n";*/
 
-   SpellTroopSpawner stp("Koko",10,Card::StringToRarity("Comune"),1,"koko is a gorilla!!!!",
+   SpellTroopSpawner* stp=new SpellTroopSpawner("Koko",10,Card::StringToRarity("Comune"),1,"koko is a gorilla!!!!",
                          500,300,3,20,700,1.5,89,20,5,2,"Every 7 Seconds");
 
-   for(int i=0;i<13;i++){
+   /*for(int i=0;i<13;i++){
        std::cout<<"INFO CARTA UP----------------------\n";
        std::cout<<"Name "<<stp.getName()<<"\n";
        std::cout<<"cLevel "<<stp.getCardLevel()<<"\n";
@@ -89,7 +91,7 @@ for(int i=0;i<13;i++){
        std::cout<<"Damage "<<stp.damage()<<"\n";
 
         stp.lvlDowngrade();
-   }
+   }*/
    /*
 
        std::cout<<"INFO CARTA UP----------------------\n";
@@ -117,4 +119,10 @@ for(int i=0;i<13;i++){
        std::cout<<stp.getTimeSpawn()<<"\n";
 */
 
+   Container<DeepPtr<Card>> container;
+   container.insert(stp);
+   for(int i=0;i<500;i++){
+        std::cout<<container[0]->getDescription()<<"\t";
+   }
+    std::cout<<std::endl;
 }
