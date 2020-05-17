@@ -13,8 +13,8 @@ private:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     SpellTroopSpawner()=default;
-    SpellTroopSpawner(string, unsigned int, rarity, unsigned int,string,unsigned int,unsigned int,double
-                      , unsigned int, unsigned int, double, double, unsigned int, double, unsigned int,string);
+    SpellTroopSpawner(string, unsigned int, rarity, unsigned int,string,double,double,double
+                      , double, double, double, double, double, double, unsigned int,string);
     SpellTroopSpawner(const SpellTroopSpawner&);
     // GETTERS
     string getTimeSpawn() const;
