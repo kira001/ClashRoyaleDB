@@ -42,23 +42,26 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    }
 
    void Troop::lvlUpgrade(){
+
+      if(Card::getCardLevel()<Card::getMaxLevel()){
       Card::lvlUpgrade();
-      shield*=(100*8*Card::getCardLevel())/100;
-      troopHealth*=(100*10*Card::getCardLevel())/100;
-      hitxSec*=(100*5*Card::getCardLevel())/100;
-       damagexSec= (damagexSec*(100+5*Card::getCardLevel()))/100;
-
-      spawnDD*=(100*6*Card::getCardLevel())/100;
-
-   }
-   void Troop::lvlDowngrade(){
-      if(Card::getCardLevel()>1){
-      shield*=100/(100*8*Card::getCardLevel());
-      troopHealth*=100/(100*10*Card::getCardLevel());
-      hitxSec*=100/(100*5*Card::getCardLevel());
-      damagexSec*=100/(100*5*Card::getCardLevel());
-      spawnDD*=100/(100*6*Card::getCardLevel());
-      Card::lvlDowngrade();
+      shield= (shield*(100+8*Card::getCardLevel()))/100;
+      troopHealth=(troopHealth*(100+10*Card::getCardLevel()))/100;
+      hitxSec= (hitxSec*(100+5*Card::getCardLevel()))/100;
+      damagexSec=(damagexSec*(100+5*Card::getCardLevel()))/100;
+      spawnDD= (spawnDD*(100+6*Card::getCardLevel()))/100;
       }
    }
+
+   void Troop::lvlDowngrade(){
+       if(Card::getCardLevel()>1){
+       shield= (shield*100/(100+8*Card::getCardLevel()));
+       troopHealth=(troopHealth*100/(100+10*Card::getCardLevel()));
+       hitxSec=(hitxSec*100/(100+5*Card::getCardLevel()));
+       damagexSec=(damagexSec*100/(100+5*Card::getCardLevel()));
+       spawnDD=(spawnDD*100/(100+6*Card::getCardLevel()));
+       Card::lvlDowngrade();
+       }
+   }
+
    Troop* Troop::clone() const{return new Troop(*this);}
