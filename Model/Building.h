@@ -6,6 +6,10 @@ class Building: virtual public Card{
 private:
     double buildHealth;
     double lifeTime;
+protected:
+    void upgradeStats();
+    void downgradeStats();
+
 public:
 
     Building()=default;

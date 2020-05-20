@@ -19,15 +19,20 @@ void BuildingTroopSpawner::setSpawnSpeed(double sSpeed){
 }
 
 void BuildingTroopSpawner::lvlUpgrade(){
-    Building::lvlUpgrade();
-    Card::lvlDowngrade();
-    Troop::lvlUpgrade();
+    if(Card::getCardLevel()<Card::getMaxLevel()){
+        Card::lvlUpgrade();
+        Building::upgradeStats();
+        Troop::upgradeStats();
+    }
 }
 
 void BuildingTroopSpawner::lvlDowngrade(){
-    Building::lvlDowngrade();
-    Card::lvlUpgrade();
-    Troop::lvlDowngrade();
+    if(Card::getCardLevel()>1){
+
+       Building::downgradeStats();
+       Troop::downgradeStats();
+       Card::lvlDowngrade();
+    }
 }
 
 BuildingTroopSpawner* BuildingTroopSpawner::clone() const{

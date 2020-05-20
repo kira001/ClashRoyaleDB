@@ -7,6 +7,9 @@ private:
     double hitPerSecond;
     double damagePerSecond;
     double range;
+protected:
+    void upgradeStats();
+    void downgradeStats();
 public:
     AttackingBuilding()=default;
     AttackingBuilding(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng);

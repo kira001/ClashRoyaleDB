@@ -25,11 +25,17 @@ void AttackingBuilding::setRange(double rng){
 }
 
 void AttackingBuilding::lvlUpgrade(){
-    damagePerSecond= (damagePerSecond*(100+5*Card::getCardLevel()))/100;
+    if(Card::getCardLevel()<Card::getMaxLevel()){
+        Building::lvlUpgrade();
+        upgradeStats();
+    }
 }
 
 void AttackingBuilding::lvlDowngrade(){
-    damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
+    if(Card::getCardLevel()>1){
+        downgradeStats();
+        Building::lvlDowngrade();
+    }
 }
 
 AttackingBuilding *AttackingBuilding::clone() const{
@@ -40,6 +46,14 @@ double AttackingBuilding::damage() const{
     return getDamagePerSecond()*getHitPerSecond();
 }
 
+
+void AttackingBuilding::upgradeStats(){
+    damagePerSecond= (damagePerSecond*(100+5*Card::getCardLevel()))/100;
+}
+
+void AttackingBuilding::downgradeStats(){
+    damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
+}
 
 AttackingBuilding::AttackingBuilding(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):
     Card(n,mana,rar,cLevel,desc),Building(n,mana,rar,cLevel,desc, bHealth, lTime), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}

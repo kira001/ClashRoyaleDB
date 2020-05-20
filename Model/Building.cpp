@@ -17,21 +17,33 @@ void Building::setLifeTime(double lTime){
 }
 
 void Building::lvlUpgrade(){
-    Card::lvlUpgrade();
-    buildHealth= (buildHealth*(100+7*Card::getCardLevel()))/100;
-    lifeTime= (lifeTime*(100+5*Card::getCardLevel()))/100;
+    if(Card::getCardLevel()<Card::getMaxLevel()){
+        Card::lvlUpgrade();
+        upgradeStats();
+    }
 }
 
 void Building::lvlDowngrade(){
-    Card::lvlDowngrade();
-    buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
-    lifeTime= (lifeTime*100/(100+5*Card::getCardLevel()));
+    if(Card::getCardLevel()>1){
+        downgradeStats();
+        Card::lvlDowngrade();
+    }
 }
 
 Building* Building::clone() const{
     return new Building(*this);
 }
 
+
+void Building::upgradeStats(){
+    buildHealth= (buildHealth*(100+7*Card::getCardLevel()))/100;
+    lifeTime= (lifeTime*(100+5*Card::getCardLevel()))/100;
+}
+
+void Building::downgradeStats(){
+    buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
+    lifeTime= (lifeTime*100/(100+5*Card::getCardLevel()));
+}
 
 Building::Building(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime):
     Card(n,mana,rar,cLevel,desc), buildHealth(bHealth), lifeTime(lTime){}
