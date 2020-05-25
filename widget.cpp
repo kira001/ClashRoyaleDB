@@ -6,19 +6,19 @@ Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
 {
     mainWidget=new QWidget(this);
-    mainLayout=new QVBoxLayout(this);
-    dataLayout=new QHBoxLayout(this);
-    infoItemLayout= new QVBoxLayout(this);
-    list = new QListWidget(this);
-
-    addInfoLayout();
+    mainLayout=new QHBoxLayout(this);
+    leftLayout=new QVBoxLayout(this);
+    rightLayout=new QVBoxLayout(this);
+    list = new QListWidget();
+    list2 = new QListWidget();
     addMenu();
-    addButton();
+    addLeftLayout();
+    addRightLayout();
     mainWidget->setLayout(mainLayout);
 
     setCentralWidget(mainWidget);
 }
-void Widget::addInfoLayout()
+void Widget::addLeftLayout()
 {
     QScrollArea* box= new QScrollArea();
 
@@ -26,15 +26,19 @@ void Widget::addInfoLayout()
     box->setWidgetResizable(true);
     box->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-    QScrollArea* box2= new QScrollArea();
 
-        box->setWidget(list);
-        box->setWidgetResizable(true);
-        box->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
+    QPushButton* insertButton = new QPushButton("Insert");
+    QPushButton* mButton = new QPushButton("cerca");
 
-    dataLayout->addWidget(box);
-    dataLayout->addWidget(box2);
-    mainLayout->addLayout(dataLayout);
+    buttonLayout->addWidget(insertButton);
+    buttonLayout->addWidget(mButton);
+
+
+    leftLayout->addWidget(box);
+    leftLayout->addLayout(buttonLayout);
+
+    mainLayout->addLayout(leftLayout);
 
 }
 
@@ -58,16 +62,25 @@ void Widget::addMenu()
     setMenuBar(menubar);
 }
 
-void Widget::addButton()
+void Widget::addRightLayout()
 {
+
+    QScrollArea* box2= new QScrollArea();
+
+    box2->setWidget(list2);
+    box2->setWidgetResizable(true);
+    box2->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
-     QPushButton* insertButton = new QPushButton("Insert");
-      QPushButton* mButton = new QPushButton("aasvasv");
-      QPushButton* moButton = new QPushButton("modifica");
-     buttonLayout->addWidget(insertButton);
-     buttonLayout->addWidget(mButton);
-     buttonLayout->addWidget(moButton);
-     mainLayout->addLayout(buttonLayout);
+    QPushButton* modificaButton = new QPushButton("Modifica");
+
+
+    buttonLayout->addWidget(modificaButton);
+
+    rightLayout->addWidget(box2);
+    rightLayout->addLayout(buttonLayout);
+
+    mainLayout->addLayout(rightLayout);
 }
 
 Widget::~Widget()

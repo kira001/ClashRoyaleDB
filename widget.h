@@ -13,14 +13,15 @@ class Widget : public QMainWindow
     Q_OBJECT
 private:
     QWidget* mainWidget;
-    QVBoxLayout* mainLayout;
-    QHBoxLayout* dataLayout;
-    QVBoxLayout* infoItemLayout;
+    QHBoxLayout* mainLayout;
+    QVBoxLayout* leftLayout;
+    QVBoxLayout* rightLayout;
     QListWidget* list;
+    QListWidget* list2;
 
-    void addInfoLayout();
+    void addLeftLayout();
     void addMenu();
-    void addButton();
+    void addRightLayout();
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
