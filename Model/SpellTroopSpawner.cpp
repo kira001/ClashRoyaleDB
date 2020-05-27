@@ -38,5 +38,9 @@ void SpellTroopSpawner::lvlDowngrade(){
        Card::lvlDowngrade();
     }
 }
+QJsonObject SpellTroopSpawner::serializeJson() const
+{}
+void SpellTroopSpawner::deserializeJson(const QJsonObject& obj)
+{}
 string SpellTroopSpawner::getType() const{return "Spell-Troop Spawner";}
 SpellTroopSpawner* SpellTroopSpawner::clone() const { return new SpellTroopSpawner(*this); }

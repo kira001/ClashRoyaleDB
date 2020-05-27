@@ -81,8 +81,8 @@ QJsonObject Card::serializeJson() const
     cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
     cardJson["Rarity"] = QString::fromStdString(RarityToString());
     //cardJson["level"] = static_cast<int>(getCardLevel()); //Non lo usiamo perchè usiamo i tasti + e -
+    cardJson["Type"] = QString::fromStdString(getType());
     cardJson["Description"] = QString::fromStdString(getDescription());
-
     return cardJson;
 
 }

@@ -22,6 +22,8 @@ public:
     void setTimeSpawn(string);
 
     // METHODS
+    virtual QJsonObject serializeJson() const;
+    virtual void deserializeJson(const QJsonObject& obj);
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
