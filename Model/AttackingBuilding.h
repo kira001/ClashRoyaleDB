@@ -21,12 +21,13 @@ public:
     void setDamagePerSecond(double dPerSecond);
     double getRange() const;
     void setRange(double rng);
-
+    virtual QJsonObject serializeJson() const;
+    virtual void deserializeJson(const QJsonObject& obj);
+    virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual AttackingBuilding* clone() const;
-
     double damage() const;
-    // Metodo damage()
+
 };
 #endif // ATTACKINGBUILDING

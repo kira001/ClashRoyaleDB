@@ -15,7 +15,7 @@ double Building::getLifeTime() const{
 void Building::setLifeTime(double lTime){
     lifeTime = lTime;
 }
-
+string Building::getType() const{return "Building";}
 void Building::lvlUpgrade(){
     if(Card::getCardLevel()<Card::getMaxLevel()){
         Card::lvlUpgrade();
@@ -44,6 +44,24 @@ void Building::downgradeStats(){
     buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
     lifeTime= (lifeTime*100/(100+5*Card::getCardLevel()));
 }
+QJsonObject Building::serializeJson() const
+{
+    QJsonObject bJson=Card::serializeJson(); // ???
+    bJson["Health"] = getBuildHealth();
+    bJson["Life Time"] = getLifeTime();
+    return bJson;
+
+}
+
+void Building::deserializeJson(const QJsonObject& obj)
+{    Card::deserializeJson(obj);
+    if (obj.contains("Health") && obj["Health"].isDouble())
+        setBuildHealth(obj["Health"].toDouble());
+    if (obj.contains("Life Time") && obj["Life Time"].isDouble())
+        setLifeTime(obj["Life Time"].toDouble());
+}
+
+
 
 Building::Building(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime):
     Card(n,mana,rar,cLevel,desc), buildHealth(bHealth), lifeTime(lTime){}

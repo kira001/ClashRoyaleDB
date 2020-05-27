@@ -21,6 +21,9 @@ public:
     double getLifeTime() const;
     void setLifeTime(double lTime);
 
+    virtual string getType() const;
+    virtual QJsonObject serializeJson() const;
+    virtual void deserializeJson(const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual Building* clone() const;

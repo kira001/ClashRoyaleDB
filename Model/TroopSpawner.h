@@ -18,8 +18,11 @@ public:
     // SETTERS
     void setTimeDesc(string);
     // METHODS
+    virtual QJsonObject serializeJson() const;
+    virtual void deserializeJson(const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
+    virtual string getType() const;
     virtual TroopSpawner* clone() const;
 
 };

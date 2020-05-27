@@ -4,12 +4,13 @@
 #include <iostream>
 
 #include <string>
-/*
-#include <QString>
-#include <QJsonArray>
+
+
+#include <QString> //In questa classe non viene usato 
+#include <QJsonArray> ////In questa classe non viene usato 
 #include <QJsonDocument>
 #include <QJsonObject>
-*/
+
 using std::string;
 class Card
 {
@@ -55,9 +56,12 @@ public:
     // METHODS
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
+
+    virtual string getType() const = 0; // Controllo il tipo -> Troop,Spell,Building ecc
+
     virtual Card* clone() const = 0;
-   // virtual QJsonObject serialize() const;
-   // virtual void deserialize(const QJsonObject& obj);
+    virtual QJsonObject serializeJson() const;
+    virtual void deserializeJson(const QJsonObject& obj);
 
 /*
      aggiungere le variabili con solo :

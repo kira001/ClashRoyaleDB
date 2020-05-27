@@ -8,7 +8,7 @@ BuildingTroopSpawner::BuildingTroopSpawner(std::string n, unsigned int mana, Car
 
 
 BuildingTroopSpawner::BuildingTroopSpawner(const BuildingTroopSpawner &bts):
-Building(bts),Troop(bts), spawnSpeed(bts.getSpawnSpeed()){}
+Card(bts),Building(bts),Troop(bts), spawnSpeed(bts.getSpawnSpeed()){}
 
 double BuildingTroopSpawner::getSpawnSpeed() const{
     return spawnSpeed;
@@ -28,13 +28,34 @@ void BuildingTroopSpawner::lvlUpgrade(){
 
 void BuildingTroopSpawner::lvlDowngrade(){
     if(Card::getCardLevel()>1){
-
        Building::downgradeStats();
        Troop::downgradeStats();
        Card::lvlDowngrade();
     }
 }
+QJsonObject BuildingTroopSpawner::serializeJson() const
+{
+     QJsonObject bJson=Card::serializeJson();
+     if(bJson["Type"] == "Building")
+    {
+          bJson=Building::serializeJson(); //Ffantascientifico sci-fi
+     }
+     if(bJson["Type"] == "Troop")
+    {
+         bJson=Troop::serializeJson();
+     }
 
+     bJson["Spawn Speed"] = getSpawnSpeed();
+     bJson["Life Time"] = getLifeTime();
+     return bJson;
+
+}
+void BuildingTroopSpawner::deserializeJson(const QJsonObject& obj)
+{
+
+}
+
+string BuildingTroopSpawner::getType() const{return "Building-Troop Spawner";}
 BuildingTroopSpawner* BuildingTroopSpawner::clone() const{
     return new BuildingTroopSpawner(*this);
 }
