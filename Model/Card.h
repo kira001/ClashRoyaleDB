@@ -60,7 +60,7 @@ public:
     virtual string getType() const = 0; // Controllo il tipo -> Troop,Spell,Building ecc
 
     virtual Card* clone() const = 0;
-    virtual QJsonObject serializeJson() const;
+    //virtual QJsonObject serializeJson() const;
     //virtual void deserialize(const QJsonObject& obj);
 
 /*

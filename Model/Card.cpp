@@ -51,7 +51,7 @@ Card::rarity Card::StringToRarity(string sRar){
     if(sRar=="Comune") return Card::rarity::common;
     if(sRar=="Rara") return Card::rarity::rare;
     if(sRar=="Epica") return Card::rarity::epic;
-return Card::rarity::legendary;
+    return Card::rarity::legendary;
 }
 
 /************************ METHODS **************************/
@@ -74,18 +74,7 @@ void Card::lvlDowngrade(){
     }
 }
 
-QJsonObject Card::inputJson() const
-{
-    QJsonObject cardJson;
-    cardJson["Name"] = QString::fromStdString(getName()); //conversione da stringa a Qstring
-    cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione da unsigned int a int
-    cardJson["Type"] = QString::fromStdString(getType());
-    cardJson["Rarity"] = QString::fromStdString(RarityToString());
-    cardJson["Level"] = static_cast<int>(getCardLevel()); //conversione da unsigned int a int
-    cardJson["Description"] = QString::fromStdString(getDescription());
 
-    return cardJson;
-}
 
 
 
