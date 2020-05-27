@@ -95,8 +95,8 @@ if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
 if (obj.contains("Rarity") && obj["Rarity"].isString())
     setCardRarity(StringToRarity(obj["Rarity"].toString().toStdString()));
     setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
-//if (obj.contains("level") && obj["level"].isDouble()) // non settiamo il livello
-  //  setLevel(obj["level"].toInt());
+if (obj.contains("level") && obj["level"].isDouble())
+    setCardLevel(static_cast<unsigned int>(obj["level"].toInt()));
 if (obj.contains("Dscription") && obj["Description"].isString())
     setDescription(obj["Description"].toString().toStdString());
 
