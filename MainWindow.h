@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QVBoxLayout>
@@ -8,7 +8,11 @@
 #include <QListWidget>
 #include <QMenuBar>
 #include <QPushButton>
-class Widget : public QMainWindow
+
+#include "Model/Card.h"
+class Controller;
+
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
@@ -18,12 +22,14 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
+    Controller* controller;
 
     void addLeftLayout();
     void addMenu();
     void addRightLayout();
 public:
-    Widget(QWidget *parent = nullptr);
-    ~Widget();
+    MainWindow(Controller* c,QWidget *parent = nullptr);
+    ~MainWindow();
+    void addCardView(string);
 };
-#endif // WIDGET_H
+#endif // MAINWINDOWH

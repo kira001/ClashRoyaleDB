@@ -16,6 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controller/controller.cpp \
+    MainWindow.cpp \
     Model/AttackingBuilding.cpp \
     Model/Building.cpp \
     Model/BuildingTroopSpawner.cpp \
@@ -24,10 +26,11 @@ SOURCES += \
     Model/SpellTroopSpawner.cpp \
     Model/Troop.cpp \
     Model/TroopSpawner.cpp \
-    main.cpp \
-    widget.cpp
+    main.cpp
 
 HEADERS += \
+    Controller/controller.h \
+    MainWindow.h \
     Model/AttackingBuilding.h \
     Model/Building.h \
     Model/BuildingTroopSpawner.h \
@@ -37,8 +40,7 @@ HEADERS += \
     Model/Troop.h \
     Model/TroopSpawner.h \
     Template/container.h \
-    Template/deepptr.h \
-    widget.h
+    Template/deepptr.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

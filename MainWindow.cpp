@@ -1,9 +1,9 @@
-#include "widget.h"
+#include "MainWindow.h"
+#include "Controller/controller.h"
 
 
-
-Widget::Widget(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(Controller* c,QWidget *parent)
+    : QMainWindow(parent),controller(c)
 {
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout(this);
@@ -18,7 +18,7 @@ Widget::Widget(QWidget *parent)
 
     setCentralWidget(mainWidget);
 }
-void Widget::addLeftLayout()
+void MainWindow::addLeftLayout()
 {
     QScrollArea* box= new QScrollArea();
 
@@ -31,6 +31,11 @@ void Widget::addLeftLayout()
     QPushButton* insertButton = new QPushButton("Insert");
     QPushButton* mButton = new QPushButton("cerca");
 
+    //connect(insertButton, SIGNAL(clicked()),controller,SLOT(addCard()));
+      string NameCard="controller->getLastInsert()";
+    connect(insertButton, &QPushButton::clicked, [this,NameCard ] {
+        addCardView(NameCard);
+    });
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(mButton);
 
@@ -42,7 +47,7 @@ void Widget::addLeftLayout()
 
 }
 
-void Widget::addMenu()
+void MainWindow::addMenu()
 {
     //Creare la barra dei menu , poi il menu, poi le azioni
     QMenuBar* menubar= new QMenuBar(this);
@@ -62,7 +67,7 @@ void Widget::addMenu()
     setMenuBar(menubar);
 }
 
-void Widget::addRightLayout()
+void MainWindow::addRightLayout()
 {
 
     QScrollArea* box2= new QScrollArea();
@@ -83,7 +88,18 @@ void Widget::addRightLayout()
     mainLayout->addLayout(rightLayout);
 }
 
-Widget::~Widget()
+MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::addCardView(string s)
+{
+
+
+  //  std::cout<<NameCard;
+    list->addItem(new QListWidgetItem(QString::fromStdString(s)));
+
+
+
 }
 
