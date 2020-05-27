@@ -74,20 +74,19 @@ void Card::lvlDowngrade(){
     }
 }
 
-QJsonObject Card::serializeJson() const
+QJsonObject Card::writeJson() const
 {
     QJsonObject cardJson;
     cardJson["Card Name"] = QString::fromStdString(getName());
     cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
     cardJson["Rarity"] = QString::fromStdString(RarityToString());
-    //cardJson["level"] = static_cast<int>(getCardLevel()); //Non lo usiamo perchè usiamo i tasti + e -
-    cardJson["Type"] = QString::fromStdString(getType());
+    cardJson["level"] = static_cast<int>(getCardLevel()); //Non lo usiamo perchè usiamo i tasti + e -
     cardJson["Description"] = QString::fromStdString(getDescription());
     return cardJson;
 
 }
 
-void Card::deserializeJson(const QJsonObject& obj)
+void Card::readJson(const QJsonObject& obj)
 {
 if (obj.contains("Card Name") && obj["Card Name"].isString())
     setName(obj["Card Name"].toString().toStdString());

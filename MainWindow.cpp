@@ -1,12 +1,12 @@
 #include "MainWindow.h"
 #include "Controller/controller.h"
 
-Widget::Widget(QWidget *parent) : QMainWindow(parent)
-{
 
 MainWindow::MainWindow(Controller* c,QWidget *parent)
-    : QMainWindow(parent),controller(c)
-{
+    : QMainWindow(parent),controller(c){
+    setWindowIcon(QIcon(":/img/icon.png"));
+    setFixedSize(980, 620);
+
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout(this);
     leftLayout=new QVBoxLayout(this);
@@ -18,14 +18,16 @@ MainWindow::MainWindow(Controller* c,QWidget *parent)
     addMenu();
     addLeftLayout();
     addRightLayout();
+    setWidgetStyle();
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
 
 
 
 }
-void MainWindow::addLeftLayout()
-{
+MainWindow::~MainWindow(){
+}
+void MainWindow::addLeftLayout(){
     QScrollArea* box= new QScrollArea();
 
     box->setWidget(list);
@@ -53,8 +55,7 @@ void MainWindow::addLeftLayout()
 
 }
 
-void MainWindow::addMenu()
-{
+void MainWindow::addMenu(){
     //Creare la barra dei menu , poi il menu, poi le azioni
     //QMenuBar* menubar= new QMenuBar(this);
     //QMenu *menu =new QMenu("File",menubar);
@@ -79,8 +80,7 @@ void MainWindow::addMenu()
     setMenuBar(menubar);
 }
 
-void MainWindow::addRightLayout()
-{
+void MainWindow::addRightLayout(){
 
     QScrollArea* box2= new QScrollArea();
 
@@ -152,17 +152,25 @@ void MainWindow::saveFile() const{
 }
 
 
-Widget::~Widget()
-{
-}
-
-void MainWindow::addCardView(string s)
-{
 
 
+void MainWindow::addCardView(string s){
   //  std::cout<<NameCard;
     list->addItem(new QListWidgetItem(QString::fromStdString(s)));
+}
 
+void MainWindow::setWidgetStyle()
+{
+    mainLayout->setSpacing(0);
 
+    // Imposto le dimensioni
+    setMinimumSize(QSize(500,500));
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
+    // Imposto il foglio di stile
+    QFile file(":/Style/test.css");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+
+    setStyleSheet(styleSheet);
 }

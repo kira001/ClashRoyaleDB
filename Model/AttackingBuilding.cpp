@@ -54,18 +54,18 @@ void AttackingBuilding::upgradeStats(){
 void AttackingBuilding::downgradeStats(){
     damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
 }
-QJsonObject AttackingBuilding::serializeJson() const
+QJsonObject AttackingBuilding::writeJson() const
 {
-    QJsonObject abJson=Card::serializeJson(); // ???
+    QJsonObject abJson=Card::writeJson(); // ???
     abJson["Hit per Second"] = getHitPerSecond();
     abJson["Damage per Second"] = getDamagePerSecond();
     abJson["Range"] = getRange();
     return abJson;
 
 }
-void AttackingBuilding::deserializeJson(const QJsonObject& obj)
+void AttackingBuilding::readJson(const QJsonObject &obj)
 {
-    Card::deserializeJson(obj);
+    Card::readJson(obj);
     if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
         setHitPerSecond(obj["Card Name"].toDouble());
     if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())
@@ -75,7 +75,6 @@ void AttackingBuilding::deserializeJson(const QJsonObject& obj)
 
 
 }
-
 
 
 

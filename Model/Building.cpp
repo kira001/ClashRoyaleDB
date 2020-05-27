@@ -44,17 +44,17 @@ void Building::downgradeStats(){
     buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
     lifeTime= (lifeTime*100/(100+5*Card::getCardLevel()));
 }
-QJsonObject Building::serializeJson() const
+QJsonObject Building::writeJson() const
 {
-    QJsonObject bJson=Card::serializeJson(); // ???
+    QJsonObject bJson=Card::writeJson(); // ???
     bJson["Health"] = getBuildHealth();
     bJson["Life Time"] = getLifeTime();
     return bJson;
 
 }
 
-void Building::deserializeJson(const QJsonObject& obj)
-{    Card::deserializeJson(obj);
+void Building::readJson(const QJsonObject &obj)
+{    Card::readJson(obj);
     if (obj.contains("Health") && obj["Health"].isDouble())
         setBuildHealth(obj["Health"].toDouble());
     if (obj.contains("Life Time") && obj["Life Time"].isDouble())

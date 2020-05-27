@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>img/icon.png</file>
         <file>Load&amp;Save/InputTest.json</file>
+        <file>Style/test.css</file>
     </qresource>
 </RCC>

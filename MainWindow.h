@@ -41,6 +41,7 @@ private:
     void addLeftLayout();
     void addMenu();
     void addRightLayout();
+    void setWidgetStyle();
 public:
     MainWindow(Controller* c,QWidget *parent = nullptr);
     ~MainWindow();

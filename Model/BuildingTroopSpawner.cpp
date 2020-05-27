@@ -33,24 +33,17 @@ void BuildingTroopSpawner::lvlDowngrade(){
        Card::lvlDowngrade();
     }
 }
-QJsonObject BuildingTroopSpawner::serializeJson() const
+QJsonObject BuildingTroopSpawner::writeJson() const
 {
-     QJsonObject bJson=Card::serializeJson();
-     if(bJson["Type"] == "Building")
-    {
-          bJson=Building::serializeJson(); //Ffantascientifico sci-fi
-     }
-     if(bJson["Type"] == "Troop")
-    {
-         bJson=Troop::serializeJson();
-     }
-
+     QJsonObject bJson=Building::writeJson(); //Ffantascientifico sci-fi
+     bJson=Troop::writeJson();
+     bJson["Type"] = QString::fromStdString(getType());
      bJson["Spawn Speed"] = getSpawnSpeed();
      bJson["Life Time"] = getLifeTime();
      return bJson;
 
 }
-void BuildingTroopSpawner::deserializeJson(const QJsonObject& obj)
+void BuildingTroopSpawner::readJson(const QJsonObject &obj)
 {
 
 }

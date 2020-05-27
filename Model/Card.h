@@ -60,8 +60,8 @@ public:
     virtual string getType() const = 0; // Controllo il tipo -> Troop,Spell,Building ecc
 
     virtual Card* clone() const = 0;
-    virtual QJsonObject serializeJson() const;
-    virtual void deserializeJson(const QJsonObject& obj);
+    virtual QJsonObject writeJson() const;
+    virtual void readJson(const QJsonObject& obj);
 
 /*
      aggiungere le variabili con solo :

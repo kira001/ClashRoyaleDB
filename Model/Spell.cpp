@@ -43,9 +43,9 @@ void Spell::lvlDowngrade(){
         Card::lvlDowngrade();
     }
 }
-QJsonObject Spell::serializeJson() const
+QJsonObject Spell::writeJson() const
 {}
-void Spell::deserializeJson(const QJsonObject& obj)
+void Spell::readJson(const QJsonObject &obj)
 {}
 string Spell::getType() const {return "Spell";}
 Spell* Spell::clone() const { return new Spell(*this); }

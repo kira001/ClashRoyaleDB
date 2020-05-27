@@ -71,9 +71,9 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
             Card::lvlDowngrade();
        }
    }
-   QJsonObject Troop::serializeJson() const
+   QJsonObject Troop::writeJson() const
    {}
-   void Troop::deserializeJson(const QJsonObject& obj)
+   void Troop::readJson(const QJsonObject &obj)
    {}
    string Troop::getType() const{return "Troop";}
    Troop* Troop::clone() const{return new Troop(*this);}

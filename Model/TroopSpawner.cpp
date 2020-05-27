@@ -23,9 +23,9 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
    void TroopSpawner::lvlDowngrade(){
        Troop::lvlDowngrade();
    }
-   QJsonObject TroopSpawner::serializeJson() const
+   QJsonObject TroopSpawner::writeJson() const
    {}
-   void TroopSpawner::deserializeJson(const QJsonObject& obj)
+   void TroopSpawner::readJson(const QJsonObject &obj)
    {}
    string TroopSpawner::getType() const{return "Troop Spawner";}
 

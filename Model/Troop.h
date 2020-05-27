@@ -40,8 +40,8 @@ public:
     // METHODS
     double damage() const;
     string DimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
-    virtual QJsonObject serializeJson() const;
-    virtual void deserializeJson(const QJsonObject& obj);
+    virtual QJsonObject writeJson() const;
+    virtual void readJson(const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual string getType() const;

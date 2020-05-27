@@ -21,8 +21,8 @@ public:
     void setDamagePerSecond(double dPerSecond);
     double getRange() const;
     void setRange(double rng);
-    virtual QJsonObject serializeJson() const;
-    virtual void deserializeJson(const QJsonObject& obj);
+    virtual QJsonObject writeJson() const;
+    virtual void readJson(const QJsonObject& obj);
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
