@@ -22,6 +22,7 @@ public:
     double getRange() const;
     void setRange(double rng);
 
+    virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual AttackingBuilding* clone() const;

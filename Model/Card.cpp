@@ -74,6 +74,19 @@ void Card::lvlDowngrade(){
     }
 }
 
+QJsonObject Card::inputJson() const
+{
+    QJsonObject cardJson;
+    cardJson["Name"] = QString::fromStdString(getName()); //conversione da stringa a Qstring
+    cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione da unsigned int a int
+    cardJson["Type"] = QString::fromStdString(getType());
+    cardJson["Rarity"] = QString::fromStdString(RarityToString());
+    cardJson["Level"] = static_cast<int>(getCardLevel()); //conversione da unsigned int a int
+    cardJson["Description"] = QString::fromStdString(getDescription());
+
+    return cardJson;
+}
+
 
 
 

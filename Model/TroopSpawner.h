@@ -20,6 +20,7 @@ public:
     // METHODS
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
+    virtual string getType() const;
     virtual TroopSpawner* clone() const;
 
 };

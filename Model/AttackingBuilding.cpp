@@ -46,7 +46,7 @@ double AttackingBuilding::damage() const{
     return getDamagePerSecond()*getHitPerSecond();
 }
 
-
+string AttackingBuilding::getType() const{return "Attacking Building";}
 void AttackingBuilding::upgradeStats(){
     damagePerSecond= (damagePerSecond*(100+5*Card::getCardLevel()))/100;
 }

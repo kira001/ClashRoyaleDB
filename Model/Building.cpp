@@ -15,7 +15,7 @@ double Building::getLifeTime() const{
 void Building::setLifeTime(double lTime){
     lifeTime = lTime;
 }
-
+string Building::getType() const{return "Building";}
 void Building::lvlUpgrade(){
     if(Card::getCardLevel()<Card::getMaxLevel()){
         Card::lvlUpgrade();

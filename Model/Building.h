@@ -21,6 +21,7 @@ public:
     double getLifeTime() const;
     void setLifeTime(double lTime);
 
+    virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual Building* clone() const;

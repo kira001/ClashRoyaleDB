@@ -42,6 +42,7 @@ public:
     string DimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
+    virtual string getType() const;
     virtual Troop* clone() const;
 
 

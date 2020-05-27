@@ -24,4 +24,6 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
        Troop::lvlDowngrade();
    }
 
+   string TroopSpawner::getType() const{return "Troop Spawner";}
+
    TroopSpawner* TroopSpawner::clone() const{return new TroopSpawner(*this);}

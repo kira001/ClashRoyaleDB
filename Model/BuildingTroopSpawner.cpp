@@ -8,7 +8,7 @@ BuildingTroopSpawner::BuildingTroopSpawner(std::string n, unsigned int mana, Car
 
 
 BuildingTroopSpawner::BuildingTroopSpawner(const BuildingTroopSpawner &bts):
-Building(bts),Troop(bts), spawnSpeed(bts.getSpawnSpeed()){}
+Card(bts),Building(bts),Troop(bts), spawnSpeed(bts.getSpawnSpeed()){}
 
 double BuildingTroopSpawner::getSpawnSpeed() const{
     return spawnSpeed;
@@ -28,13 +28,13 @@ void BuildingTroopSpawner::lvlUpgrade(){
 
 void BuildingTroopSpawner::lvlDowngrade(){
     if(Card::getCardLevel()>1){
-
        Building::downgradeStats();
        Troop::downgradeStats();
        Card::lvlDowngrade();
     }
 }
 
+string BuildingTroopSpawner::getType() const{return "Building-Troop Spawner";}
 BuildingTroopSpawner* BuildingTroopSpawner::clone() const{
     return new BuildingTroopSpawner(*this);
 }

@@ -43,4 +43,5 @@ void Spell::lvlDowngrade(){
         Card::lvlDowngrade();
     }
 }
+string Spell::getType() const {return "Spell";}
 Spell* Spell::clone() const { return new Spell(*this); }

@@ -22,6 +22,7 @@ public:
     void setTimeSpawn(string);
 
     // METHODS
+    virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual SpellTroopSpawner* clone() const;

@@ -27,6 +27,7 @@ public:
     void setRadius(double);
 
     //METHODS
+    virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual Spell* clone() const;

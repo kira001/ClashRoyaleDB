@@ -72,4 +72,5 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
        }
    }
 
+   string Troop::getType() const{return "Troop";}
    Troop* Troop::clone() const{return new Troop(*this);}

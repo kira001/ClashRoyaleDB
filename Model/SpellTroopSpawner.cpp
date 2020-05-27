@@ -38,4 +38,5 @@ void SpellTroopSpawner::lvlDowngrade(){
        Card::lvlDowngrade();
     }
 }
+string SpellTroopSpawner::getType() const{return "Spell-Troop Spawner";}
 SpellTroopSpawner* SpellTroopSpawner::clone() const { return new SpellTroopSpawner(*this); }

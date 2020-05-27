@@ -23,6 +23,7 @@ public:
     void setSpawnSpeed(double sSpeed);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
+    virtual string getType() const;
     virtual BuildingTroopSpawner* clone() const;
 };
 #endif // BUILDINGTROOPSPAWNER_H
