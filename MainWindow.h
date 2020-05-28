@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include "Model/Card.h"
+#include "Model/Troop.h"
+#include "Model/TroopSpawner.h"
+#include "Model/Spell.h"
+#include "Model/Building.h"
+#include "Model/BuildingTroopSpawner.h"
+#include "Model/AttackingBuilding.h"
 #include "Template/deepptr.h"
 #include "Template/container.h"
 #include <QMainWindow>
@@ -22,6 +28,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
+    Container<DeepPtr<Card>> container;
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* leftLayout;

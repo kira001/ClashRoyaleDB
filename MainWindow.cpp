@@ -120,34 +120,58 @@ void MainWindow::loadFile(){
                     QMessageBox msgBox;
                     msgBox.setText("The file is empty.");
                     msgBox.exec();
-                } //else if Caso dove trovo stessi nomi di tipo es Troop -> creo un nuovo oggeto
-    }}
+                }
+                else {
+                    if (container.getSize() != 0)
+                                       container.clear();
+                    foreach (const QJsonValue& value, arrayJson) {
+                                        QJsonObject obj = value.toObject();if (obj.contains("class") && obj["class"].isString()) {
+                                            QString type = obj["Type"].toString();
+                                            DeepPtr<Card> Card;
+                                            if (type == "Spell") Card = new Spell(); //Switch case ??
+                                            else if (type == "Troop") Card = new Troop();
+                                            else if (type == "Building") Card = new Building();
+                                            else if (type == "Building Troop Spawner") Card = new BuildingTroopSpawner();
+                                            else if (type == "Spell Troop Spawner") Card = new SpellTroopSpawner();
+                                            else if (type == "Attacking Building") Card = new AttackingBuilding();
+                                            else if (type == "TroopSpawner") Card = new TroopSpawner();
+                                            Card->readJson(obj);
+                                            container.insert(Card);
+                                        }
+                    }
+                   // clearLayout(infoLayout);
+                                 //   updateList();
+                }
+
+                }//else if Caso dove trovo stessi nomi di tipo es Troop -> creo un nuovo oggeto
+    }
+
 
 
 }
 
 void MainWindow::saveFile() const{
 
-    // if (container.getSize() != 0) {
-        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save container"), "../ClashRoyale", tr("JSON files (*.json)"));
+     if (container.getSize() != 0) {
+        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save container"), "../ClashRoyale/Load&Save", tr("JSON files (*.json)"));
         if (!fileName.endsWith(".json"))
             fileName.append(".json");
         QJsonArray arrayJson;
        //ciclo il container e faccio il push sull Json
-       // for (unsigned int i = 0; i < container.getSize(); ++i)
-       //     arrayJson.push_back(QJsonValue(container[i]->serialize()));
+        for (unsigned int i = 0; i < container.getSize(); ++i)
+        arrayJson.push_back(QJsonValue(container[i]->writeJson()));
         QJsonDocument docJson(arrayJson);
         QString docString = docJson.toJson();
         QFile saveFile(fileName);
         saveFile.open(QIODevice::WriteOnly);
         saveFile.write(docString.toUtf8());
         saveFile.close();
-   // }
-   // else {
-   //     QMessageBox msgBox;
-   //     msgBox.setText("The container is empty.");
-   //     msgBox.exec();
-   // }
+     }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText("The container is empty.");
+        msgBox.exec();
+    }
 
 }
 
