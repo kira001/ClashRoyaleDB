@@ -56,7 +56,8 @@ void AttackingBuilding::downgradeStats(){
 }
 QJsonObject AttackingBuilding::writeJson() const
 {
-    QJsonObject abJson=Card::writeJson(); // ???
+    QJsonObject abJson=Building::writeJson();
+    abJson["Type"] = QString::fromStdString(getType());
     abJson["Hit per Second"] = getHitPerSecond();
     abJson["Damage per Second"] = getDamagePerSecond();
     abJson["Range"] = getRange();
@@ -65,7 +66,8 @@ QJsonObject AttackingBuilding::writeJson() const
 }
 void AttackingBuilding::readJson(const QJsonObject &obj)
 {
-    Card::readJson(obj);
+    Building::readJson(obj);
+
     if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
         setHitPerSecond(obj["Card Name"].toDouble());
     if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())

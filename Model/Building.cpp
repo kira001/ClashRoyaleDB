@@ -46,7 +46,8 @@ void Building::downgradeStats(){
 }
 QJsonObject Building::writeJson() const
 {
-    QJsonObject bJson=Card::writeJson(); // ???
+    QJsonObject bJson=Card::writeJson();
+    bJson["Type"] = QString::fromStdString(getType());
     bJson["Health"] = getBuildHealth();
     bJson["Life Time"] = getLifeTime();
     return bJson;
@@ -55,6 +56,7 @@ QJsonObject Building::writeJson() const
 
 void Building::readJson(const QJsonObject &obj)
 {    Card::readJson(obj);
+
     if (obj.contains("Health") && obj["Health"].isDouble())
         setBuildHealth(obj["Health"].toDouble());
     if (obj.contains("Life Time") && obj["Life Time"].isDouble())

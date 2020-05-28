@@ -80,7 +80,7 @@ QJsonObject Card::writeJson() const
     cardJson["Card Name"] = QString::fromStdString(getName());
     cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
     cardJson["Rarity"] = QString::fromStdString(RarityToString());
-    cardJson["level"] = static_cast<int>(getCardLevel()); //Non lo usiamo perchè usiamo i tasti + e -
+    cardJson["level"] = static_cast<int>(getCardLevel());
     cardJson["Description"] = QString::fromStdString(getDescription());
     return cardJson;
 

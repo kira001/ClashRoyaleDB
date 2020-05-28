@@ -44,8 +44,25 @@ void Spell::lvlDowngrade(){
     }
 }
 QJsonObject Spell::writeJson() const
-{}
+{
+    QJsonObject SJson=Card::writeJson();
+    SJson["Type"] = QString::fromStdString(getType());
+    SJson["Damage"] = getSpellDamage();
+    SJson["Crown Tower Damage"] = getCrownTowerDamage();
+    SJson["Radius"] = getRadius();
+    
+    return SJson;
+}
 void Spell::readJson(const QJsonObject &obj)
-{}
+{
+    Card::readJson(obj);
+    if (obj.contains("Damage") && obj["Damage"].isDouble())
+        setSpellDamage(obj["Damage"].toDouble());
+    if (obj.contains("Crown Tower Damage") && obj["Crown Tower Damage"].isDouble())
+        setCrownTowerDamage(obj["Crown Tower Damage"].toDouble());
+    if (obj.contains("Radius") && obj["Radius"].isDouble())
+        setRadius(obj["Radius"].toDouble());
+
+}
 string Spell::getType() const {return "Spell";}
 Spell* Spell::clone() const { return new Spell(*this); }

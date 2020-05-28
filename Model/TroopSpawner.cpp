@@ -24,9 +24,18 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
        Troop::lvlDowngrade();
    }
    QJsonObject TroopSpawner::writeJson() const
-   {}
+   {
+       QJsonObject TSjson = Troop::writeJson();
+       TSjson["Type"] = QString::fromStdString(getType());
+       TSjson["Time and description"] =QString::fromStdString(getTimeDesc());
+       return TSjson;
+   }
    void TroopSpawner::readJson(const QJsonObject &obj)
-   {}
+   {   Troop::readJson(obj);
+       if (obj.contains("Time and Description") && obj["Time and Description"].isString())
+           setTimeDesc(obj["Time and Description"].toString().toStdString());
+
+   }
    string TroopSpawner::getType() const{return "Troop Spawner";}
 
    TroopSpawner* TroopSpawner::clone() const{return new TroopSpawner(*this);}
