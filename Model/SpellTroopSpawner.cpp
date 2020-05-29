@@ -53,7 +53,6 @@ void SpellTroopSpawner::readJson(const QJsonObject &obj)
     Troop::readJson(obj);
     if (obj.contains("Time Spawn") && obj["Time Spawn"].isString())
           setTimeSpawn(obj["Time Spawn"].toString().toStdString());
-
 }
 string SpellTroopSpawner::getType() const{return "Spell-Troop Spawner";}
 

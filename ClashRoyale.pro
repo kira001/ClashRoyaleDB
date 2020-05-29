@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Controller/controller.cpp \
     MainWindow.cpp \
     Model/AttackingBuilding.cpp \
     Model/Building.cpp \
@@ -29,7 +28,6 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    Controller/controller.h \
     MainWindow.h \
     Model/AttackingBuilding.h \
     Model/Building.h \

@@ -80,7 +80,7 @@ QJsonObject Card::writeJson() const
     cardJson["Card Name"] = QString::fromStdString(getName());
     cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
     cardJson["Rarity"] = QString::fromStdString(RarityToString());
-    cardJson["level"] = static_cast<int>(getCardLevel());
+    cardJson["Level"] = static_cast<int>(getCardLevel());
     cardJson["Description"] = QString::fromStdString(getDescription());
     return cardJson;
 
@@ -95,9 +95,9 @@ if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
 if (obj.contains("Rarity") && obj["Rarity"].isString())
     setCardRarity(StringToRarity(obj["Rarity"].toString().toStdString()));
     setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
-if (obj.contains("level") && obj["level"].isDouble())
-    setCardLevel(static_cast<unsigned int>(obj["level"].toInt()));
-if (obj.contains("Dscription") && obj["Description"].isString())
+if (obj.contains("Level") && obj["Level"].isDouble())
+    setCardLevel(static_cast<unsigned int>(obj["Level"].toInt()));
+if (obj.contains("Description") && obj["Description"].isString())
     setDescription(obj["Description"].toString().toStdString());
 
 }

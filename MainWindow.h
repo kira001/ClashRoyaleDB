@@ -8,6 +8,7 @@
 #include "Model/Building.h"
 #include "Model/BuildingTroopSpawner.h"
 #include "Model/AttackingBuilding.h"
+#include "Model/SpellTroopSpawner.h"
 #include "Template/deepptr.h"
 #include "Template/container.h"
 #include <QMainWindow>
@@ -22,8 +23,8 @@
 #include <QFileDialog>
 #include <QToolBar>
 #include <QMessageBox>
-class Controller;
 
+//stacked W
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -35,7 +36,8 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
-    Controller* controller;
+
+
 
     // Toolbar
     // QToolBar* toolbar;
@@ -50,7 +52,7 @@ private:
     void addRightLayout();
     void setWidgetStyle();
 public:
-    MainWindow(Controller* c,QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void addCardView(string);
 };

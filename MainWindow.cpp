@@ -1,9 +1,9 @@
 #include "MainWindow.h"
-#include "Controller/controller.h"
 
 
-MainWindow::MainWindow(Controller* c,QWidget *parent)
-    : QMainWindow(parent),controller(c){
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent){
     setWindowIcon(QIcon(":/img/icon.png"));
     setFixedSize(980, 620);
 
@@ -18,9 +18,11 @@ MainWindow::MainWindow(Controller* c,QWidget *parent)
     addMenu();
     addLeftLayout();
     addRightLayout();
-    setWidgetStyle();
+    //setWidgetStyle();
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
+
+
 
 
 
@@ -41,8 +43,8 @@ void MainWindow::addLeftLayout(){
 
     //connect(insertButton, SIGNAL(clicked()),controller,SLOT(addCard()));
       string NameCard="controller->getLastInsert()";
-    connect(insertButton, &QPushButton::clicked, [this,NameCard ] {
-        addCardView(NameCard);
+    connect(insertButton, &QPushButton::clicked, [this] {
+        addCardView(container[0]->getName());
     });
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(searchButton);
@@ -52,6 +54,7 @@ void MainWindow::addLeftLayout(){
     leftLayout->addLayout(buttonLayout);
 
     mainLayout->addLayout(leftLayout);
+
 
 }
 
@@ -68,9 +71,7 @@ void MainWindow::addMenu(){
     menu->addAction(load);
 
     //test della funzione loadFile e saveFile
-    connect(load, &QAction::triggered, [this] {
-            loadFile();
-       });
+    connect(load, &QAction::triggered, [this] {loadFile();});
     connect(save, &QAction::triggered, [this] { saveFile(); });
 
     //Aggiungo il menu alla barra
@@ -101,7 +102,6 @@ void MainWindow::addRightLayout(){
 }
 
 void MainWindow::loadFile(){
-
     QString fileName = QFileDialog::getOpenFileName(this->menu, tr("Open container"), "../ClashRoyale", tr("JSON files (*.json)"));
         if (!fileName.isEmpty()) {
             if (!fileName.endsWith(".json")) {
@@ -125,33 +125,31 @@ void MainWindow::loadFile(){
                     if (container.getSize() != 0)
                                        container.clear();
                     foreach (const QJsonValue& value, arrayJson) {
-                                        QJsonObject obj = value.toObject();if (obj.contains("class") && obj["class"].isString()) {
+                                        QJsonObject obj = value.toObject();if (obj.contains("Type") && obj["Type"].isString()) {
                                             QString type = obj["Type"].toString();
-                                            DeepPtr<Card> Card;
-                                            if (type == "Spell") Card = new Spell(); //Switch case ??
-                                            else if (type == "Troop") Card = new Troop();
-                                            else if (type == "Building") Card = new Building();
-                                            else if (type == "Building Troop Spawner") Card = new BuildingTroopSpawner();
-                                            else if (type == "Spell Troop Spawner") Card = new SpellTroopSpawner();
-                                            else if (type == "Attacking Building") Card = new AttackingBuilding();
-                                            else if (type == "TroopSpawner") Card = new TroopSpawner();
-                                            Card->readJson(obj);
-                                            container.insert(Card);
+                                            DeepPtr<Card> card;
+                                            if (type == "Spell") card = new Spell(); //Switch case ??
+                                            else if (type == "Troop") card = new Troop();
+                                            else if (type == "Building") card = new Building();
+                                            else if (type == "Building Troop Spawner") card = new BuildingTroopSpawner();
+                                            else if (type == "Spell-Troop Spawner") card = new SpellTroopSpawner();
+                                            else if (type == "Attacking Building") card = new AttackingBuilding();
+                                            else if (type == "TroopSpawner") card = new TroopSpawner();
+                                            card->readJson(obj);
+                                            container.insert(card);
+                                            string cardList=container[0]->getName()+" ["+ std::to_string(container[0]->getCardLevel())+"]";
+                                            list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
+
                                         }
-                    }
-                   // clearLayout(infoLayout);
-                                 //   updateList();
-                }
+                               }
 
-                }//else if Caso dove trovo stessi nomi di tipo es Troop -> creo un nuovo oggeto
-    }
+                      }
+              }
 
-
-
+        }
 }
 
 void MainWindow::saveFile() const{
-
      if (container.getSize() != 0) {
         QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save container"), "../ClashRoyale/Load&Save", tr("JSON files (*.json)"));
         if (!fileName.endsWith(".json"))
@@ -172,7 +170,6 @@ void MainWindow::saveFile() const{
         msgBox.setText("The container is empty.");
         msgBox.exec();
     }
-
 }
 
 
