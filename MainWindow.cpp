@@ -81,7 +81,7 @@ void MainWindow::addLeftLayout(){
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(searchButton);
     searchbox->setClearButtonEnabled(true);
-    searchbox->addAction(QIcon(":/img/search.png"), QLineEdit::LeadingPosition);
+    searchbox->addAction(QIcon(":/img/whitesearch2.icns"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
 
 
@@ -155,7 +155,7 @@ void MainWindow::addRightLayout(){
     QPushButton* editButton = new QPushButton("Edit");
 
     //test immagine destra
-    QPixmap testlogo = QPixmap(":/img/icon.png");
+    QPixmap testlogo = QPixmap(":/img/koko.png");
     testlogo = testlogo.scaledToWidth(150);
     QLabel* logoLabel = new QLabel;
     logoLabel->setPixmap(testlogo);
@@ -257,9 +257,9 @@ void MainWindow::setWidgetStyle()
    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     //Imposto il foglio di stile
-  // QFile file(":/Style/test.css");
-  // file.open(QFile::ReadOnly);
-  // QString styleSheet = QLatin1String(file.readAll());
+  QFile file(":/Style/test.css");
+  file.open(QFile::ReadOnly);
+   QString styleSheet = QLatin1String(file.readAll());
 
-  // setStyleSheet(styleSheet);
+  setStyleSheet(styleSheet);
 }
