@@ -23,6 +23,9 @@
 #include <QFileDialog>
 #include <QToolBar>
 #include <QMessageBox>
+#include <QStackedWidget>
+#include <QComboBox>
+
 #include <QLineEdit>
 #include <QCompleter>
 #include <QLabel>
@@ -39,6 +42,8 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
+    QStackedWidget *stackedWidget;
+
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
     QMessageBox* popup;
@@ -55,6 +60,9 @@ private:
     void addMenu();
     void addRightLayout();
     void setWidgetStyle();
+    void addInfoWidget();
+    void addInsertWidget();
+    void setStackedWidgetPage(int);
     void findNameCard(const QString& std);
     void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
     void infoguide();
