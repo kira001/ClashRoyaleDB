@@ -3,5 +3,11 @@
         <file>img/icon.png</file>
         <file>Load&amp;Save/InputTest.json</file>
         <file>Style/test.css</file>
+        <file>img/search.png</file>
+        <file>img/info.png</file>
+        <file>img/infobox.png</file>
+        <file>img/koko.png</file>
+        <file>img/whitesearch.icns</file>
+        <file>img/whitesearch2.icns</file>
     </qresource>
 </RCC>
