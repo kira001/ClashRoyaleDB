@@ -18,11 +18,14 @@
 #include <QListWidget>
 #include <QMenuBar>
 #include <QPushButton>
-
+#include <QPixmap>
 #include <QIcon> // Aggiunte
 #include <QFileDialog>
 #include <QToolBar>
 #include <QMessageBox>
+#include <QLineEdit>
+#include <QCompleter>
+#include <QLabel>
 
 //stacked W
 class MainWindow : public QMainWindow
@@ -36,11 +39,12 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
-
+    QLineEdit* searchbox; //Search
+    QCompleter* completer; //SuggestionWordsFromSearch
 
 
     // Toolbar
-    // QToolBar* toolbar;
+    QToolBar* toolbar;
     // Menu
     QMenu* menu;
     QMenuBar* menubar;
@@ -51,6 +55,9 @@ private:
     void addMenu();
     void addRightLayout();
     void setWidgetStyle();
+    void findNameCard(const QString& std);
+    void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
+    void infoguide();
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

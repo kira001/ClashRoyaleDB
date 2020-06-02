@@ -4,31 +4,60 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent){
+
+
     setWindowIcon(QIcon(":/img/icon.png"));
-    setFixedSize(980, 620);
+    setFixedSize(980,620);
 
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout(this);
+
     leftLayout=new QVBoxLayout(this);
     rightLayout=new QVBoxLayout(this);
     list = new QListWidget();
     list2 = new QListWidget();
     menubar= new QMenuBar();
-    menu =new QMenu("File",menubar); //inizializzo l'oggetto
+    searchbox= new QLineEdit();
+    completer= new QCompleter();
+    menu =new QMenu("File",menubar);
+    toolbar = new QToolBar();
     addMenu();
+
     addLeftLayout();
     addRightLayout();
-    //setWidgetStyle();
+    setWidgetStyle();
+
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
-
-
-
-
-
 }
+
 MainWindow::~MainWindow(){
 }
+
+void MainWindow::resetlist(){
+    if (list->count() != 0) {
+        list->reset();
+        list->clear();
+    }
+    for (unsigned int i = 0; i < container.getSize(); ++i)
+   { string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
+    list->addItem(new QListWidgetItem(QString::fromStdString(c)));
+    }
+
+
+}
+void MainWindow::infoguide(){
+    QMessageBox Box;
+
+    Box.setWindowTitle("Info");
+    Box.setText("\n\n Welcome to ClashRoyale v1.0 \n\n Developed by \n KokoGorillaTEAM \n\n");
+    QPixmap logo = QPixmap(":/img/infobox.png");
+    logo = logo.scaledToWidth(150);
+    Box.setIconPixmap(logo);
+    Box.setStyleSheet("background-color: rgb(18,18,18); color: rgb(255, 255, 255)");
+    Box.exec();
+}
+
 void MainWindow::addLeftLayout(){
     QScrollArea* box= new QScrollArea();
 
@@ -41,6 +70,9 @@ void MainWindow::addLeftLayout(){
     QPushButton* insertButton = new QPushButton("Insert");
     QPushButton* searchButton = new QPushButton("Search");
 
+
+
+
     //connect(insertButton, SIGNAL(clicked()),controller,SLOT(addCard()));
       string NameCard="controller->getLastInsert()";
     connect(insertButton, &QPushButton::clicked, [this] {
@@ -48,23 +80,50 @@ void MainWindow::addLeftLayout(){
     });
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(searchButton);
+    searchbox->setClearButtonEnabled(true);
+    searchbox->addAction(QIcon(":/img/search.png"), QLineEdit::LeadingPosition);
+    searchbox->setPlaceholderText("Search");
 
+
+    QStringList wordList;
+    wordList << "farid" << "koko" << "ian" ; //test Parole da suggerire
+
+    QCompleter *completer = new QCompleter(wordList, searchbox);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    searchbox->setCompleter(completer);
+
+    connect(searchbox, &QLineEdit::textChanged, [this] {
+         if (container.getSize() > 0)
+             findNameCard(searchbox->text());
+     });
 
     leftLayout->addWidget(box);
+    leftLayout->addWidget(searchbox);
     leftLayout->addLayout(buttonLayout);
 
     mainLayout->addLayout(leftLayout);
 
 
 }
+void MainWindow::findNameCard(const QString& str){
+
+    resetlist();
+    for (int i = 0; i < list->count(); ++i) {
+        QListWidgetItem* listItem = list->item(i);
+        if (!listItem->text().toUpper().contains(str.toUpper())) {
+            list->takeItem(i);
+            --i;
+        }
+
+    }
+}
+
 
 void MainWindow::addMenu(){
-    //Creare la barra dei menu , poi il menu, poi le azioni
-    //QMenuBar* menubar= new QMenuBar(this);
-    //QMenu *menu =new QMenu("File",menubar);
+
     QAction* save= new QAction("Save",menu);
     QAction* load=new QAction("Load",menu);
-
+    QAction* info=new QAction(QIcon(":/img/info.png"), "info");
 
     //Aggiungo le azioni al menu
     menu->addAction(save);
@@ -76,6 +135,9 @@ void MainWindow::addMenu(){
 
     //Aggiungo il menu alla barra
     menubar->addMenu(menu);
+    menubar->addAction(info);
+
+    connect(info, &QAction::triggered, [this] { infoguide(); });
 
     // Aggiungo la barra al Layout
     setMenuBar(menubar);
@@ -92,9 +154,14 @@ void MainWindow::addRightLayout(){
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
     QPushButton* editButton = new QPushButton("Edit");
 
+    //test immagine destra
+    QPixmap testlogo = QPixmap(":/img/icon.png");
+    testlogo = testlogo.scaledToWidth(150);
+    QLabel* logoLabel = new QLabel;
+    logoLabel->setPixmap(testlogo);
 
     buttonLayout->addWidget(editButton);
-
+    rightLayout->addWidget(logoLabel);
     rightLayout->addWidget(box2);
     rightLayout->addLayout(buttonLayout);
 
@@ -102,7 +169,7 @@ void MainWindow::addRightLayout(){
 }
 
 void MainWindow::loadFile(){
-    QString fileName = QFileDialog::getOpenFileName(this->menu, tr("Open container"), "../ClashRoyale", tr("JSON files (*.json)"));
+    QString fileName = QFileDialog::getOpenFileName(this->menu, tr("Open File"), ".../Load&Save", tr("JSON files (*.json)"));
         if (!fileName.isEmpty()) {
             if (!fileName.endsWith(".json")) {
                 QMessageBox msgBox;
@@ -124,6 +191,7 @@ void MainWindow::loadFile(){
                 else {
                     if (container.getSize() != 0)
                                        container.clear();
+                                       unsigned int count=0;//test stampa su list
                     foreach (const QJsonValue& value, arrayJson) {
                                         QJsonObject obj = value.toObject();if (obj.contains("Type") && obj["Type"].isString()) {
                                             QString type = obj["Type"].toString();
@@ -137,10 +205,10 @@ void MainWindow::loadFile(){
                                             else if (type == "TroopSpawner") card = new TroopSpawner();
                                             card->readJson(obj);
                                             container.insert(card);
-                                            string cardList=container[0]->getName()+" ["+ std::to_string(container[0]->getCardLevel())+"]";
+                                            string cardList=container[count]->getName()+" ["+ std::to_string(container[count]->getCardLevel())+"]";
                                             list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-
-                                        }
+                                            count++;
+                                                                                  }
                                }
 
                       }
@@ -151,7 +219,7 @@ void MainWindow::loadFile(){
 
 void MainWindow::saveFile() const{
      if (container.getSize() != 0) {
-        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save container"), "../ClashRoyale/Load&Save", tr("JSON files (*.json)"));
+        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save File"), ".../Load&Save", tr("JSON files (*.json)"));
         if (!fileName.endsWith(".json"))
             fileName.append(".json");
         QJsonArray arrayJson;
@@ -177,21 +245,21 @@ void MainWindow::saveFile() const{
 
 void MainWindow::addCardView(string s){
   //  std::cout<<NameCard;
+
     list->addItem(new QListWidgetItem(QString::fromStdString(s)));
 }
 
 void MainWindow::setWidgetStyle()
 {
-    mainLayout->setSpacing(0);
-
+    mainLayout->setSpacing(6);
     // Imposto le dimensioni
-    setMinimumSize(QSize(500,500));
-    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+   setMinimumSize(QSize(1200,500));
+   setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
-    // Imposto il foglio di stile
-    QFile file(":/Style/test.css");
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
+    //Imposto il foglio di stile
+  // QFile file(":/Style/test.css");
+  // file.open(QFile::ReadOnly);
+  // QString styleSheet = QLatin1String(file.readAll());
 
-    setStyleSheet(styleSheet);
+  // setStyleSheet(styleSheet);
 }
