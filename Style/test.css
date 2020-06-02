@@ -6,9 +6,9 @@
 }
 
 QPushButton {
+    border-radius: 24px;
     margin: 0;
     padding:0;
-    border: 1px solid white;
     background-color: rgb(21,73,99);
 }
 
@@ -17,9 +17,12 @@ QPushButton:hover {
 }
 
 QMenuBar {
- 
+    background-color: rgb(36,88,114);
 }
 
-QMenuBar::item:selected, QMenu::item:selected{
 
+
+
+QMenuBar::item:selected, QMenu::item:selected{
+background-color: rgb(21,73,99);
 }
