@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     addMenu();
     addLeftLayout();
     addRightLayout();
-    //setWidgetStyle();
+    setWidgetStyle();
 
 
     mainWidget->setLayout(mainLayout);
@@ -151,13 +151,10 @@ void MainWindow::addMenu(){
 }
 
 void MainWindow::addRightLayout(){
-
-
-addInfoWidget();
-addInsertWidget();
+    addInfoWidget();
+    addInsertWidget();
     rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
-
 }
 
 void MainWindow::loadFile(){
