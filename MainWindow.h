@@ -41,7 +41,7 @@ private:
     QListWidget* list2;
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
-
+    QMessageBox* popup;
 
     // Toolbar
     QToolBar* toolbar;

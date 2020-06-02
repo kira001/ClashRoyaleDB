@@ -7,7 +7,6 @@
         <file>img/info.png</file>
         <file>img/infobox.png</file>
         <file>img/koko.png</file>
-        <file>img/whitesearch.icns</file>
-        <file>img/whitesearch2.icns</file>
+        <file>img/whitesearch.png</file>
     </qresource>
 </RCC>

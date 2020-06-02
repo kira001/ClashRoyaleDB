@@ -20,9 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     searchbox= new QLineEdit();
     completer= new QCompleter();
     menu =new QMenu("File",menubar);
-    toolbar = new QToolBar();
-    addMenu();
+    popup=new QMessageBox();
 
+    addMenu();
     addLeftLayout();
     addRightLayout();
     setWidgetStyle();
@@ -54,21 +54,24 @@ void MainWindow::infoguide(){
     QPixmap logo = QPixmap(":/img/infobox.png");
     logo = logo.scaledToWidth(150);
     Box.setIconPixmap(logo);
-    Box.setStyleSheet("background-color: rgb(18,18,18); color: rgb(255, 255, 255)");
+    Box.setStyleSheet("background-color: rgb(30,30,30); color: rgb(246,163,5);");
     Box.exec();
 }
 
 void MainWindow::addLeftLayout(){
-    QScrollArea* box= new QScrollArea();
+    QScrollArea* leftbox= new QScrollArea();
 
-    box->setWidget(list);
-    box->setWidgetResizable(true);
-    box->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    leftbox->setWidget(list);
+    leftbox->setWidgetResizable(true);
+    leftbox->setFixedSize(450,400);
+    leftbox->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
     QPushButton* insertButton = new QPushButton("Insert");
     QPushButton* searchButton = new QPushButton("Search");
+    insertButton->setFixedSize(100,50);
+    searchButton->setFixedSize(100,50);
 
 
 
@@ -81,9 +84,9 @@ void MainWindow::addLeftLayout(){
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(searchButton);
     searchbox->setClearButtonEnabled(true);
-    searchbox->addAction(QIcon(":/img/whitesearch2.icns"), QLineEdit::LeadingPosition);
+    searchbox->addAction(QIcon(":/img/whitesearch.png"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
-
+    searchbox->setFixedSize(190,30);
 
     QStringList wordList;
     wordList << "farid" << "koko" << "ian" ; //test Parole da suggerire
@@ -96,9 +99,8 @@ void MainWindow::addLeftLayout(){
          if (container.getSize() > 0)
              findNameCard(searchbox->text());
      });
-
-    leftLayout->addWidget(box);
     leftLayout->addWidget(searchbox);
+    leftLayout->addWidget(leftbox);
     leftLayout->addLayout(buttonLayout);
 
     mainLayout->addLayout(leftLayout);
@@ -123,7 +125,8 @@ void MainWindow::addMenu(){
 
     QAction* save= new QAction("Save",menu);
     QAction* load=new QAction("Load",menu);
-    QAction* info=new QAction(QIcon(":/img/info.png"), "info");
+    QAction* about=new QAction("About");
+    QAction* info=new QAction(QIcon(":img/info.png"), "info"); //Da definire
 
     //Aggiungo le azioni al menu
     menu->addAction(save);
@@ -135,8 +138,10 @@ void MainWindow::addMenu(){
 
     //Aggiungo il menu alla barra
     menubar->addMenu(menu);
+    menubar->addAction(about);
     menubar->addAction(info);
-
+    menubar->setFixedHeight(40);
+    connect(about, &QAction::triggered, [this] { infoguide(); });
     connect(info, &QAction::triggered, [this] { infoguide(); });
 
     // Aggiungo la barra al Layout
