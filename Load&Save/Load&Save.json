@@ -16,6 +16,22 @@
         "Level": 6
     },
    {
+        "Card Name": "Koko",
+        "Count": 2,
+        "Damage per Second": 219.54075,
+        "Description": "koko is a gorilla!!!!",
+        "Health": 2753.8570752,
+        "Hit per Second": 3.7001250000000003,
+        "Mana Cost": 10,
+        "Range": 5,
+        "Rarity": "Comune",
+        "Shield": 41.75732736,
+        "Spawn Death Damage": 57.94740224,
+        "Time Spawn": "Every 7 Seconds",
+        "Type": "Spell-Troop Spawner",
+        "Level": 5
+    },
+   {
         "Card Name": "boby",
         "Count": 2,
         "Damage per Second": 219.54075,
