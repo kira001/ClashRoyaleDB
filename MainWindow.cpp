@@ -13,12 +13,15 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout=new QVBoxLayout(this);
     list = new QListWidget();
     list2 = new QListWidget();
+    stackedWidget = new QStackedWidget();
     menubar= new QMenuBar();
     menu =new QMenu("File",menubar); //inizializzo l'oggetto
     addMenu();
     addLeftLayout();
     addRightLayout();
     //setWidgetStyle();
+
+
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
 
@@ -44,7 +47,7 @@ void MainWindow::addLeftLayout(){
     //connect(insertButton, SIGNAL(clicked()),controller,SLOT(addCard()));
       string NameCard="controller->getLastInsert()";
     connect(insertButton, &QPushButton::clicked, [this] {
-        addCardView(container[0]->getName());
+       setStackedWidgetPage(1);
     });
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(searchButton);
@@ -83,22 +86,12 @@ void MainWindow::addMenu(){
 
 void MainWindow::addRightLayout(){
 
-    QScrollArea* box2= new QScrollArea();
 
-    box2->setWidget(list2);
-    box2->setWidgetResizable(true);
-    box2->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
-    QPushButton* editButton = new QPushButton("Edit");
-
-
-    buttonLayout->addWidget(editButton);
-
-    rightLayout->addWidget(box2);
-    rightLayout->addLayout(buttonLayout);
-
+addInfoWidget();
+addInsertWidget();
+    rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
+
 }
 
 void MainWindow::loadFile(){
@@ -194,4 +187,76 @@ void MainWindow::setWidgetStyle()
     QString styleSheet = QLatin1String(file.readAll());
 
     setStyleSheet(styleSheet);
+}
+
+void MainWindow::addInfoWidget()
+{/*
+
+    QPushButton* insertButton = new QPushButton("Insert");
+    QPushButton* insertButtonn = new QPushButton("load");
+    QPushButton* insertButtonnn = new QPushButton("save");
+
+
+   stackedWidget->addWidget(insertButton);
+   stackedWidget->addWidget(insertButtonn);
+   stackedWidget->addWidget(insertButtonnn);
+
+   QVBoxLayout *layout = new QVBoxLayout;
+   layout->addWidget(stackedWidget);
+
+
+
+
+QPushButton* page1 = new QPushButton("page1");
+     connect(page1, &QPushButton::clicked, [this,stackedWidget] {
+        stackedWidget->setCurrentIndex(0);
+     });
+     QPushButton* page2 = new QPushButton("page2");
+     connect(page2, &QPushButton::clicked, [this,stackedWidget] {
+        stackedWidget->setCurrentIndex(1);
+     });
+     QPushButton* page3 = new QPushButton("page3");
+     connect(page3, &QPushButton::clicked, [this,stackedWidget] {
+        stackedWidget->setCurrentIndex(2);
+     });
+
+     layout->addWidget(page1);
+     layout->addWidget(page2);
+     layout->addWidget(page3);*/
+
+    QScrollArea* box2= new QScrollArea();
+
+    box2->setWidget(list2);
+    box2->setWidgetResizable(true);
+    box2->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
+    QPushButton* editButton = new QPushButton("Edit");
+
+
+    buttonLayout->addWidget(editButton);
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(box2);
+    layout->addLayout(buttonLayout);
+
+    QWidget* infoWidget=new QWidget();
+    infoWidget->setLayout(layout);
+    stackedWidget->addWidget(infoWidget);
+}
+
+void MainWindow::addInsertWidget()
+{
+
+
+    QPushButton* conferma = new QPushButton("page Insert");
+
+
+  //  QWidget* infoWidget=new QWidget();
+  // infoWidget->setLayout(layout);
+    stackedWidget->addWidget(conferma);
+}
+
+void MainWindow::setStackedWidgetPage(int index)
+{
+    stackedWidget->setCurrentIndex(index);
 }

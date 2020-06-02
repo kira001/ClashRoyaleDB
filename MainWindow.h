@@ -23,7 +23,8 @@
 #include <QFileDialog>
 #include <QToolBar>
 #include <QMessageBox>
-
+#include <QStackedWidget>
+#include <QComboBox>
 //stacked W
 class MainWindow : public QMainWindow
 {
@@ -36,6 +37,7 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
+    QStackedWidget *stackedWidget;
 
 
 
@@ -51,6 +53,9 @@ private:
     void addMenu();
     void addRightLayout();
     void setWidgetStyle();
+    void addInfoWidget();
+    void addInsertWidget();
+    void setStackedWidgetPage(int);
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
