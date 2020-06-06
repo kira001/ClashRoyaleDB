@@ -8,5 +8,6 @@
         <file>img/infobox.png</file>
         <file>img/koko.png</file>
         <file>img/whitesearch.png</file>
+        <file>img/insertIcon/hitPerSecond.png</file>
     </qresource>
 </RCC>
