@@ -10,23 +10,27 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(980,620);
 
     mainWidget=new QWidget(this);
+    infoWidget=new QWidget;
     mainLayout=new QHBoxLayout(this);
 
     leftLayout=new QVBoxLayout(this);
     rightLayout=new QVBoxLayout(this);
+    infolayout=new QVBoxLayout;
     list = new QListWidget();
     list2 = new QListWidget();
     stackedWidget = new QStackedWidget();
     menubar= new QMenuBar();
+    toolbar = new QToolBar();
     searchbox= new QLineEdit();
     completer= new QCompleter();
     menu =new QMenu("File",menubar);
     popup=new QMessageBox();
 
+
     addMenu();
     addLeftLayout();
     addRightLayout();
-    //setWidgetStyle();
+    setWidgetStyle();
 
 
     mainWidget->setLayout(mainLayout);
@@ -35,6 +39,30 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow(){
 }
+void MainWindow::setToolBar(){
+    toolbar->setMovable(false);
+    QAction* save= new QAction(QIcon(":img/save.png"),QString("Save Set"));
+    QAction* load=new QAction(QIcon(":img/add.png"),QString("Laad Set"));
+    QAction* info=new QAction(QIcon(":img/question (1).png"),QString("About"));
+    //QAction* DarkWhite=new QAction(QIcon(":img/info.png"), toolbar); //Da definire
+
+    //Aggiungo le azioni al menu
+    toolbar->addAction(load);
+    toolbar->addAction(save);
+    toolbar->addAction(info);
+    //test della funzione loadFile e saveFile
+    connect(load, &QAction::triggered, [this] {loadFile();});
+    connect(save, &QAction::triggered, [this] {saveFile(); });
+    connect(info, &QAction::triggered, [this] {infoguide(); });
+   // Aggiungo la barra al Layout
+  toolbar->setFixedHeight(70);
+  toolbar->addSeparator();
+
+}
+
+
+
+
 
 void MainWindow::resetlist(){
     if (list->count() != 0) {
@@ -50,9 +78,9 @@ void MainWindow::resetlist(){
 }
 void MainWindow::infoguide(){
     QMessageBox Box;
-
-    Box.setWindowTitle("Info");
-    Box.setText("\n\n Welcome to ClashRoyale v1.0 \n\n Developed by \n KokoGorillaTEAM \n\n");
+    Box.setWindowTitle("About");
+    Box.setText("\n\n Welcome to ClashRoyale v1.0");
+    Box.setInformativeText("\n Developed by \n KokoGorillaTEAM \n");
     QPixmap logo = QPixmap(":/img/infobox.png");
     logo = logo.scaledToWidth(150);
     Box.setIconPixmap(logo);
@@ -61,50 +89,58 @@ void MainWindow::infoguide(){
 }
 
 void MainWindow::addLeftLayout(){
-    QScrollArea* leftbox= new QScrollArea();
 
+    QScrollArea* leftbox= new QScrollArea();
     leftbox->setWidget(list);
     leftbox->setWidgetResizable(true);
     leftbox->setFixedSize(450,400);
     leftbox->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
     QPushButton* insertButton = new QPushButton("Insert");
-    QPushButton* searchButton = new QPushButton("Search");
+    QPushButton* deleteButton= new QPushButton("Delete");
     insertButton->setFixedSize(100,50);
-    searchButton->setFixedSize(100,50);
+    deleteButton->setFixedSize(100,50);
+
+
+    //string NameCard="controller->getLastInsert()";
+
+   //connect(insertButton, &QPushButton::clicked, [this] {
+
+   //});
+   // connect(deleteButton, &QPushButton::clicked, [this] {
+
+   // });
 
 
 
 
-    //connect(insertButton, SIGNAL(clicked()),controller,SLOT(addCard()));
-      string NameCard="controller->getLastInsert()";
-    connect(insertButton, &QPushButton::clicked, [this] {
-       setStackedWidgetPage(1);
+    connect(list, &QListWidget::currentRowChanged, [this] {
+      if (list->count()>0)
+    {
+          clearLayout(infolayout);
+          viewCardInfo(list->currentRow());
+          setStackedWidgetPage(1);
+      }
     });
+
+
+
     buttonLayout->addWidget(insertButton);
-    buttonLayout->addWidget(searchButton);
+    buttonLayout->addWidget(deleteButton);
     searchbox->setClearButtonEnabled(true);
     searchbox->addAction(QIcon(":/img/whitesearch.png"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
     searchbox->setFixedSize(190,30);
 
-    QStringList wordList;
-    wordList << "farid" << "koko" << "ian" ; //test Parole da suggerire
-
-    QCompleter *completer = new QCompleter(wordList, searchbox);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    searchbox->setCompleter(completer);
-
-    connect(searchbox, &QLineEdit::textChanged, [this] {
+   connect(searchbox, &QLineEdit::textChanged, [this] {
          if (container.getSize() > 0)
              findNameCard(searchbox->text());
-     });
+              });
+
     leftLayout->addWidget(searchbox);
     leftLayout->addWidget(leftbox);
     leftLayout->addLayout(buttonLayout);
-
     mainLayout->addLayout(leftLayout);
 
 
@@ -125,36 +161,176 @@ void MainWindow::findNameCard(const QString& str){
 
 void MainWindow::addMenu(){
 
-    QAction* save= new QAction("Save",menu);
-    QAction* load=new QAction("Load",menu);
+    QAction* save= new QAction(QIcon(":img/add.png"),"Save Set");
+    QAction* load=new QAction(QIcon(":img/save.png"), "Load Set");
     QAction* about=new QAction("About");
-    QAction* info=new QAction(QIcon(":img/info.png"), "info"); //Da definire
+
 
     //Aggiungo le azioni al menu
     menu->addAction(save);
     menu->addAction(load);
 
+
     //test della funzione loadFile e saveFile
     connect(load, &QAction::triggered, [this] {loadFile();});
-    connect(save, &QAction::triggered, [this] { saveFile(); });
+    connect(save, &QAction::triggered, [this] {saveFile(); });
 
     //Aggiungo il menu alla barra
     menubar->addMenu(menu);
     menubar->addAction(about);
-    menubar->addAction(info);
-    menubar->setFixedHeight(40);
-    connect(about, &QAction::triggered, [this] { infoguide(); });
-    connect(info, &QAction::triggered, [this] { infoguide(); });
+
+    //seletore DarkMode
+
+
+
+    connect(about, &QAction::triggered, [this] {infoguide(); });
+
 
     // Aggiungo la barra al Layout
     setMenuBar(menubar);
 }
 
+
+
+
+void MainWindow::viewCardInfo(int pos)
+{
+
+    QFrame*infoBox = new QFrame;
+    infoBox->setFrameShape(QFrame::HLine);
+    infoBox->setFrameShadow(QFrame::Sunken);
+
+    //Picture+infocardBasic
+    QHBoxLayout* layoutInfoTop=new QHBoxLayout(this);
+    QVBoxLayout* layoutInfoBasic=new QVBoxLayout();
+    QFormLayout* formLayout1 = new QFormLayout;
+    unsigned int fixPos= static_cast<unsigned int>(pos);
+
+    string cardNameLevel=container[fixPos]->getName()+" ["+ std::to_string(container[fixPos]->getCardLevel())+"]";
+    QLabel* NameCard=new QLabel(QString::fromStdString(cardNameLevel));
+    formLayout1->addRow("Type: ", new QLabel(QString::fromStdString(container[fixPos]->getType())));
+    formLayout1->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
+    formLayout1->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
+
+
+    QPixmap logo = QPixmap(":/img/testcard.png");
+    logo = logo.scaledToWidth(150);
+    QLabel* cardLabel=new QLabel();
+    cardLabel->setPixmap(logo);
+
+    cardLabel->setFixedSize(150,150);
+    //Button Edit
+    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
+    QPushButton* editButton = new QPushButton("Edit");
+    editButton->setFixedSize(100,50);
+    buttonLayout->addWidget(editButton);
+
+
+
+   //info Card Base
+  QFormLayout* formLayout = new QFormLayout;
+  formLayout->setHorizontalSpacing(20);
+  formLayout->addRow("Name Card: ", new QLabel(QString::fromStdString(container[fixPos]->getName())));
+  formLayout->addRow("Level: ", new QLabel(QString::number(container[fixPos]->getCardLevel())));
+  formLayout->addRow("Mana Cost: ", new QLabel(QString::number(container[fixPos]->getManaCost())));
+  formLayout->addRow("Type: ", new QLabel(QString::fromStdString(container[fixPos]->getType())));
+  formLayout->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
+  formLayout->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
+  if(container[fixPos]->getType()=="Bulding")
+  {
+      Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
+      formLayout->addRow("Health: ", new QLabel(QString::number(building->getBuildHealth())));
+      formLayout->addRow("Life Time: ", new QLabel(QString::number(building->getLifeTime())));
+
+  }
+  else if(container[fixPos]->getType()=="Spell")
+  {
+    Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
+    formLayout->addRow("Damage: ", new QLabel(QString::number(spell->getSpellDamage())));
+    formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spell->getCrownTowerDamage())));
+    formLayout->addRow("Radius: ", new QLabel(QString::number(spell->getRadius())));
+  }
+  else if(container[fixPos]->getType()=="Troop"){
+      Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
+          formLayout->addRow("Shield: ", new QLabel(QString::number(troop->getShield())));
+          formLayout->addRow("Health: ", new QLabel(QString::number(troop->getTroopHealth())));
+          formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troop->getHitxSec())));
+          formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(troop->getDamagexSec())));
+          formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(troop->getSpawnDD())));
+          formLayout->addRow("Range: ", new QLabel(QString::number(troop->getRange())));
+          formLayout->addRow("Count: ", new QLabel(QString::number(troop->getCount())));
+      }
+  else if(container[fixPos]->getType()=="Attacking Building"){
+      AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
+      formLayout->addRow("Health: ", new QLabel(QString::number(attackingBuilding->getBuildHealth())));
+      formLayout->addRow("Life Time: ", new QLabel(QString::number(attackingBuilding->getLifeTime())));
+      formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(attackingBuilding->getHitPerSecond())));
+      formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(attackingBuilding->getDamagePerSecond())));
+      formLayout->addRow("Range: ", new QLabel(QString::number(attackingBuilding->getRange())));
+    }
+  else if(container[fixPos]->getType()=="Building-Troop Spawner"){
+      BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
+      formLayout->addRow("Building Health: ", new QLabel(QString::number(buildingTroopSpawner->getBuildHealth())));
+      formLayout->addRow("Troop Health: ", new QLabel(QString::number(buildingTroopSpawner->getTroopHealth())));
+      formLayout->addRow("Life Time: ", new QLabel(QString::number(buildingTroopSpawner->getLifeTime())));
+      formLayout->addRow("Spawn Speed: ", new QLabel(QString::number(buildingTroopSpawner->getSpawnSpeed())));
+      formLayout->addRow("Shield: ", new QLabel(QString::number(buildingTroopSpawner->getShield())));
+      formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(buildingTroopSpawner->getHitxSec())));
+      formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(buildingTroopSpawner->getDamagexSec())));
+      formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(buildingTroopSpawner->getSpawnDD())));
+      formLayout->addRow("Range: ", new QLabel(QString::number(buildingTroopSpawner->getRange())));
+      formLayout->addRow("Count: ", new QLabel(QString::number(buildingTroopSpawner->getCount())));
+            }
+  else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
+       SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
+
+       formLayout->addRow("Damage: ", new QLabel(QString::number(spellTroopSpawner->getSpellDamage())));
+       formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spellTroopSpawner->getCrownTowerDamage())));
+       formLayout->addRow("Radius: ", new QLabel(QString::number(spellTroopSpawner->getRadius())));
+       formLayout->addRow("Shield: ", new QLabel(QString::number(spellTroopSpawner->getShield())));
+       formLayout->addRow("Health: ", new QLabel(QString::number(spellTroopSpawner->getTroopHealth())));
+       formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(spellTroopSpawner->getHitxSec())));
+       formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(spellTroopSpawner->getDamagexSec())));
+       formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(spellTroopSpawner->getSpawnDD())));
+       formLayout->addRow("Range: ", new QLabel(QString::number(spellTroopSpawner->getRange())));
+       formLayout->addRow("Count: ", new QLabel(QString::number(spellTroopSpawner->getCount())));
+       formLayout->addRow("Time Spawn: ", new QLabel(QString::number(spellTroopSpawner->getCount())));
+
+      }
+  else if(container[fixPos]->getType()=="TroopSpawner"){
+    TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
+    formLayout->addRow("Shield: ", new QLabel(QString::number(troopSpawner->getShield())));
+    formLayout->addRow("Health: ", new QLabel(QString::number(troopSpawner->getTroopHealth())));
+    formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troopSpawner->getHitxSec())));
+    formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(troopSpawner->getDamagexSec())));
+    formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(troopSpawner->getSpawnDD())));
+    formLayout->addRow("Range: ", new QLabel(QString::number(troopSpawner->getRange())));
+    formLayout->addRow("Count: ", new QLabel(QString::number(troopSpawner->getCount())));
+    formLayout->addRow("Time and Description: ", new QLabel(QString::fromStdString(troopSpawner->getTimeDesc())));
+      }
+  layoutInfoBasic->addWidget(NameCard);
+  layoutInfoBasic->addLayout(formLayout1);
+  layoutInfoTop->addWidget(cardLabel);
+  layoutInfoTop->addLayout(layoutInfoBasic);
+  infoBox->setLayout(layoutInfoTop);
+  infolayout->addLayout(layoutInfoTop);
+  infolayout->addWidget(infoBox);
+  infolayout->addLayout(layoutInfoTop);
+  infolayout->addLayout(formLayout);
+  infolayout->addLayout(buttonLayout);
+  //infolayout->addStretch();
+
+
+  }
+
+
 void MainWindow::addRightLayout(){
 
 
-addInfoWidget();
-addInsertWidget();
+    basicInfoWidget();
+    infoWidget->setLayout(infolayout);
+    stackedWidget->addWidget(infoWidget);
+    //addInsertWidget();
     rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
 
@@ -202,7 +378,8 @@ void MainWindow::loadFile(){
                                             count++;
                                                                                   }
                                }
-
+                    clearLayout(infolayout);
+                    resetlist();
                       }
               }
 
@@ -235,93 +412,77 @@ void MainWindow::saveFile() const{
 
 
 
-void MainWindow::addCardView(string s){
-  //  std::cout<<NameCard;
-
-    list->addItem(new QListWidgetItem(QString::fromStdString(s)));
-}
-
 void MainWindow::setWidgetStyle()
 {
     mainLayout->setSpacing(6);
     // Imposto le dimensioni
-   setMinimumSize(QSize(1200,500));
-   setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+   setMaximumSize(QSize(1200,800));
+   //setMinimumSize(QSize(800,500));
+   setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     //Imposto il foglio di stile
   QFile file(":/Style/test.css");
   file.open(QFile::ReadOnly);
-   QString styleSheet = QLatin1String(file.readAll());
+  QString styleSheet = QLatin1String(file.readAll());
 
   setStyleSheet(styleSheet);
 }
 
-void MainWindow::addInfoWidget()
-{/*
-
-    QPushButton* insertButton = new QPushButton("Insert");
-    QPushButton* insertButtonn = new QPushButton("load");
-    QPushButton* insertButtonnn = new QPushButton("save");
 
 
-   stackedWidget->addWidget(insertButton);
-   stackedWidget->addWidget(insertButtonn);
-   stackedWidget->addWidget(insertButtonnn);
+void MainWindow::basicInfoWidget() //Pagina Iniziale
+{
+    QPixmap logo = QPixmap(":/img/background.png");
+    logo = logo.scaledToWidth(450);
+    QLabel* logoLabel = new QLabel;
+    logoLabel->setPixmap(logo);
+    logoLabel->setStyleSheet("margin-bottom: 2em");
 
-   QVBoxLayout *layout = new QVBoxLayout;
-   layout->addWidget(stackedWidget);
-
-
-
-
-QPushButton* page1 = new QPushButton("page1");
-     connect(page1, &QPushButton::clicked, [this,stackedWidget] {
-        stackedWidget->setCurrentIndex(0);
-     });
-     QPushButton* page2 = new QPushButton("page2");
-     connect(page2, &QPushButton::clicked, [this,stackedWidget] {
-        stackedWidget->setCurrentIndex(1);
-     });
-     QPushButton* page3 = new QPushButton("page3");
-     connect(page3, &QPushButton::clicked, [this,stackedWidget] {
-        stackedWidget->setCurrentIndex(2);
-     });
-
-     layout->addWidget(page1);
-     layout->addWidget(page2);
-     layout->addWidget(page3);*/
-
-    QScrollArea* box2= new QScrollArea();
-
-    box2->setWidget(list2);
-    box2->setWidgetResizable(true);
-    box2->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
-    QPushButton* editButton = new QPushButton("Edit");
-
-
-    buttonLayout->addWidget(editButton);
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(box2);
-    layout->addLayout(buttonLayout);
+    layout->addWidget(logoLabel);
+    QWidget* basicInfo=new QWidget();
+    basicInfo->setLayout(layout);
+    stackedWidget->addWidget(basicInfo);
 
-    QWidget* infoWidget=new QWidget();
-    infoWidget->setLayout(layout);
-    stackedWidget->addWidget(infoWidget);
 }
 
-void MainWindow::addInsertWidget()
+// MainWindow::CardView(string s){
+  //  std::cout<<NameCard;
+
+    //list->addItem(new QListWidgetItem(QString::fromStdString(s)));
+//}
+
+
+int MainWindow::searchItem(int row)
 {
 
+    QListWidgetItem* listItem = list->item(row);
+    string charName = listItem->text().toStdString();
+    unsigned int cont=container.getSize();
+    while(cont){
+       if (container[cont]->getName() == charName)
+         {return static_cast<int>(cont);}
+     }
 
-    QPushButton* conferma = new QPushButton("page Insert");
-
-
-  //  QWidget* infoWidget=new QWidget();
-  // infoWidget->setLayout(layout);
-    stackedWidget->addWidget(conferma);
+     return -1;
 }
+
+
+
+
+void MainWindow::clearLayout(QLayout* layout){
+    while(layout->count() > 0){
+        QLayoutItem* item = layout->takeAt(0);
+        if(QWidget* widget = item->widget()){
+            widget->deleteLater();
+        }
+        else if (QLayout* innerLayout = item->layout()) {
+            clearLayout(innerLayout);
+        }
+        delete item;
+    }
+}
+
 
 void MainWindow::setStackedWidgetPage(int index)
 {

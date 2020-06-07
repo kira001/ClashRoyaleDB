@@ -8,5 +8,10 @@
         <file>img/infobox.png</file>
         <file>img/koko.png</file>
         <file>img/whitesearch.png</file>
+        <file>img/add.png</file>
+        <file>img/save.png</file>
+        <file>img/question.png</file>
+        <file>img/background.png</file>
+        <file>img/testcard.png</file>
     </qresource>
 </RCC>

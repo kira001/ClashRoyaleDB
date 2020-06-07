@@ -25,10 +25,11 @@
 #include <QMessageBox>
 #include <QStackedWidget>
 #include <QComboBox>
-
+#include <QFormLayout>
 #include <QLineEdit>
 #include <QCompleter>
 #include <QLabel>
+#include <QImage>
 
 //stacked W
 class MainWindow : public QMainWindow
@@ -37,8 +38,10 @@ class MainWindow : public QMainWindow
 private:
     Container<DeepPtr<Card>> container;
     QWidget* mainWidget;
+    QWidget* infoWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* leftLayout;
+    QVBoxLayout* infolayout;
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QListWidget* list2;
@@ -54,18 +57,25 @@ private:
     QMenu* menu;
     QMenuBar* menubar;
     // Methods
+    void setToolBar();
     void loadFile();
     void saveFile() const;
     void addLeftLayout();
     void addMenu();
     void addRightLayout();
     void setWidgetStyle();
-    void addInfoWidget();
+    void basicInfoWidget();
+    void viewCardInfo(int);
     void addInsertWidget();
     void setStackedWidgetPage(int);
     void findNameCard(const QString& std);
     void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
     void infoguide();
+    int searchItem(int);
+    void showInfoCard(int);
+    void clearLayout(QLayout*);
+
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
