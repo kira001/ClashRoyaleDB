@@ -17,13 +17,11 @@ QPushButton:hover {
 }
 
 
-QLineEdit {
+QLineEdit,QTextEdit {
 border: 0.5px solid white;
  border-radius: 8px;
  padding-left:3px;
 height:20%;
-width:30px;
-margin-left:20%;
      selection-background-color: darkgray;
  font: 17px;
  }

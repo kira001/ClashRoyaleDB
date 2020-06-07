@@ -311,6 +311,112 @@ QPushButton* page1 = new QPushButton("page1");
 
 void MainWindow::addInsertWidget()
 {
+    //Icone
+    QPixmap cardIcon= QPixmap(":/img/insertIcon/cardType.png");
+    QLabel* cardLabel= new QLabel();
+    cardLabel->setPixmap(cardIcon);
+
+    QPixmap nameIcon= QPixmap(":/img/insertIcon/name.png");
+    QLabel* nameLabel= new QLabel();
+    nameLabel->setPixmap(nameIcon);
+
+    QPixmap manaCostIcon= QPixmap(":/img/insertIcon/manaCost.png");
+    QLabel* manaCostLabel= new QLabel();
+    manaCostLabel->setPixmap(manaCostIcon);
+
+    QPixmap cardRarityIcon= QPixmap(":/img/insertIcon/rarity.png");
+    QLabel* cardRarityLabel= new QLabel();
+    cardRarityLabel->setPixmap(cardRarityIcon);
+
+    QPixmap cardLevelIcon= QPixmap(":/img/insertIcon/level.png");
+    QLabel* cardLevelLabel= new QLabel();
+    cardLevelLabel->setPixmap(cardLevelIcon);
+
+    QPixmap descIcon= QPixmap(":/img/insertIcon/description.png");
+    QLabel* descLabel= new QLabel();
+    descLabel->setPixmap(descIcon);
+
+    /***************    TROOP ICON    *****************/
+    QPixmap shieldTroopIcon= QPixmap(":/img/insertIcon/shield.png");
+    QLabel* shieldTroopLabel= new QLabel();
+    shieldTroopLabel->setPixmap(shieldTroopIcon);
+
+    QPixmap healthTroopIcon= QPixmap(":/img/insertIcon/health.png");
+    QLabel* healthTroopLabel= new QLabel();
+    healthTroopLabel->setPixmap(healthTroopIcon);
+
+    QPixmap hitPerSecondTroopIcon= QPixmap(":/img/insertIcon/hitPerSecond.png");
+    QLabel* hitPerSecondTroopLabel= new QLabel();
+    hitPerSecondTroopLabel->setPixmap(hitPerSecondTroopIcon);
+
+    QPixmap damagePerSecondTroopIcon= QPixmap(":/img/insertIcon/damagePerSecond.png");
+    QLabel* damagePerSecondTroopLabel= new QLabel();
+    damagePerSecondTroopLabel->setPixmap(damagePerSecondTroopIcon);
+
+    QPixmap spawnDDTroopIcon= QPixmap(":/img/insertIcon/spawnDD.png");
+    QLabel* spawnDDTroopLabel= new QLabel();
+    spawnDDTroopLabel->setPixmap(spawnDDTroopIcon);
+
+    QPixmap rangeTroopIcon= QPixmap(":/img/insertIcon/range.png");
+    QLabel* rangeTroopLabel= new QLabel();
+    rangeTroopLabel->setPixmap(rangeTroopIcon);
+
+    QPixmap countTroopIcon= QPixmap(":/img/insertIcon/count.png");
+    QLabel* countTroopLabel= new QLabel();
+    countTroopLabel->setPixmap(countTroopIcon);
+
+    /***************    SPELL ICON    *****************/
+    QPixmap dmgSpellIcon= QPixmap(":/img/insertIcon/dmg.png");
+    QLabel* dmgSpellLabel= new QLabel();
+    dmgSpellLabel->setPixmap(dmgSpellIcon);
+
+    QPixmap crownTowerDmgSpellIcon= QPixmap(":/img/insertIcon/crownTowerDamage.png");
+    QLabel* crownTowerDmgSpellLabel= new QLabel();
+    crownTowerDmgSpellLabel->setPixmap(crownTowerDmgSpellIcon);
+
+    QPixmap radiusSpellIcon= QPixmap(":/img/insertIcon/radius.png");
+    QLabel* radiusSpellLabel= new QLabel();
+    radiusSpellLabel->setPixmap(radiusSpellIcon);
+
+    /***************    BUILDING ICON    *****************/
+    QPixmap healthBuildingIcon= QPixmap(":/img/insertIcon/health.png");
+    QLabel* healthBuildingLabel= new QLabel();
+    healthBuildingLabel->setPixmap(healthBuildingIcon);
+
+    QPixmap lifeTimeBuildingIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+    QLabel* lifeTimeBuildingLabel= new QLabel();
+    lifeTimeBuildingLabel->setPixmap(lifeTimeBuildingIcon);
+
+    /***************    TROOP-SPAWNER ICON    *****************/
+    QPixmap spawnTimeTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+    QLabel* spawnTimeTroopSpawnerLabel= new QLabel();
+    spawnTimeTroopSpawnerLabel->setPixmap(spawnTimeTroopSpawnerIcon);
+
+    /***************    SPELL-TROOP-SPAWNER ICON    *****************/
+    QPixmap spawnTimeSpellTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+    QLabel* spawnTimeSpellTroopSpawnerLabel= new QLabel();
+    spawnTimeSpellTroopSpawnerLabel->setPixmap(spawnTimeSpellTroopSpawnerIcon);
+    /***************    BUILDING-TROOP-SPAWNER ICON    *****************/
+    QPixmap spawnSpeedBuildingTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+    QLabel* spawnSpeedBuildingTroopSpawnerLabel= new QLabel();
+    spawnSpeedBuildingTroopSpawnerLabel->setPixmap(spawnSpeedBuildingTroopSpawnerIcon);
+    /***************    ATTACKING-BUILDING ICON    *****************/
+    QPixmap hitPerSecondAttackingBuildingIcon= QPixmap(":/img/insertIcon/hitPerSecond.png");
+    QLabel* hitPerSecondAttackingBuildingLabel= new QLabel();
+    hitPerSecondAttackingBuildingLabel->setPixmap(hitPerSecondAttackingBuildingIcon);
+
+    QPixmap damagePerSecondAttackingBuildingIcon= QPixmap(":/img/insertIcon/damagePerSecond.png");
+    QLabel* damagePerSecondAttackingBuildingLabel= new QLabel();
+    damagePerSecondAttackingBuildingLabel->setPixmap(damagePerSecondAttackingBuildingIcon);
+
+
+    QPixmap rangeAttackingBuildingIcon= QPixmap(":/img/insertIcon/range.png");
+    QLabel* rangeAttackingBuildingLabel= new QLabel();
+    rangeAttackingBuildingLabel->setPixmap(rangeAttackingBuildingIcon);
+
+    /***********************/
+
+
     QStringList classList = {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                              "Building troop spawner", "Attacking building"};
     QComboBox* comboClassEdit = new QComboBox;
@@ -321,34 +427,41 @@ void MainWindow::addInsertWidget()
     // Name
     QLineEdit* nameEdit = new QLineEdit();
     nameEdit->setMaxLength(20);
+    nameEdit->setPlaceholderText("Card name");
+
 
     // manaCost
     QLineEdit* manaCostEdit = new QLineEdit();
     QValidator* manaCostValidator = new QIntValidator(1, 10);
     manaCostEdit->setValidator(manaCostValidator);
+    manaCostEdit->setPlaceholderText("Mana cost (max:10)");
+
 
     // cardRarity
-    QStringList classRarity = {"Select rarity","Common","Rare","Epic","Legendary"};
+    QStringList cardRarity = {"Select rarity","Common","Rare","Epic","Legendary"};
     QComboBox* comboRarity = new QComboBox;
-    comboRarity->addItems(classRarity);
+    comboRarity->addItems(cardRarity);
     comboRarity->insertSeparator(1);
 
     // cardLevel
     QLineEdit* cardLevelEdit = new QLineEdit();
     QValidator* cardLevelValidator = new QIntValidator(1, 13);
     cardLevelEdit->setValidator(cardLevelValidator);
+    manaCostEdit->setPlaceholderText("Level (max:13)");
+
 
     // Descrizione
     QTextEdit* descEdit = new QTextEdit();
+    descEdit->setPlaceholderText("Description");
 
     // -----> CardForm <------
     QFormLayout* formLayout= new QFormLayout();
-    formLayout->insertRow(0, "Card type", comboClassEdit);
-    formLayout->insertRow(1, "Name", nameEdit);
-    formLayout->insertRow(2, "Mana cost (max:10)",manaCostEdit);
-    formLayout->insertRow(3, "Rarity",comboRarity);
-    formLayout->insertRow(4, "Level (max:13)",cardLevelEdit);
-    formLayout->insertRow(5, "Descrizione", descEdit);
+    formLayout->insertRow(0, cardLabel, comboClassEdit);
+    formLayout->insertRow(1, nameLabel, nameEdit);
+    formLayout->insertRow(2, manaCostLabel,manaCostEdit);
+    formLayout->insertRow(3, cardRarityLabel,comboRarity);
+    formLayout->insertRow(4, cardLevelLabel,cardLevelEdit);
+    formLayout->insertRow(5, descLabel, descEdit);
 
 
 
@@ -357,11 +470,13 @@ void MainWindow::addInsertWidget()
     QLineEdit* shieldEdit = new QLineEdit();
     QValidator* shieldValidator = new QDoubleValidator(0,99999,6);
     shieldEdit->setValidator(shieldValidator);
+    shieldEdit->setPlaceholderText("Shield");
 
     //troopHealth
     QLineEdit* troopHealthEdit = new QLineEdit();
     QValidator* troopHealthValidator = new QDoubleValidator(0,99999,6);
     troopHealthEdit->setValidator(troopHealthValidator);
+    troopHealthEdit->setPlaceholderText("Troop healt");
 
     //hitxSec
     QLineEdit* hitPerSecondTroopEdit = new QLineEdit();
@@ -373,34 +488,36 @@ void MainWindow::addInsertWidget()
     QLineEdit* damagePerSecondTroopEdit = new QLineEdit();
     QValidator* damagePerSecondTroopValidator = new QDoubleValidator(0,99999,6);
     damagePerSecondTroopEdit->setValidator(damagePerSecondTroopValidator);
+    damagePerSecondTroopEdit->setPlaceholderText("Damage (per second)");
 
     //spawnDD--->SpawnDeathDamage
     QLineEdit* spawnDDEdit = new QLineEdit();
     QValidator* spawnDDValidator = new QDoubleValidator(0,99999,6);
     spawnDDEdit->setValidator(spawnDDValidator);
+    spawnDDEdit->setPlaceholderText("Spawn/Death Damage");
 
     //range
     QLineEdit* rangeTroopEdit = new QLineEdit();
     QValidator* rangeTroopValidator = new QDoubleValidator(0,99999,6);
     rangeTroopEdit->setValidator(rangeTroopValidator);
+    rangeTroopEdit->setPlaceholderText("Troop range");
 
     //count
     QLineEdit* countEdit = new QLineEdit();
     QValidator* countValidator = new QIntValidator(1, 99999);
     countEdit->setValidator(countValidator);
+    countEdit->setPlaceholderText("Count");
 
-    QPixmap hitPerSecondIcon= QPixmap(":/img/insertIcon/hitPerSecond.png");
-    QLabel* hitPerSecondLabel= new QLabel();
-    hitPerSecondLabel->setPixmap(hitPerSecondIcon);
+
     // -----> TroopForm <------
     QFormLayout* troopFormLayout= new QFormLayout();
-    troopFormLayout->addRow("Shield", shieldEdit);
-    troopFormLayout->addRow("Troop healt", troopHealthEdit);
-    troopFormLayout->addRow( hitPerSecondLabel,hitPerSecondTroopEdit);
-    troopFormLayout->addRow("Damage (per second)", damagePerSecondTroopEdit);
-    troopFormLayout->addRow("Spawn/Death Damage", spawnDDEdit);
-    troopFormLayout->addRow("Troop range", rangeTroopEdit);
-    troopFormLayout->addRow("Count", countEdit);
+    troopFormLayout->addRow(shieldTroopLabel, shieldEdit);
+    troopFormLayout->addRow(healthTroopLabel, troopHealthEdit);
+    troopFormLayout->addRow( hitPerSecondTroopLabel,hitPerSecondTroopEdit);
+    troopFormLayout->addRow(damagePerSecondTroopLabel, damagePerSecondTroopEdit);
+    troopFormLayout->addRow(spawnDDTroopLabel, spawnDDEdit);
+    troopFormLayout->addRow(rangeTroopLabel, rangeTroopEdit);
+    troopFormLayout->addRow(countTroopLabel, countEdit);
 
 
 
@@ -409,22 +526,26 @@ void MainWindow::addInsertWidget()
     QLineEdit* spellDamageEdit = new QLineEdit();
     QValidator* spellDamageValidator = new QDoubleValidator(0,99999,6);
     spellDamageEdit->setValidator(spellDamageValidator);
+    spellDamageEdit->setPlaceholderText("Spell damage");
+
 
     //crownTowerDamage
     QLineEdit* crownTowerDamageEdit = new QLineEdit();
     QValidator* crownTowerDamageValidator = new QDoubleValidator(0,99999,6);
     crownTowerDamageEdit->setValidator(crownTowerDamageValidator);
+    crownTowerDamageEdit->setPlaceholderText("Spell tower damage");
 
     //radius
     QLineEdit* radiusEdit = new QLineEdit();
     QValidator* radiusValidator = new QDoubleValidator(0,99999,6);
     radiusEdit->setValidator(radiusValidator);
+    radiusEdit->setPlaceholderText("Radius");
 
     // -----> SpellForm <-----
     QFormLayout* spellFormLayout= new QFormLayout();
-    spellFormLayout->addRow("Spell damage", spellDamageEdit);
-    spellFormLayout->addRow("Tower damage", crownTowerDamageEdit);
-    spellFormLayout->addRow("Radius", radiusEdit);
+    spellFormLayout->addRow(dmgSpellLabel, spellDamageEdit);
+    spellFormLayout->addRow(crownTowerDmgSpellLabel, crownTowerDamageEdit);
+    spellFormLayout->addRow(radiusSpellLabel, radiusEdit);
 
 
 
@@ -433,16 +554,19 @@ void MainWindow::addInsertWidget()
     QLineEdit* buildHealthEdit = new QLineEdit();
     QValidator* buildHealthValidator = new QDoubleValidator(0,99999,6);
     buildHealthEdit->setValidator(buildHealthValidator);
+    buildHealthEdit->setPlaceholderText("Build health");
 
     //lifeTime
     QLineEdit* lifeTimeEdit = new QLineEdit();
     QValidator* lifeTimeValidator = new QDoubleValidator(0,99999,6);
     lifeTimeEdit->setValidator(lifeTimeValidator);
+    lifeTimeEdit->setPlaceholderText("Life time");
+
 
     // -----> BuildingForm <-----
     QFormLayout* buildingFormLayout= new QFormLayout();
-    buildingFormLayout->addRow("Troop health", buildHealthEdit);
-    buildingFormLayout->addRow("Life time", lifeTimeEdit);
+    buildingFormLayout->addRow(healthBuildingLabel, buildHealthEdit);
+    buildingFormLayout->addRow(lifeTimeBuildingLabel, lifeTimeEdit);
 
 
 
@@ -451,10 +575,11 @@ void MainWindow::addInsertWidget()
     // TimeDesc
     QLineEdit* timeDescEdit = new QLineEdit();
     timeDescEdit->setMaxLength(50);
+    timeDescEdit->setPlaceholderText("Time and description of the cause");
 
     // -----> TroopSpawnerForm <-----
     QFormLayout* troopSpawnerFormLayout= new QFormLayout();
-    troopSpawnerFormLayout->addRow("Time and description of the cause", timeDescEdit);
+    troopSpawnerFormLayout->addRow(spawnTimeTroopSpawnerLabel, timeDescEdit);
 
 
 
@@ -463,10 +588,11 @@ void MainWindow::addInsertWidget()
     // TimeDesc
     QLineEdit* timeSpawnEdit = new QLineEdit();
     timeSpawnEdit->setMaxLength(50);
+    timeSpawnEdit->setPlaceholderText("Time and description of the cause");
 
     // -----> SpellTroopSpawnerForm <-----
     QFormLayout* spellTroopSpawnerFormLayout= new QFormLayout();
-    spellTroopSpawnerFormLayout->addRow("Time and description of the cause", timeSpawnEdit);
+    spellTroopSpawnerFormLayout->addRow(spawnTimeSpellTroopSpawnerLabel, timeSpawnEdit);
 
 
     /*******************    BUILDING-TROOP-SPAWNER  ********************/
@@ -475,10 +601,11 @@ void MainWindow::addInsertWidget()
     QLineEdit* spawnSpeedEdit = new QLineEdit();
     QValidator* spawnSpeedValidator = new QDoubleValidator(0,99999,6);
     spawnSpeedEdit->setValidator(spawnSpeedValidator);
+    spawnSpeedEdit->setPlaceholderText("Spawn speed(in sec)");
 
     // -----> BuildingTroopSpawnerForm <-----
     QFormLayout* buildingTroopSpawnerFormLayout= new QFormLayout();
-    buildingTroopSpawnerFormLayout->addRow("Spawn speed(in sec)", spawnSpeedEdit);
+    buildingTroopSpawnerFormLayout->addRow(spawnSpeedBuildingTroopSpawnerLabel, spawnSpeedEdit);
 
 
     /*******************   ATTACKING BUILDING   ********************/
@@ -489,22 +616,25 @@ void MainWindow::addInsertWidget()
     QLineEdit* hitPerSecondAttBuildingEdit = new QLineEdit();
     QValidator* hitPerSecondAttBuildingValidator = new QDoubleValidator(0,99999,6);
     hitPerSecondAttBuildingEdit->setValidator(hitPerSecondAttBuildingValidator);
+    hitPerSecondAttBuildingEdit->setPlaceholderText("Hit (per second)");
 
     // damagePerSecond
     QLineEdit* damagePerSecondAttBuildingEdit = new QLineEdit();
     QValidator* damagePerSecondAttBuildingValidator = new QDoubleValidator(0,99999,6);
     damagePerSecondAttBuildingEdit->setValidator(damagePerSecondAttBuildingValidator);
+    damagePerSecondAttBuildingEdit->setPlaceholderText("Damage (per second)");
 
     // range
     QLineEdit* rangeAttBuildingEdit = new QLineEdit();
     QValidator* rangeAttBuildingValidator = new QDoubleValidator(0,99999,6);
     rangeAttBuildingEdit->setValidator(rangeAttBuildingValidator);
+    rangeAttBuildingEdit->setPlaceholderText("Range");
 
     // -----> AttackingBuildingForm <-----
     QFormLayout* attckingBuildingFormLayout= new QFormLayout();
-    attckingBuildingFormLayout->addRow("Hit (per second)", hitPerSecondAttBuildingEdit);
-    attckingBuildingFormLayout->addRow("Damage (per second)", damagePerSecondAttBuildingEdit);
-    attckingBuildingFormLayout->addRow("Range", rangeAttBuildingEdit);
+    attckingBuildingFormLayout->addRow(hitPerSecondAttackingBuildingLabel, hitPerSecondAttBuildingEdit);
+    attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
+    attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
 
 
 
