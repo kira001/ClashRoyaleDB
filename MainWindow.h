@@ -52,7 +52,8 @@ private:
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
     QMessageBox* popup;
-
+    QComboBox* filterTypeBox;
+    QComboBox* filterRarityBox;
     // Toolbar
     QToolBar* toolbar;
     // Menu
@@ -73,10 +74,11 @@ private:
     void findNameCard(const QString& std);
     void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
     void infoguide();
-    int searchItem(int);
+    int findListItemInContainer(int itemPos) const;
     void showInfoCard(int);
     void clearLayout(QLayout*);
-
+    void filterTypeRarity(const QString& type, const QString &rarity);
+    void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
 
 public:
     MainWindow(QWidget *parent = nullptr);

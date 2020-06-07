@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     menu =new QMenu("File",menubar);
     popup=new QMessageBox();
     insertWidget=new QWidget();
-
+    filterTypeBox=new QComboBox();
+    filterRarityBox=new QComboBox();
 
 
     addMenu();
@@ -43,9 +44,9 @@ MainWindow::~MainWindow(){
 }
 void MainWindow::setToolBar(){
     toolbar->setMovable(false);
-    QAction* save= new QAction(QIcon(":img/save.png"),QString("Save Set"));
-    QAction* load=new QAction(QIcon(":img/add.png"),QString("Laad Set"));
-    QAction* info=new QAction(QIcon(":img/question (1).png"),QString("About"));
+    QAction* save= new QAction(QIcon(":img/save.png"),QString("Save Set"),this);
+    QAction* load=new QAction(QIcon(":img/add.png"),QString("Laad Set"),this);
+    QAction* info=new QAction(QIcon(":img/question (1).png"),QString("About"),this);
     //QAction* DarkWhite=new QAction(QIcon(":img/info.png"), toolbar); //Da definire
 
     //Aggiungo le azioni al menu
@@ -137,11 +138,55 @@ void MainWindow::addLeftLayout(){
 
    connect(searchbox, &QLineEdit::textChanged, [this] {
          if (container.getSize() > 0)
-             findNameCard(searchbox->text());
+             combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
    connect(insertButton, &QPushButton::clicked, [this] {
       setStackedWidgetPage(2);
    });
+   connect(deleteButton, &QPushButton::clicked, [this] {
+       if (list->count() > 0 && list->currentRow() != -1) {
+           container.remove(findListItemInContainer(list->currentRow()));
+           list->takeItem(list->currentRow());
+       }
+   });
+   filterTypeBox->addItem("All");
+   filterTypeBox->addItem("Spell");
+   filterTypeBox->addItem("Troop");
+   filterTypeBox->addItem("Building");
+   filterTypeBox->addItem("Attacking Building");
+   filterTypeBox->addItem("Building-Troop Spawner");
+   filterTypeBox->addItem("Spell-Troop Spawner");
+   filterTypeBox->addItem("Troop Spawner");
+   connect(filterTypeBox, &QComboBox::currentTextChanged,[this]{
+       if(container.getSize()>0)
+          combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
+   });
+
+   filterRarityBox->addItem("All");
+   filterRarityBox->addItem("Comune");
+   filterRarityBox->addItem("Rara");
+   filterRarityBox->addItem("Epica");
+   filterRarityBox->addItem("Leggendaria");
+   connect(filterRarityBox, &QComboBox::currentTextChanged,[this]{
+       if(container.getSize()>0)
+           combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
+   });
+   /* TEST PER I FILTRI
+   DeepPtr<Card> spell= new Spell("Spell1",10,Card::StringToRarity("Comune"),1,"koko is a gorilla!!!!",500,300,3);
+   DeepPtr<Card> spell2= new Spell("Spell2",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300,3);
+   DeepPtr<Card> build= new Building("building",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300);
+   DeepPtr<Card> build2= new Building("bulding2",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300);
+   DeepPtr<Card> build3= new Building("bulding3",10,Card::StringToRarity("Leggendaria"),1,"koko is a gorilla!!!!",500,300);
+   container.insert(spell);
+   container.insert(spell2);
+   container.insert(build);
+   container.insert(build2);
+   container.insert(build3);
+   resetlist();
+    */
+
+    leftLayout->addWidget(filterRarityBox);
+    leftLayout->addWidget(filterTypeBox);
     leftLayout->addWidget(searchbox);
     leftLayout->addWidget(leftbox);
     leftLayout->addLayout(buttonLayout);
@@ -151,7 +196,7 @@ void MainWindow::addLeftLayout(){
 }
 void MainWindow::findNameCard(const QString& str){
 
-    resetlist();
+
     for (int i = 0; i < list->count(); ++i) {
         QListWidgetItem* listItem = list->item(i);
         if (!listItem->text().toUpper().contains(str.toUpper())) {
@@ -165,9 +210,9 @@ void MainWindow::findNameCard(const QString& str){
 
 void MainWindow::addMenu(){
 
-    QAction* save= new QAction(QIcon(":img/add.png"),"Save Set");
-    QAction* load=new QAction(QIcon(":img/save.png"), "Load Set");
-    QAction* about=new QAction("About");
+    QAction* save= new QAction(QIcon(":img/add.png"),"Save Set", this);
+    QAction* load=new QAction(QIcon(":img/save.png"), "Load Set", this);
+    QAction* about=new QAction("About", this);
 
 
     //Aggiungo le azioni al menu
@@ -934,18 +979,14 @@ void MainWindow::basicInfoWidget() //Pagina Iniziale
 //}
 
 
-int MainWindow::searchItem(int row)
-{
-
-    QListWidgetItem* listItem = list->item(row);
-    string charName = listItem->text().toStdString();
-    unsigned int cont=container.getSize();
-    while(cont){
-       if (container[cont]->getName() == charName)
-         {return static_cast<int>(cont);}
-     }
-
-     return -1;
+int MainWindow::findListItemInContainer(int itemPos) const{
+    if (itemPos != -1) {
+        for (int i = 0; i < container.getSize(); ++i) {
+            if (QString::fromStdString(container[i]->getName()) == list->item(itemPos)->text())
+            return i;
+        }
+    }
+    return -1;
 }
 
 
@@ -968,4 +1009,51 @@ void MainWindow::clearLayout(QLayout* layout){
 void MainWindow::setStackedWidgetPage(int index)
 {
     stackedWidget->setCurrentIndex(index);
+}
+
+void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
+
+    if(type=="All"&&rarity=="All") resetlist();
+    /*else{
+        for(int i=0; i<container.getSize(); ++i)
+            if(QString::fromStdString(container[i]->getType())== type)
+                list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+    }*/
+
+    if(rarity!= "All"){
+        list->reset();
+        list->clear();
+        if(type=="All"){
+            for(int i=0; i<container.getSize(); ++i)
+                if(QString::fromStdString(container[i]->RarityToString())== rarity)
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+        }
+        else{
+            for(int i=0; i<container.getSize(); ++i)
+                if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+        }
+    }
+
+    if(type!= "All"){
+        list->reset();
+        list->clear();
+        if(rarity=="All"){
+            for(int i=0; i<container.getSize(); ++i)
+                if(QString::fromStdString(container[i]->getType())== type)
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+        }
+        else{
+            for(int i=0; i<container.getSize(); ++i)
+                if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+        }
+    }
+}
+
+void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt){
+    list->reset();
+    list->clear();
+    filterTypeRarity(filterTypeTxt, filterRarityTxt);
+    findNameCard(searchTxt);
 }
