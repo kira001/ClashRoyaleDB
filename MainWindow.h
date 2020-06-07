@@ -25,13 +25,12 @@
 #include <QMessageBox>
 #include <QStackedWidget>
 #include <QComboBox>
-#include <QTextEdit>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QCompleter>
 #include <QLabel>
 #include <QImage>
-
+#include<QTextEdit>
 //stacked W
 class MainWindow : public QMainWindow
 {
@@ -45,10 +44,11 @@ private:
     QVBoxLayout* infolayout;
     QVBoxLayout* rightLayout;
     QListWidget* list;
+    QWidget* insertWidget;
+
     QListWidget* list2;
     QStackedWidget *stackedWidget;
 
-    QWidget* insertWidget;
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
     QMessageBox* popup;

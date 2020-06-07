@@ -8,22 +8,27 @@
         <file>img/infobox.png</file>
         <file>img/koko.png</file>
         <file>img/whitesearch.png</file>
-        <file>img/insertIcon/hitPerSecond.png</file>
-        <file>img/insertIcon/rarity.png</file>
+        <file>img/add.png</file>
+        <file>img/save.png</file>
+        <file>img/question.png</file>
+        <file>img/background.png</file>
+        <file>img/testcard.png</file>
+        <file>img/insertIcon/cardType.png</file>
         <file>img/insertIcon/count.png</file>
+        <file>img/insertIcon/crownTowerDamage.png</file>
         <file>img/insertIcon/damagePerSecond.png</file>
+        <file>img/insertIcon/description.png</file>
         <file>img/insertIcon/dmg.png</file>
         <file>img/insertIcon/health.png</file>
-        <file>img/insertIcon/manaCost.png</file>
-        <file>img/insertIcon/range.png</file>
-        <file>img/insertIcon/spawnDD.png</file>
-        <file>img/insertIcon/shield.png</file>
-        <file>img/insertIcon/cardType.png</file>
+        <file>img/insertIcon/hitPerSecond.png</file>
         <file>img/insertIcon/level.png</file>
-        <file>img/insertIcon/description.png</file>
-        <file>img/insertIcon/name.png</file>
-        <file>img/insertIcon/crownTowerDamage.png</file>
-        <file>img/insertIcon/radius.png</file>
         <file>img/insertIcon/lifeTime.png</file>
+        <file>img/insertIcon/manaCost.png</file>
+        <file>img/insertIcon/name.png</file>
+        <file>img/insertIcon/radius.png</file>
+        <file>img/insertIcon/range.png</file>
+        <file>img/insertIcon/rarity.png</file>
+        <file>img/insertIcon/shield.png</file>
+        <file>img/insertIcon/spawnDD.png</file>
     </qresource>
 </RCC>
