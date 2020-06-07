@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include <QStackedWidget>
 #include <QComboBox>
+#include <QTextEdit>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QCompleter>
@@ -47,6 +48,7 @@ private:
     QListWidget* list2;
     QStackedWidget *stackedWidget;
 
+    QWidget* insertWidget;
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
     QMessageBox* popup;

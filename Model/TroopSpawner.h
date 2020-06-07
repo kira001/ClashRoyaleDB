@@ -5,7 +5,7 @@
 
 class TroopSpawner: public Troop {
 private:
-    string TimeDesc; //time and description
+    string timeDesc; //time and description
 public:
     // CONSTRUCTORS/DESTRUCTORS
     TroopSpawner()=default;
