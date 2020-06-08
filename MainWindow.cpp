@@ -73,7 +73,7 @@ void MainWindow::resetlist(){
         list->clear();
     }
     for (unsigned int i = 0; i < container.getSize(); ++i)
-   { string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
+   { string c=container[i]->getName();
     list->addItem(new QListWidgetItem(QString::fromStdString(c)));
     }
 
@@ -122,7 +122,7 @@ void MainWindow::addLeftLayout(){
       if (list->count()>0)
     {
           clearLayout(infolayout);
-          viewCardInfo(list->currentRow());
+          viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
       }
     });
@@ -183,7 +183,7 @@ void MainWindow::addLeftLayout(){
    container.insert(build2);
    container.insert(build3);
    resetlist();
-    */
+   */
 
     leftLayout->addWidget(filterRarityBox);
     leftLayout->addWidget(filterTypeBox);
@@ -244,7 +244,7 @@ void MainWindow::addMenu(){
 
 void MainWindow::viewCardInfo(int pos)
 {
-
+ if(pos!=-1){
     QFrame*infoBox = new QFrame;
     infoBox->setFrameShape(QFrame::HLine);
     infoBox->setFrameShadow(QFrame::Sunken);
@@ -368,7 +368,7 @@ void MainWindow::viewCardInfo(int pos)
   infolayout->addLayout(formLayout);
   infolayout->addLayout(buttonLayout);
   //infolayout->addStretch();
-
+}
 
   }
 
