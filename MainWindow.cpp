@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     list2 = new QListWidget();
     stackedWidget = new QStackedWidget();
     menubar= new QMenuBar();
-    toolbar = new QToolBar();
     searchbox= new QLineEdit();
     completer= new QCompleter();
     menu =new QMenu("File",menubar);
@@ -42,28 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow(){
 }
-void MainWindow::setToolBar(){
-    toolbar->setMovable(false);
-    QAction* save= new QAction(QIcon(":img/save.png"),QString("Save Set"),this);
-    QAction* load=new QAction(QIcon(":img/add.png"),QString("Laad Set"),this);
-    QAction* info=new QAction(QIcon(":img/question (1).png"),QString("About"),this);
-    //QAction* DarkWhite=new QAction(QIcon(":img/info.png"), toolbar); //Da definire
-
-    //Aggiungo le azioni al menu
-    toolbar->addAction(load);
-    toolbar->addAction(save);
-    toolbar->addAction(info);
-    //test della funzione loadFile e saveFile
-    connect(load, &QAction::triggered, [this] {loadFile();});
-    connect(save, &QAction::triggered, [this] {saveFile(); });
-    connect(info, &QAction::triggered, [this] {infoguide(); });
-   // Aggiungo la barra al Layout
-  toolbar->setFixedHeight(70);
-  toolbar->addSeparator();
-
-}
-
-
 
 
 
@@ -73,7 +50,11 @@ void MainWindow::resetlist(){
         list->clear();
     }
     for (unsigned int i = 0; i < container.getSize(); ++i)
-   { string c=container[i]->getName();
+   {
+    //crasha tutttooooo
+    //string cardList=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
+    //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
+    string c=container[i]->getName();
     list->addItem(new QListWidgetItem(QString::fromStdString(c)));
     }
 
@@ -104,19 +85,7 @@ void MainWindow::addLeftLayout(){
     QPushButton* deleteButton= new QPushButton("Delete");
     insertButton->setFixedSize(100,50);
     deleteButton->setFixedSize(100,50);
-
-
-    //string NameCard="controller->getLastInsert()";
-
-   //connect(insertButton, &QPushButton::clicked, [this] {
-
-   //});
-   // connect(deleteButton, &QPushButton::clicked, [this] {
-
-   // });
-
-
-
+    QHBoxLayout* searchLayout= new QHBoxLayout(this);
 
     connect(list, &QListWidget::currentRowChanged, [this] {
       if (list->count()>0)
@@ -127,10 +96,9 @@ void MainWindow::addLeftLayout(){
       }
     });
 
-
-
     buttonLayout->addWidget(insertButton);
     buttonLayout->addWidget(deleteButton);
+
     searchbox->setClearButtonEnabled(true);
     searchbox->addAction(QIcon(":/img/whitesearch.png"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
@@ -149,6 +117,7 @@ void MainWindow::addLeftLayout(){
            list->takeItem(list->currentRow());
        }
    });
+
    filterTypeBox->addItem("All");
    filterTypeBox->addItem("Spell");
    filterTypeBox->addItem("Troop");
@@ -158,9 +127,10 @@ void MainWindow::addLeftLayout(){
    filterTypeBox->addItem("Spell-Troop Spawner");
    filterTypeBox->addItem("Troop Spawner");
    connect(filterTypeBox, &QComboBox::currentTextChanged,[this]{
-       if(container.getSize()>0)
+           if(container.getSize()>0)
           combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
+
 
    filterRarityBox->addItem("All");
    filterRarityBox->addItem("Comune");
@@ -185,9 +155,13 @@ void MainWindow::addLeftLayout(){
    resetlist();
    */
 
-    leftLayout->addWidget(filterRarityBox);
-    leftLayout->addWidget(filterTypeBox);
-    leftLayout->addWidget(searchbox);
+
+    filterTypeBox->setFixedSize(150,30);
+    filterRarityBox->setFixedSize(80,30);
+    searchLayout->addWidget(searchbox);
+    searchLayout->addWidget(filterTypeBox);
+    searchLayout->addWidget(filterRarityBox);
+    leftLayout->addLayout(searchLayout);
     leftLayout->addWidget(leftbox);
     leftLayout->addLayout(buttonLayout);
     mainLayout->addLayout(leftLayout);
@@ -374,7 +348,6 @@ void MainWindow::viewCardInfo(int pos)
 
 
 void MainWindow::addRightLayout(){
-
 
     basicInfoWidget();
     infoWidget->setLayout(infolayout);
@@ -710,11 +683,6 @@ void MainWindow::addInsertWidget()
     attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
     attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
 
-
-
-
-
-
     //troopWidget
     QWidget* troopWidget = new QWidget;
     troopWidget->setLayout(troopFormLayout);
@@ -885,8 +853,7 @@ void MainWindow::loadFile(){
                 else {
                     if (container.getSize() != 0)
                                        container.clear();
-                                       unsigned int count=0;//test stampa su list
-                    foreach (const QJsonValue& value, arrayJson) {
+                               foreach (const QJsonValue& value, arrayJson) {
                                         QJsonObject obj = value.toObject();if (obj.contains("Type") && obj["Type"].isString()) {
                                             QString type = obj["Type"].toString();
                                             DeepPtr<Card> card;
@@ -899,10 +866,7 @@ void MainWindow::loadFile(){
                                             else if (type == "TroopSpawner") card = new TroopSpawner();
                                             card->readJson(obj);
                                             container.insert(card);
-                                            string cardList=container[count]->getName()+" ["+ std::to_string(container[count]->getCardLevel())+"]";
-                                            list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-                                            count++;
-                                                                                  }
+                                        }
                                }
                     clearLayout(infolayout);
                     resetlist();
@@ -972,11 +936,6 @@ void MainWindow::basicInfoWidget() //Pagina Iniziale
 
 }
 
-// MainWindow::CardView(string s){
-  //  std::cout<<NameCard;
-
-    //list->addItem(new QListWidgetItem(QString::fromStdString(s)));
-//}
 
 
 int MainWindow::findListItemInContainer(int itemPos) const{
@@ -1021,17 +980,23 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
     }*/
 
     if(rarity!= "All"){
+        string c;
         list->reset();
         list->clear();
         if(type=="All"){
             for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity)
-                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
+                    //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
+                    list->addItem(new QListWidgetItem(QString::fromStdString(c)));
         }
         else{
             for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
-                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+
+                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
+                                  list->addItem(new QListWidgetItem(QString::fromStdString(c)));
+                    //list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
     }
 

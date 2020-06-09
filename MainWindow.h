@@ -54,8 +54,6 @@ private:
     QMessageBox* popup;
     QComboBox* filterTypeBox;
     QComboBox* filterRarityBox;
-    // Toolbar
-    QToolBar* toolbar;
     // Menu
     QMenu* menu;
     QMenuBar* menubar;
