@@ -812,6 +812,14 @@ void MainWindow::addInsertWidget()
 
     });
 
+    QPushButton* confirmInsert = new QPushButton("Confirm");
+    QPushButton* cancelInsert = new QPushButton("Cancel");
+
+    connect(cancelInsert, &QPushButton::clicked, [this] {
+       setStackedWidgetPage(0);
+    });
+
+
     QVBoxLayout* insertLayout=new QVBoxLayout();
     insertLayout->addLayout(formLayout);
 
@@ -825,7 +833,10 @@ void MainWindow::addInsertWidget()
     cardTypeLatout->addWidget(attackingBuildingWidget);
     insertLayout->addLayout(cardTypeLatout);
     insertLayout->addStretch();
-
+    QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
+    buttonInsertLatout->addWidget(confirmInsert);
+    buttonInsertLatout->addWidget(cancelInsert);
+    insertLayout->addLayout(buttonInsertLatout);
     insertWidget->setLayout(insertLayout);
     stackedWidget->addWidget(insertWidget);
 }
