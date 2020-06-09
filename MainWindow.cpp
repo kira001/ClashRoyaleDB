@@ -496,7 +496,7 @@ void MainWindow::addInsertWidget()
     QLineEdit* cardLevelEdit = new QLineEdit();
     QValidator* cardLevelValidator = new QIntValidator(1, 13);
     cardLevelEdit->setValidator(cardLevelValidator);
-    manaCostEdit->setPlaceholderText("Level (max:13)");
+    cardLevelEdit->setPlaceholderText("Level (max:13)");
 
 
     // Descrizione
@@ -814,6 +814,19 @@ void MainWindow::addInsertWidget()
 
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
+
+
+    connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
+            spellDamageEdit,crownTowerDamageEdit,radiusEdit] {
+        DeepPtr<Card> card;
+         if (comboClassEdit->currentText() == "Spell") {
+             card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                            cardLevelEdit->text().toInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
+         }
+         container.insert(card);
+         resetlist();
+
+    });
 
     connect(cancelInsert, &QPushButton::clicked, [this] {
        setStackedWidgetPage(0);

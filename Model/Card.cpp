@@ -40,17 +40,17 @@ void Card::setMaxLevel(Card::rarity rar){
 string Card::RarityToString() const{
     switch (cardRarity)
        {
-         case Card::rarity::common:return "Comune";
-         case Card::rarity::rare:return "Rara";
-         case Card::rarity::epic:return "Epica";
-         case Card::rarity::legendary:return "Leggendaria";
+         case Card::rarity::common:return "Common";
+         case Card::rarity::rare:return "Rare";
+         case Card::rarity::epic:return "Epic";
+         case Card::rarity::legendary:return "Legendary";
        }
 }
 
 Card::rarity Card::StringToRarity(string sRar){
-    if(sRar=="Comune") return Card::rarity::common;
-    if(sRar=="Rara") return Card::rarity::rare;
-    if(sRar=="Epica") return Card::rarity::epic;
+    if(sRar=="Common") return Card::rarity::common;
+    if(sRar=="Rare") return Card::rarity::rare;
+    if(sRar=="Epic") return Card::rarity::epic;
     return Card::rarity::legendary;
 }
 
