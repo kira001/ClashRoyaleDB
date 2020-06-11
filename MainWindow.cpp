@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     filterTypeBox=new QComboBox();
     filterRarityBox=new QComboBox();
 
-
+insertLayout=new QVBoxLayout();
     addMenu();
     addLeftLayout();
     addRightLayout();
@@ -353,6 +353,8 @@ void MainWindow::addRightLayout(){
     infoWidget->setLayout(infolayout);
     stackedWidget->addWidget(infoWidget);
     addInsertWidget();
+    insertWidget->setLayout(insertLayout);
+    stackedWidget->addWidget(insertWidget);
     rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
 
@@ -606,42 +608,42 @@ void MainWindow::addInsertWidget()
     buildHealthEdit->setPlaceholderText("Build health");
 
     //lifeTime
-    QLineEdit* lifeTimeEdit = new QLineEdit();
+    QLineEdit* lifeTimeBuildEdit = new QLineEdit();
     QValidator* lifeTimeValidator = new QDoubleValidator(0,99999,6);
-    lifeTimeEdit->setValidator(lifeTimeValidator);
-    lifeTimeEdit->setPlaceholderText("Life time");
+    lifeTimeBuildEdit->setValidator(lifeTimeValidator);
+    lifeTimeBuildEdit->setPlaceholderText("Life time");
 
 
     // -----> BuildingForm <-----
     QFormLayout* buildingFormLayout= new QFormLayout();
     buildingFormLayout->addRow(healthBuildingLabel, buildHealthEdit);
-    buildingFormLayout->addRow(lifeTimeBuildingLabel, lifeTimeEdit);
+    buildingFormLayout->addRow(lifeTimeBuildingLabel, lifeTimeBuildEdit);
 
 
 
      /*******************    TROOP-SPAWNER  ********************/
 
     // TimeDesc
-    QLineEdit* timeDescEdit = new QLineEdit();
-    timeDescEdit->setMaxLength(50);
-    timeDescEdit->setPlaceholderText("Time and description of the cause");
+    QLineEdit* timeDescEditTroopSpawner = new QLineEdit();
+    timeDescEditTroopSpawner->setMaxLength(50);
+    timeDescEditTroopSpawner->setPlaceholderText("Time and description of the cause");
 
     // -----> TroopSpawnerForm <-----
     QFormLayout* troopSpawnerFormLayout= new QFormLayout();
-    troopSpawnerFormLayout->addRow(spawnTimeTroopSpawnerLabel, timeDescEdit);
+    troopSpawnerFormLayout->addRow(spawnTimeTroopSpawnerLabel, timeDescEditTroopSpawner);
 
 
 
     /*******************    SPELL-TROOP-SPAWNER  ********************/
 
     // TimeDesc
-    QLineEdit* timeSpawnEdit = new QLineEdit();
-    timeSpawnEdit->setMaxLength(50);
-    timeSpawnEdit->setPlaceholderText("Time and description of the cause");
+    QLineEdit* timeSpawnEditSpellTroopSpawner = new QLineEdit();
+    timeSpawnEditSpellTroopSpawner->setMaxLength(50);
+    timeSpawnEditSpellTroopSpawner->setPlaceholderText("Time and description of the cause");
 
     // -----> SpellTroopSpawnerForm <-----
     QFormLayout* spellTroopSpawnerFormLayout= new QFormLayout();
-    spellTroopSpawnerFormLayout->addRow(spawnTimeSpellTroopSpawnerLabel, timeSpawnEdit);
+    spellTroopSpawnerFormLayout->addRow(spawnTimeSpellTroopSpawnerLabel, timeSpawnEditSpellTroopSpawner);
 
 
     /*******************    BUILDING-TROOP-SPAWNER  ********************/
@@ -815,16 +817,66 @@ void MainWindow::addInsertWidget()
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
 
+    attckingBuildingFormLayout->addRow(hitPerSecondAttackingBuildingLabel, hitPerSecondAttBuildingEdit);
+    attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
+    attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
+  /*
+   * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
+                             "Building troop spawner", "Attacking building"};
 
+    double buildHealth;
+    double lifeTime;
+TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
+                           double s,double th,double hxs,double dxs,
+                           double sdd,double r,unsigned int c,string td)
+                           :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
+*/
     connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
-            spellDamageEdit,crownTowerDamageEdit,radiusEdit] {
+            shieldEdit,troopHealthEdit,hitPerSecondTroopEdit,damagePerSecondTroopEdit,spawnDDEdit,rangeTroopEdit,countEdit,
+            spellDamageEdit,crownTowerDamageEdit,radiusEdit,
+            buildHealthEdit,lifeTimeBuildEdit,
+            timeDescEditTroopSpawner,
+            timeSpawnEditSpellTroopSpawner,
+            spawnSpeedEdit,
+            hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit] {
         DeepPtr<Card> card;
-         if (comboClassEdit->currentText() == "Spell") {
-             card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
-                            cardLevelEdit->text().toInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
+        if (comboClassEdit->currentText() == "Troop") {
+            card=new Troop(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                           cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
+                           hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt());
+        }
+        else if (comboClassEdit->currentText() == "Spell") {
+             card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
+         }
+        else if (comboClassEdit->currentText() == "Building") {
+             card=new Building(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble());
+         }
+        else if (comboClassEdit->currentText() == "Troop spawner") {
+             card=new TroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                           cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
+                           hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeDescEditTroopSpawner->text().toStdString());
+              }
+        else if (comboClassEdit->currentText() == "Spell troop spawner") {
+             card=new SpellTroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                                        cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
+                                        hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeSpawnEditSpellTroopSpawner->text().toStdString());
+
+               }
+        else if (comboClassEdit->currentText() == "Building troop spawner") {
+             card=new BuildingTroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
+                               hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),spawnSpeedEdit->text().toDouble());
+         }
+        else if (comboClassEdit->currentText() == "Attacking building") {
+             card=new AttackingBuilding(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
          }
          container.insert(card);
          resetlist();
+        // clearLayout(insertLayout);
+         setStackedWidgetPage(0);
 
     });
 
@@ -833,7 +885,7 @@ void MainWindow::addInsertWidget()
     });
 
 
-    QVBoxLayout* insertLayout=new QVBoxLayout();
+
     insertLayout->addLayout(formLayout);
 
     QHBoxLayout* cardTypeLatout=new QHBoxLayout();
@@ -850,8 +902,7 @@ void MainWindow::addInsertWidget()
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
     insertLayout->addLayout(buttonInsertLatout);
-    insertWidget->setLayout(insertLayout);
-    stackedWidget->addWidget(insertWidget);
+
 }
 
 void MainWindow::loadFile(){

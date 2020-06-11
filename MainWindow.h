@@ -45,6 +45,8 @@ private:
     QVBoxLayout* rightLayout;
     QListWidget* list;
     QWidget* insertWidget;
+    QVBoxLayout* insertLayout;
+
 
     QListWidget* list2;
     QStackedWidget *stackedWidget;
