@@ -109,6 +109,8 @@ void MainWindow::addLeftLayout(){
              combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
    connect(insertButton, &QPushButton::clicked, [this] {
+       addInsertWidget();
+       insertWidget->setLayout(insertLayout);
       setStackedWidgetPage(2);
    });
    connect(deleteButton, &QPushButton::clicked, [this] {
@@ -352,8 +354,6 @@ void MainWindow::addRightLayout(){
     basicInfoWidget();
     infoWidget->setLayout(infolayout);
     stackedWidget->addWidget(infoWidget);
-    addInsertWidget();
-    insertWidget->setLayout(insertLayout);
     stackedWidget->addWidget(insertWidget);
     rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
@@ -875,7 +875,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
          }
          container.insert(card);
          resetlist();
-        // clearLayout(insertLayout);
+         clearLayout(insertLayout);
          setStackedWidgetPage(0);
 
     });
