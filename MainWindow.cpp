@@ -229,10 +229,8 @@ void MainWindow::addMenu(){
 
 void MainWindow::viewCardInfo(int pos)
 {
- if(pos!=-1){
-    QFrame*infoBox = new QFrame;
-    infoBox->setFrameShape(QFrame::HLine);
-    infoBox->setFrameShadow(QFrame::Sunken);
+ if(pos!=-1 && pos>=0){
+
 
     //Picture+infocardBasic
     QHBoxLayout* layoutInfoTop=new QHBoxLayout(this);
@@ -240,7 +238,7 @@ void MainWindow::viewCardInfo(int pos)
     QFormLayout* formLayout1 = new QFormLayout;
     unsigned int fixPos= static_cast<unsigned int>(pos);
 
-    string cardNameLevel=container[fixPos]->getName()+" ["+ std::to_string(container[fixPos]->getCardLevel())+"]";
+    string cardNameLevel= container[fixPos]->getName() + " [" + "Level: "+ std::to_string(container[fixPos]->getCardLevel())+"]";
     QLabel* NameCard=new QLabel(QString::fromStdString(cardNameLevel));
     formLayout1->addRow("Type: ", new QLabel(QString::fromStdString(container[fixPos]->getType())));
     formLayout1->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
@@ -251,7 +249,6 @@ void MainWindow::viewCardInfo(int pos)
     logo = logo.scaledToWidth(150);
     QLabel* cardLabel=new QLabel();
     cardLabel->setPixmap(logo);
-
     cardLabel->setFixedSize(150,150);
     //Button Edit
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
@@ -263,14 +260,12 @@ void MainWindow::viewCardInfo(int pos)
 
    //info Card Base
   QFormLayout* formLayout = new QFormLayout;
-  formLayout->setHorizontalSpacing(20);
-  formLayout->addRow("Name Card: ", new QLabel(QString::fromStdString(container[fixPos]->getName())));
-  formLayout->addRow("Level: ", new QLabel(QString::number(container[fixPos]->getCardLevel())));
+  formLayout->setHorizontalSpacing(5);
+    formLayout->setVerticalSpacing(3);
+  //formLayout->addRow("Name Card: ", new QLabel(QString::fromStdString(container[fixPos]->getName())));
+ // formLayout->addRow("Level: ", new QLabel(QString::number(container[fixPos]->getCardLevel())));
   formLayout->addRow("Mana Cost: ", new QLabel(QString::number(container[fixPos]->getManaCost())));
-  formLayout->addRow("Type: ", new QLabel(QString::fromStdString(container[fixPos]->getType())));
-  formLayout->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
-  formLayout->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
-  if(container[fixPos]->getType()=="Bulding")
+  if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
       formLayout->addRow("Health: ", new QLabel(QString::number(building->getBuildHealth())));
@@ -328,7 +323,7 @@ void MainWindow::viewCardInfo(int pos)
        formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(spellTroopSpawner->getSpawnDD())));
        formLayout->addRow("Range: ", new QLabel(QString::number(spellTroopSpawner->getRange())));
        formLayout->addRow("Count: ", new QLabel(QString::number(spellTroopSpawner->getCount())));
-       formLayout->addRow("Time Spawn: ", new QLabel(QString::number(spellTroopSpawner->getCount())));
+       formLayout->addRow("Time Spawn: ", new QLabel(QString::fromStdString(spellTroopSpawner->getTimeSpawn())));
 
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
@@ -346,9 +341,7 @@ void MainWindow::viewCardInfo(int pos)
   layoutInfoBasic->addLayout(formLayout1);
   layoutInfoTop->addWidget(cardLabel);
   layoutInfoTop->addLayout(layoutInfoBasic);
-  infoBox->setLayout(layoutInfoTop);
   infolayout->addLayout(layoutInfoTop);
-  infolayout->addWidget(infoBox);
   infolayout->addLayout(layoutInfoTop);
   infolayout->addLayout(formLayout);
   infolayout->addLayout(buttonLayout);
