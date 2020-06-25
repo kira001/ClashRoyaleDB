@@ -30,5 +30,6 @@
         <file>img/insertIcon/rarity.png</file>
         <file>img/insertIcon/shield.png</file>
         <file>img/insertIcon/spawnDD.png</file>
+        <file>Style/white.css</file>
     </qresource>
 </RCC>
