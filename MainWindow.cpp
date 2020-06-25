@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     searchbox= new QLineEdit();
     completer= new QCompleter();
     menu =new QMenu("File",menubar);
+    menu2 =new QMenu("Themes",menubar);
     popup=new QMessageBox();
     insertWidget=new QWidget();
     filterTypeBox=new QComboBox();
@@ -49,7 +50,7 @@ void MainWindow::resetlist(){
         list->reset();
         list->clear();
     }
-    for (unsigned int i = 0; i < container.getSize(); ++i)
+    for (unsigned int i = 0; i < container.getSize(); i++)
    {
     //crasha tutttooooo
     //string cardList=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
@@ -109,14 +110,19 @@ void MainWindow::addLeftLayout(){
              combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
    connect(insertButton, &QPushButton::clicked, [this] {
-       addInsertWidget();
-       insertWidget->setLayout(insertLayout);
-      setStackedWidgetPage(2);
+   clearLayout(insertLayout);
+   addInsertWidget();
+   insertWidget->setLayout(insertLayout);
+   setStackedWidgetPage(2);
+
    });
    connect(deleteButton, &QPushButton::clicked, [this] {
        if (list->count() > 0 && list->currentRow() != -1) {
            container.remove(findListItemInContainer(list->currentRow()));
            list->takeItem(list->currentRow());
+       }
+       if(list->currentRow() == -1){ //set BasicPage
+           setStackedWidgetPage(0);
        }
    });
 
@@ -189,27 +195,30 @@ void MainWindow::addMenu(){
     QAction* save= new QAction(QIcon(":img/add.png"),"Save Set", this);
     QAction* load=new QAction(QIcon(":img/save.png"), "Load Set", this);
     QAction* about=new QAction("About", this);
+    QAction* white=new QAction("White", this);
+    QAction* dark=new QAction("Dark", this);
 
 
     //Aggiungo le azioni al menu
     menu->addAction(save);
     menu->addAction(load);
-
+    menu2->addAction(white);
+    menu2->addAction(dark);
 
     //test della funzione loadFile e saveFile
     connect(load, &QAction::triggered, [this] {loadFile();});
-    connect(save, &QAction::triggered, [this] {saveFile(); });
+    connect(save, &QAction::triggered, [this] {saveFile();});
+    connect(dark, &QAction::triggered, [this] {setWidgetStyle();});
+    connect(dark, &QAction::triggered, [this] {setWidgetStyleWhite();});
+
 
     //Aggiungo il menu alla barra
     menubar->addMenu(menu);
+    menubar->addMenu(menu2);
     menubar->addAction(about);
 
     //seletore DarkMode
-
-
-
-    connect(about, &QAction::triggered, [this] {infoguide(); });
-
+    connect(about, &QAction::triggered, [this] {infoguide();});
 
     // Aggiungo la barra al Layout
     setMenuBar(menubar);
@@ -322,7 +331,7 @@ void MainWindow::viewCardInfo(int pos)
        formLayout->addRow("Time Spawn: ", new QLabel(QString::number(spellTroopSpawner->getCount())));
 
       }
-  else if(container[fixPos]->getType()=="TroopSpawner"){
+  else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
     formLayout->addRow("Shield: ", new QLabel(QString::number(troopSpawner->getShield())));
     formLayout->addRow("Health: ", new QLabel(QString::number(troopSpawner->getTroopHealth())));
@@ -467,7 +476,6 @@ void MainWindow::addInsertWidget()
 
     /***********************/
 
-
     QStringList classList = {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                              "Building troop spawner", "Attacking building"};
     QComboBox* comboClassEdit = new QComboBox;
@@ -496,8 +504,11 @@ void MainWindow::addInsertWidget()
 
     // cardLevel
     QLineEdit* cardLevelEdit = new QLineEdit();
-    QValidator* cardLevelValidator = new QIntValidator(1, 13);
-    cardLevelEdit->setValidator(cardLevelValidator);
+    QValidator* cardLevel1Validator = new QIntValidator(1, 13);
+    //QValidator* cardLevel2Validator = new QIntValidator(1, 13); //Modifica Livelli
+    //QValidator* cardLevel3Validator = new QIntValidator(1, 13);
+    //QValidator* cardLevel4Validator = new QIntValidator(1, 13);
+    cardLevelEdit->setValidator(cardLevel1Validator);
     cardLevelEdit->setPlaceholderText("Level (max:13)");
 
 
@@ -564,7 +575,7 @@ void MainWindow::addInsertWidget()
     QFormLayout* troopFormLayout= new QFormLayout();
     troopFormLayout->addRow(shieldTroopLabel, shieldEdit);
     troopFormLayout->addRow(healthTroopLabel, troopHealthEdit);
-    troopFormLayout->addRow( hitPerSecondTroopLabel,hitPerSecondTroopEdit);
+    troopFormLayout->addRow(hitPerSecondTroopLabel,hitPerSecondTroopEdit);
     troopFormLayout->addRow(damagePerSecondTroopLabel, damagePerSecondTroopEdit);
     troopFormLayout->addRow(spawnDDTroopLabel, spawnDDEdit);
     troopFormLayout->addRow(rangeTroopLabel, rangeTroopEdit);
@@ -741,7 +752,6 @@ void MainWindow::addInsertWidget()
         }
         else if (comboClassEdit->currentText() == "Troop") {
                 troopWidget->setVisible(true);
-
                 spellWidget->setVisible(false);
                 buildingWidget->setVisible(false);
                 troopSpawnerWidget->setVisible(false);
@@ -751,7 +761,6 @@ void MainWindow::addInsertWidget()
         }
         else if (comboClassEdit->currentText() == "Spell") {
                 spellWidget->setVisible(true);
-
                 troopWidget->setVisible(false);
                 buildingWidget->setVisible(false);
                 troopSpawnerWidget->setVisible(false);
@@ -761,7 +770,6 @@ void MainWindow::addInsertWidget()
         }
         else if (comboClassEdit->currentText() == "Building") {
                 buildingWidget->setVisible(true);
-
                 troopWidget->setVisible(false);
                 spellWidget->setVisible(false);
                 troopSpawnerWidget->setVisible(false);
@@ -772,7 +780,6 @@ void MainWindow::addInsertWidget()
         else if (comboClassEdit->currentText() == "Troop spawner") {
                 troopWidget->setVisible(true);
                 troopSpawnerWidget->setVisible(true);
-
                 spellWidget->setVisible(false);
                 buildingWidget->setVisible(false);
                 spellTroopSpawnerWidget->setVisible(false);
@@ -793,7 +800,6 @@ void MainWindow::addInsertWidget()
                 buildingWidget->setVisible(true);
                 troopWidget->setVisible(true);
                 buildingTroopSpawnerWidget->setVisible(true);
-
                 spellWidget->setVisible(false);
                 troopSpawnerWidget->setVisible(false);
                 spellTroopSpawnerWidget->setVisible(false);
@@ -803,7 +809,6 @@ void MainWindow::addInsertWidget()
             // Attacking building
                 buildingWidget->setVisible(true);
                 attackingBuildingWidget->setVisible(true);
-
                 troopWidget->setVisible(false);
                 spellWidget->setVisible(false);
                 troopSpawnerWidget->setVisible(false);
@@ -814,12 +819,12 @@ void MainWindow::addInsertWidget()
 
     });
 
+
+
+
+
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
-
-    attckingBuildingFormLayout->addRow(hitPerSecondAttackingBuildingLabel, hitPerSecondAttBuildingEdit);
-    attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
-    attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
   /*
    * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                              "Building troop spawner", "Attacking building"};
@@ -839,8 +844,18 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             timeSpawnEditSpellTroopSpawner,
             spawnSpeedEdit,
             hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit] {
-        DeepPtr<Card> card;
-        if (comboClassEdit->currentText() == "Troop") {
+
+        if ((comboClassEdit->currentText()=="Select card type") || nameEdit->text().isEmpty() || cardLevelEdit->text().isEmpty()) {
+                QMessageBox msgBox;
+                if(comboClassEdit->currentText()=="Select card type" ) msgBox.setText("Please select the card type.");
+                else if (nameEdit->text().isEmpty()) msgBox.setText("Name card field cannot be empty.");
+                else if (cardLevelEdit->text().isEmpty()) msgBox.setText("Level field cannot be empty.");
+                msgBox.exec();
+        }
+        else
+         {
+       DeepPtr<Card> card;
+       if (comboClassEdit->currentText() == "Troop" ) {
             card=new Troop(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                            hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt());
@@ -854,7 +869,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble());
          }
         else if (comboClassEdit->currentText() == "Troop spawner") {
-             card=new TroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+           card=new TroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                            hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeDescEditTroopSpawner->text().toStdString());
               }
@@ -873,12 +888,12 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
              card=new AttackingBuilding(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
          }
-         container.insert(card);
-         resetlist();
-         clearLayout(insertLayout);
-         setStackedWidgetPage(0);
-
-    });
+            container.insert(card);
+            setStackedWidgetPage(0);
+            resetlist();
+            clearLayout(insertLayout);
+        }
+     });
 
     connect(cancelInsert, &QPushButton::clicked, [this] {
        setStackedWidgetPage(0);
@@ -938,7 +953,7 @@ void MainWindow::loadFile(){
                                             else if (type == "Building Troop Spawner") card = new BuildingTroopSpawner();
                                             else if (type == "Spell-Troop Spawner") card = new SpellTroopSpawner();
                                             else if (type == "Attacking Building") card = new AttackingBuilding();
-                                            else if (type == "TroopSpawner") card = new TroopSpawner();
+                                            else if (type == "Troop Spawner") card = new TroopSpawner();
                                             card->readJson(obj);
                                             container.insert(card);
                                         }
@@ -993,7 +1008,23 @@ void MainWindow::setWidgetStyle()
   setStyleSheet(styleSheet);
 }
 
+void MainWindow::setWidgetStyleWhite(){
 
+    mainLayout->setSpacing(6);
+    // Imposto le dimensioni
+   setMaximumSize(QSize(1200,800));
+   //setMinimumSize(QSize(800,500));
+   setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
+    //Imposto il foglio di stile
+  QFile file(":/Style/white.css");
+  file.open(QFile::ReadOnly);
+  QString styleSheet = QLatin1String(file.readAll());
+
+  setStyleSheet(styleSheet);
+
+
+}
 
 void MainWindow::basicInfoWidget() //Pagina Iniziale
 {
@@ -1015,7 +1046,8 @@ void MainWindow::basicInfoWidget() //Pagina Iniziale
 
 int MainWindow::findListItemInContainer(int itemPos) const{
     if (itemPos != -1) {
-        for (int i = 0; i < container.getSize(); ++i) {
+
+        for (unsigned int i = 0; i < container.getSize(); ++i) {
             if (QString::fromStdString(container[i]->getName()) == list->item(itemPos)->text())
             return i;
         }
@@ -1059,14 +1091,14 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
         list->reset();
         list->clear();
         if(type=="All"){
-            for(int i=0; i<container.getSize(); ++i)
+            for(unsigned int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity)
                     string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
                     //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
                     list->addItem(new QListWidgetItem(QString::fromStdString(c)));
         }
         else{
-            for(int i=0; i<container.getSize(); ++i)
+            for(int unsigned i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
 
                     string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
@@ -1079,12 +1111,12 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
         list->reset();
         list->clear();
         if(rarity=="All"){
-            for(int i=0; i<container.getSize(); ++i)
+            for(unsigned int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
         else{
-            for(int i=0; i<container.getSize(); ++i)
+            for(unsigned int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }

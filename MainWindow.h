@@ -58,6 +58,7 @@ private:
     QComboBox* filterRarityBox;
     // Menu
     QMenu* menu;
+    QMenu* menu2;
     QMenuBar* menubar;
     // Methods
     void setToolBar();
@@ -67,6 +68,7 @@ private:
     void addMenu();
     void addRightLayout();
     void setWidgetStyle();
+    void setWidgetStyleWhite();
     void basicInfoWidget();
     void viewCardInfo(int);
     void addInsertWidget();

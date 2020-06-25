@@ -4,7 +4,9 @@
 TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
                            double s,double th,double hxs,double dxs,
                            double sdd,double r,unsigned int c,string td)
-                           :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
+                           :Card(n,mc,cr,cl,desc),Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
+
+
 TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.getTimeDesc()){}
 
 /******************** GETTERS/SETTERS ********************/
