@@ -79,5 +79,22 @@
         "Range": 1,
         "Rarity": "Rare",
         "Type": "Attacking Building"
+    },
+ {
+        "Card Name": "test",
+        "Count": 1,
+        "Damage per Second": 1,
+        "Description": "12",
+        "Health": 1,
+        "Hit per Second": 1,
+        "Level": 12,
+        "Life Time": 1,
+        "Mana Cost": 1,
+        "Range": 1,
+        "Rarity": "Rare",
+        "Shield": 11,
+        "Spawn Death Damage": 1,
+        "Spawn Speed": 1,
+        "Type": "Building-Troop Spawner"
     }
 ]

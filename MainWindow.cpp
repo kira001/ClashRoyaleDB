@@ -242,6 +242,7 @@ void MainWindow::viewCardInfo(int pos)
     QLabel* NameCard=new QLabel(QString::fromStdString(cardNameLevel));
     formLayout1->addRow("Type: ", new QLabel(QString::fromStdString(container[fixPos]->getType())));
     formLayout1->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
+    formLayout1->addRow("Mana Cost: ", new QLabel(QString::number(container[fixPos]->getManaCost())));
     formLayout1->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
 
 
@@ -261,10 +262,8 @@ void MainWindow::viewCardInfo(int pos)
    //info Card Base
   QFormLayout* formLayout = new QFormLayout;
   formLayout->setHorizontalSpacing(5);
-    formLayout->setVerticalSpacing(3);
-  //formLayout->addRow("Name Card: ", new QLabel(QString::fromStdString(container[fixPos]->getName())));
- // formLayout->addRow("Level: ", new QLabel(QString::number(container[fixPos]->getCardLevel())));
-  formLayout->addRow("Mana Cost: ", new QLabel(QString::number(container[fixPos]->getManaCost())));
+  formLayout->setVerticalSpacing(3);
+
   if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
@@ -873,6 +872,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
 
                }
         else if (comboClassEdit->currentText() == "Building troop spawner") {
+
              card=new BuildingTroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                                hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),spawnSpeedEdit->text().toDouble());
@@ -943,7 +943,7 @@ void MainWindow::loadFile(){
                                             if (type == "Spell") card = new Spell(); //Switch case ??
                                             else if (type == "Troop") card = new Troop();
                                             else if (type == "Building") card = new Building();
-                                            else if (type == "Building Troop Spawner") card = new BuildingTroopSpawner();
+                                            else if (type == "Building-Troop Spawner") card = new BuildingTroopSpawner();
                                             else if (type == "Spell-Troop Spawner") card = new SpellTroopSpawner();
                                             else if (type == "Attacking Building") card = new AttackingBuilding();
                                             else if (type == "Troop Spawner") card = new TroopSpawner();
