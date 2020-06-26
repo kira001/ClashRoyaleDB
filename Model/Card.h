@@ -26,7 +26,7 @@ private:
     unsigned int MaxLevel;
 
      void setMaxLevel(rarity rar);
-
+    void controlRarityLevel(rarity rar ,unsigned int cLevel) const;
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Card()=default;
