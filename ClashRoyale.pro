@@ -25,6 +25,7 @@ SOURCES += \
     Model/SpellTroopSpawner.cpp \
     Model/Troop.cpp \
     Model/TroopSpawner.cpp \
+    Model/myexception.cpp \
     main.cpp
 
 HEADERS += \
@@ -37,6 +38,7 @@ HEADERS += \
     Model/SpellTroopSpawner.h \
     Model/Troop.h \
     Model/TroopSpawner.h \
+    Model/myexception.h \
     Template/container.h \
     Template/deepptr.h
 

@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-
+#include "Model/myexception.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -40,8 +40,7 @@ insertLayout=new QVBoxLayout();
     setCentralWidget(mainWidget);
 }
 
-MainWindow::~MainWindow(){
-}
+MainWindow::~MainWindow(){}
 
 
 
@@ -363,6 +362,7 @@ void MainWindow::addRightLayout(){
 
 void MainWindow::addInsertWidget()
 {
+
     //Icone
     QPixmap cardIcon= QPixmap(":/img/insertIcon/cardType.png");
     QLabel* cardLabel= new QLabel();
@@ -817,6 +817,10 @@ void MainWindow::addInsertWidget()
 
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
+    confirmInsert->setFixedSize(100,50);
+    cancelInsert->setFixedSize(100,50);
+
+
   /*
    * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                              "Building troop spawner", "Attacking building"};
@@ -836,7 +840,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             timeSpawnEditSpellTroopSpawner,
             spawnSpeedEdit,
             hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit] {
-
+ try {
         if ((comboClassEdit->currentText()=="Select card type") || nameEdit->text().isEmpty() || cardLevelEdit->text().isEmpty()) {
                 QMessageBox msgBox;
                 if(comboClassEdit->currentText()=="Select card type" ) msgBox.setText("Please select the card type.");
@@ -853,9 +857,13 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                            hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt());
         }
         else if (comboClassEdit->currentText() == "Spell") {
-             card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
-                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
-         }
+
+               card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+                              cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
+
+
+
+            }
         else if (comboClassEdit->currentText() == "Building") {
              card=new Building(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble());
@@ -886,10 +894,16 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             resetlist();
             clearLayout(insertLayout);
         }
+        } catch (MyException e) {
+             QMessageBox msgBox;
+             msgBox.setText(QString::fromStdString(e.getMsgException()));
+             msgBox.exec();
+
+        }
      });
 
     connect(cancelInsert, &QPushButton::clicked, [this] {
-       setStackedWidgetPage(0);
+            setStackedWidgetPage(0);
     });
 
 
@@ -909,6 +923,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
     QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
+    buttonInsertLatout->setMargin(10);
     insertLayout->addLayout(buttonInsertLatout);
 
 }

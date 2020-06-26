@@ -1,9 +1,13 @@
 #include "Card.h"
-
+#include "myexception.h"
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 Card::Card(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
            name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
-           {Card::setMaxLevel(rar);}
+           {
+            Card::setMaxLevel(rar);
+            controlRarityLevel(rar,cLevel);
+
+           }
 
 Card::Card(const Card& c):
            name(c.getName()),manaCost(c.getManaCost()),cardRarity(c.getCardRarity()),cardLevel(c.getCardLevel()),description(c.getDescription()){}
@@ -74,6 +78,35 @@ void Card::lvlDowngrade(){
     }
 }
 
+void Card::controlRarityLevel(rarity rar,unsigned int cLevel) const{
+    switch (rar)
+       {
+         case Card::rarity::common:{
+            if(cLevel>13){
+                throw MyException("Max level is 13 for a common");
+            }
+            break;
+         }
+         case Card::rarity::rare:{
+                if(cLevel>11){
+                    throw MyException("Max level is 11 for a rare");
+                }
+                break;
+         }
+         case Card::rarity::epic:{
+            if(cLevel>8){
+                throw MyException("Max level is 8 for a epic");
+            }
+            break;
+         }
+         case Card::rarity::legendary: {
+            if(cLevel>5){
+                throw MyException("Max level is 5 for a legendary");
+            }
+            break;
+         }
+       }
+}
 QJsonObject Card::writeJson() const
 {
     QJsonObject cardJson;
