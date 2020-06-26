@@ -6,7 +6,7 @@ Spell::Spell(string p,string n, unsigned int mana, rarity rar, unsigned int cLev
           Card(p,n,mana,rar,cLevel,desc),spellDamage(spellD),crownTowerDamage(crownTD),radius(rad){}
 
 
-Spell::Spell(const Spell& s):Card(s),spellDamage(s.getSpellDamage()),crownTowerDamage(s.getCrownTowerDamage()),radius(getRadius()){}
+Spell::Spell(const Spell& s):Card(s),spellDamage(s.getSpellDamage()),crownTowerDamage(s.getCrownTowerDamage()),radius(s.getRadius()){}
 
 /******************** GETTERS/SETTERS ********************/
 
