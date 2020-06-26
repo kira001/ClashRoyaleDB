@@ -54,8 +54,7 @@ void MainWindow::resetlist(){
     //crasha tutttooooo
     //string cardList=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
     //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-    string c=container[i]->getName();
-    list->addItem(new QListWidgetItem(QString::fromStdString(c)));
+     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
     }
 
 
@@ -91,7 +90,8 @@ void MainWindow::addLeftLayout(){
       if (list->count()>0)
     {
           clearLayout(infolayout);
-          viewCardInfo(findListItemInContainer(list->currentRow()));
+          viewCardInfo(list->currentRow());
+          //viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
       }
     });
@@ -243,6 +243,7 @@ void MainWindow::viewCardInfo(int pos)
     formLayout1->addRow("Rarity: ", new QLabel(QString::fromStdString(container[fixPos]->RarityToString())));
     formLayout1->addRow("Mana Cost: ", new QLabel(QString::number(container[fixPos]->getManaCost())));
     formLayout1->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
+    formLayout1->addRow("numero: ", new QLabel(QString::number(fixPos)));
 
 
 
@@ -1078,7 +1079,7 @@ void MainWindow::loadFile(){
                                             else if (type == "Troop Spawner") card = new TroopSpawner();
                                             card->readJson(obj);
                                             container.insert(card);
-                                            listImg->addItem(new QListWidgetItem(QString::fromStdString(card->getName()))); //salvo percorso dati su listIMG
+
 
                                         }
                                }
