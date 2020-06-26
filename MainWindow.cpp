@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     insertWidget=new QWidget();
     filterTypeBox=new QComboBox();
     filterRarityBox=new QComboBox();
-    pathImg="default.png";
+    pathImg=":/img/iconCard/default.png";
     insertLayout=new QVBoxLayout();
     addMenu();
     addLeftLayout();
@@ -250,7 +250,8 @@ void MainWindow::viewCardInfo(int pos)
 
 
 
-    string path=":/img/iconCard/";
+    //string path=":/img/iconCard/";
+    string path=pathImg;
     QLabel* cardLabel=new QLabel();
 
 
@@ -271,7 +272,8 @@ void MainWindow::viewCardInfo(int pos)
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
       //:/img/iconCard/default.png
-      path= path + building->getPath();
+     //path= path + building->getPath();
+      path= building->getPath();
       formLayout->addRow("Health: ", new QLabel(QString::number(building->getBuildHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(building->getLifeTime())));
 
@@ -279,8 +281,8 @@ void MainWindow::viewCardInfo(int pos)
   else if(container[fixPos]->getType()=="Spell")
   {
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
-
-    path= path + spell->getPath();
+    //path= path + spell->getPath();
+    path= spell->getPath();
     formLayout->addRow("Damage: ", new QLabel(QString::number(spell->getSpellDamage())));
     formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spell->getCrownTowerDamage())));
     formLayout->addRow("Radius: ", new QLabel(QString::number(spell->getRadius())));
@@ -288,7 +290,8 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Troop"){
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
-        path= path + troop->getPath();
+       // path= path + troop->getPath();
+      path= troop->getPath();
           formLayout->addRow("Shield: ", new QLabel(QString::number(troop->getShield())));
           formLayout->addRow("Health: ", new QLabel(QString::number(troop->getTroopHealth())));
           formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troop->getHitxSec())));
@@ -300,7 +303,8 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Attacking Building"){
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
-        path= path + attackingBuilding->getPath();
+      //path= path + attackingBuilding->getPath();
+      path= attackingBuilding->getPath();
       formLayout->addRow("Health: ", new QLabel(QString::number(attackingBuilding->getBuildHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(attackingBuilding->getLifeTime())));
       formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(attackingBuilding->getHitPerSecond())));
@@ -310,7 +314,8 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
-        path= path + buildingTroopSpawner->getPath();
+      //path= path + buildingTroopSpawner->getPath();
+      path= buildingTroopSpawner->getPath();
       formLayout->addRow("Building Health: ", new QLabel(QString::number(buildingTroopSpawner->getBuildHealth())));
       formLayout->addRow("Troop Health: ", new QLabel(QString::number(buildingTroopSpawner->getTroopHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(buildingTroopSpawner->getLifeTime())));
@@ -325,7 +330,8 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
-       path= path + spellTroopSpawner->getPath();
+       //path= path + spellTroopSpawner->getPath();
+       path=spellTroopSpawner->getPath();
        formLayout->addRow("Damage: ", new QLabel(QString::number(spellTroopSpawner->getSpellDamage())));
        formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spellTroopSpawner->getCrownTowerDamage())));
        formLayout->addRow("Radius: ", new QLabel(QString::number(spellTroopSpawner->getRadius())));
@@ -341,7 +347,8 @@ void MainWindow::viewCardInfo(int pos)
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
-    path= path + troopSpawner->getPath();
+    //path=path + troopSpawner->getPath();
+    path=troopSpawner->getPath();
     formLayout->addRow("Shield: ", new QLabel(QString::number(troopSpawner->getShield())));
     formLayout->addRow("Health: ", new QLabel(QString::number(troopSpawner->getTroopHealth())));
     formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troopSpawner->getHitxSec())));
@@ -387,14 +394,14 @@ void MainWindow::addRightLayout(){
 
 
 void MainWindow::setdefault(const QString &type){
-    if(type.toStdString()==":/img/iconCard/default.png"){
-        pathImg="default.png";
-    }
-    else {
-      QFileInfo fi(type);
-      QString name=fi.fileName();
-      pathImg=name.toStdString();
-    }
+    //if(type.toStdString()==":/img/iconCard/default.png"){
+     //   pathImg="default.png";
+   // }
+    //else {
+      //QFileInfo fi(type);
+      //QString name=fi.fileName();
+      pathImg=type.toStdString();
+    //}
 
 }
 
@@ -868,13 +875,15 @@ void MainWindow::addInsertWidget()
      if(img!=""){
      BoxImg->setPixmap(img);
      BoxImg->setScaledContents(true);
+     }else
+     {
+     setdefault(":/img/iconCard/default.png");
      }
              });
 
     connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
-       QString img=":/img/iconCard/default.png";
-       setdefault(img);
-       BoxImg->setPixmap(QPixmap(img));
+       setdefault(":/img/iconCard/default.png");
+       BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
        });
 
 
