@@ -59,6 +59,9 @@ void MainWindow::resetlist(){
 
 
 }
+
+
+
 void MainWindow::infoguide(){
     QMessageBox Box;
     Box.setWindowTitle("About");
@@ -208,7 +211,7 @@ void MainWindow::addMenu(){
     connect(load, &QAction::triggered, [this] {loadFile();});
     connect(save, &QAction::triggered, [this] {saveFile();});
     connect(dark, &QAction::triggered, [this] {setWidgetStyle();});
-    connect(dark, &QAction::triggered, [this] {setWidgetStyleWhite();});
+    connect(white, &QAction::triggered, [this] {setWidgetStyleWhite();});
 
 
     //Aggiungo il menu alla barra

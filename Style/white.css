@@ -1,9 +1,9 @@
 * {
     margin: 0;
     padding: 0;
-    background-color: rgb(225,225,225);
-    color:white;
-selection-background-color: rgb(87,87,87);
+    background-color: rgb(214,214,214);
+    color:black;
+selection-background-color: rgb(190,190,190);
 }
 
 
@@ -15,8 +15,8 @@ QPushButton {
 }
 
 QPushButton:hover {
-    background-color: rgb(246,163,5);
-}
+background-color: rgb(190,190,190);
+   }
 
 QMenu {
 font: 20px;
@@ -28,8 +28,8 @@ QMenuBar{
 }
 
 QLineEdit,QTextEdit,QComboBox{
-border: 0.5px solid white;
- border-radius: 4px;
+border: 0.5px solid black;
+border-radius: 4px;
 height:20%;
 min-width: 5em;
  font: 17px;
@@ -37,10 +37,10 @@ min-width: 5em;
 
 QToolBar{
 spacing: 15px;
-border: 0.2px solid white;
+border: 0.2px solid black;
 }
 
 QMenuBar::item:selected,QComboBox:hover,QMenu::item:selected{
-background-color: rgb(87,87,87);
+background-color: rgb(190,190,190);
 height: 70px;
 }
