@@ -2,11 +2,11 @@
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 
-SpellTroopSpawner::SpellTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc,double spellD,double crownTD,double rad,
+SpellTroopSpawner::SpellTroopSpawner(string p, string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc,double spellD,double crownTD,double rad,
                                      double s,double th, double hxs, double dxs, double sdd, double r, unsigned int c,string timeSp):
-Card(n,mana,rar,cLevel,desc),
-Spell(n,mana,rar,cLevel,desc,spellD,crownTD,rad),
-Troop(n,mana,rar,cLevel,desc,s,th,hxs,dxs,sdd,r,c),timeSpawn(timeSp){}
+Card(p,n,mana,rar,cLevel,desc),
+Spell(p,n,mana,rar,cLevel,desc,spellD,crownTD,rad),
+Troop(p,n,mana,rar,cLevel,desc,s,th,hxs,dxs,sdd,r,c),timeSpawn(timeSp){}
 
 
 

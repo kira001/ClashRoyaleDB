@@ -46,9 +46,9 @@ private:
     QListWidget* list;
     QWidget* insertWidget;
     QVBoxLayout* insertLayout;
+    string pathImg;
 
-
-    QListWidget* list2;
+    QListWidget* listImg;
     QStackedWidget *stackedWidget;
 
     QLineEdit* searchbox; //Search
@@ -79,6 +79,7 @@ private:
     int findListItemInContainer(int itemPos) const;
     void showInfoCard(int);
     void clearLayout(QLayout*);
+    void setdefault(const QString& type);
     void filterTypeRarity(const QString& type, const QString &rarity);
     void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
 

@@ -9,7 +9,7 @@ private:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     TroopSpawner()=default;
-    TroopSpawner(string,unsigned int,rarity,unsigned int,string,double,
+    TroopSpawner(string, string,unsigned int,rarity,unsigned int,string,double,
                  double,double,double,double,double,unsigned int,
                  string);
     TroopSpawner(const TroopSpawner&);

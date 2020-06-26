@@ -1,10 +1,10 @@
 #include "TroopSpawner.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
+TroopSpawner::TroopSpawner(string p,string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
                            double s,double th,double hxs,double dxs,
                            double sdd,double r,unsigned int c,string td)
-                           :Card(n,mc,cr,cl,desc),Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
+                           :Card(p,n,mc,cr,cl,desc),Troop(p,n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
 
 
 TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.getTimeDesc()){}

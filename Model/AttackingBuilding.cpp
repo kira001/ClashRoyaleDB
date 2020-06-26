@@ -80,8 +80,8 @@ void AttackingBuilding::readJson(const QJsonObject &obj)
 
 
 
-AttackingBuilding::AttackingBuilding(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):
-    Card(n,mana,rar,cLevel,desc),Building(n,mana,rar,cLevel,desc, bHealth, lTime), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}
+AttackingBuilding::AttackingBuilding(std::string p,std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):
+    Card(p,n,mana,rar,cLevel,desc),Building(p,n,mana,rar,cLevel,desc, bHealth, lTime), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}
 
 AttackingBuilding::AttackingBuilding(const AttackingBuilding &ab):
                     Card(ab),Building(ab), hitPerSecond(ab.getHitPerSecond()), damagePerSecond(ab.getDamagePerSecond()), range(ab.getRange()){}

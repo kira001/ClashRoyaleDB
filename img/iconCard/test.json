@@ -1,0 +1,13 @@
+[
+    {
+        "Card Name": "1",
+        "Description": "1",
+        "Health": 1,
+        "Icon NameFile": "icon.png",
+        "Level": 1,
+        "Life Time": 1,
+        "Mana Cost": 1,
+        "Rarity": "Common",
+        "Type": "Building"
+    }
+]

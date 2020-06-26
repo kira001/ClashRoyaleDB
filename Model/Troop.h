@@ -18,7 +18,7 @@ protected:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Troop()=default;
-    Troop(string, unsigned int, rarity, unsigned int,string ,
+    Troop(string, string, unsigned int, rarity, unsigned int,string ,
           double, double, double, double, double, double, unsigned int);
     Troop(const Troop&);
     // GETTERS

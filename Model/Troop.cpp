@@ -1,9 +1,9 @@
 #include "Troop.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-Troop::Troop(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double s,
+Troop::Troop(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double s,
              double th, double hxs, double dxs, double sdd, double r, unsigned int c):
-Card(n,mana,rar,cLevel,desc), shield(s), troopHealth(th), hitxSec(hxs), damagexSec(dxs), spawnDD(sdd),
+Card(p,n,mana,rar,cLevel,desc), shield(s), troopHealth(th), hitxSec(hxs), damagexSec(dxs), spawnDD(sdd),
   range(r),count(c){}
 Troop::Troop(const Troop& x):Card(x),shield(x.getShield()),troopHealth(x.getTroopHealth()),hitxSec(x.getHitxSec()),
 damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(x.getCount())

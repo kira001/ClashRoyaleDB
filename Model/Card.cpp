@@ -1,16 +1,17 @@
 #include "Card.h"
 
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
-Card::Card(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
-           name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
+Card::Card(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
+           path(p),name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
            {Card::setMaxLevel(rar);}
 
 Card::Card(const Card& c):
-           name(c.getName()),manaCost(c.getManaCost()),cardRarity(c.getCardRarity()),cardLevel(c.getCardLevel()),description(c.getDescription()){}
+           path(c.getPath()),name(c.getName()),manaCost(c.getManaCost()),cardRarity(c.getCardRarity()),cardLevel(c.getCardLevel()),description(c.getDescription()){}
 
 /******************** GETTERS/SETTERS ********************/
 
 //GETTERS
+string Card::getPath() const{ return path; }
 string Card::getName() const{ return name; }
 unsigned int Card::getManaCost() const { return manaCost; }
 Card::rarity Card::getCardRarity() const { return cardRarity; }
@@ -19,6 +20,7 @@ string Card::getDescription() const{ return description; }
 unsigned int Card::getMaxLevel() const{ return MaxLevel; }
 
 //SETTERS
+void Card::setPath(string p){ path=p; }
 void Card::setName(string n){ name=n; }
 void Card::setManaCost(unsigned int mana){ manaCost=mana; }
 void Card::setCardRarity(Card::rarity rar){ cardRarity=rar;  Card::setMaxLevel(rar); }
@@ -77,6 +79,7 @@ void Card::lvlDowngrade(){
 QJsonObject Card::writeJson() const
 {
     QJsonObject cardJson;
+    cardJson["Icon NameFile"] = QString::fromStdString(getPath());
     cardJson["Card Name"] = QString::fromStdString(getName());
     cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
     cardJson["Rarity"] = QString::fromStdString(RarityToString());
@@ -88,6 +91,8 @@ QJsonObject Card::writeJson() const
 
 void Card::readJson(const QJsonObject& obj)
 {
+if (obj.contains("Icon NameFile") && obj["Icon NameFile"].isString())
+        setPath(obj["Icon NameFile"].toString().toStdString());
 if (obj.contains("Card Name") && obj["Card Name"].isString())
     setName(obj["Card Name"].toString().toStdString());
 if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())

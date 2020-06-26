@@ -13,7 +13,7 @@ protected:
 public:
 
     Building()=default;
-    Building(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime);
+    Building(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime);
     Building(const Building& b);
 
     double getBuildHealth() const;

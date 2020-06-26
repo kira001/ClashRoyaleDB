@@ -12,7 +12,7 @@ protected:
     void downgradeStats();
 public:
     AttackingBuilding()=default;
-    AttackingBuilding(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng);
+    AttackingBuilding(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng);
     AttackingBuilding(const AttackingBuilding& ab);
 
     double getHitPerSecond() const;

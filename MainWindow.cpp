@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     rightLayout=new QVBoxLayout(this);
     infolayout=new QVBoxLayout;
     list = new QListWidget();
-    list2 = new QListWidget();
+    listImg = new QListWidget();
     stackedWidget = new QStackedWidget();
     menubar= new QMenuBar();
     searchbox= new QLineEdit();
@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     insertWidget=new QWidget();
     filterTypeBox=new QComboBox();
     filterRarityBox=new QComboBox();
-
-insertLayout=new QVBoxLayout();
+    pathImg="default.png";
+    insertLayout=new QVBoxLayout();
     addMenu();
     addLeftLayout();
     addRightLayout();
@@ -246,11 +246,11 @@ void MainWindow::viewCardInfo(int pos)
     formLayout1->addRow("Description: ", new QLabel(QString::fromStdString(container[fixPos]->getDescription())));
 
 
-    QPixmap logo = QPixmap(":/img/testcard.png");
-    logo = logo.scaledToWidth(150);
+
+    string path=":/img/iconCard/";
     QLabel* cardLabel=new QLabel();
-    cardLabel->setPixmap(logo);
-    cardLabel->setFixedSize(150,150);
+
+
     //Button Edit
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
     QPushButton* editButton = new QPushButton("Edit");
@@ -267,6 +267,8 @@ void MainWindow::viewCardInfo(int pos)
   if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
+      //:/img/iconCard/default.png
+      path= path + building->getPath();
       formLayout->addRow("Health: ", new QLabel(QString::number(building->getBuildHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(building->getLifeTime())));
 
@@ -274,12 +276,16 @@ void MainWindow::viewCardInfo(int pos)
   else if(container[fixPos]->getType()=="Spell")
   {
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
+
+    path= path + spell->getPath();
     formLayout->addRow("Damage: ", new QLabel(QString::number(spell->getSpellDamage())));
     formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spell->getCrownTowerDamage())));
     formLayout->addRow("Radius: ", new QLabel(QString::number(spell->getRadius())));
+
   }
   else if(container[fixPos]->getType()=="Troop"){
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
+        path= path + troop->getPath();
           formLayout->addRow("Shield: ", new QLabel(QString::number(troop->getShield())));
           formLayout->addRow("Health: ", new QLabel(QString::number(troop->getTroopHealth())));
           formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troop->getHitxSec())));
@@ -287,17 +293,21 @@ void MainWindow::viewCardInfo(int pos)
           formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(troop->getSpawnDD())));
           formLayout->addRow("Range: ", new QLabel(QString::number(troop->getRange())));
           formLayout->addRow("Count: ", new QLabel(QString::number(troop->getCount())));
-      }
+
+  }
   else if(container[fixPos]->getType()=="Attacking Building"){
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
+        path= path + attackingBuilding->getPath();
       formLayout->addRow("Health: ", new QLabel(QString::number(attackingBuilding->getBuildHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(attackingBuilding->getLifeTime())));
       formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(attackingBuilding->getHitPerSecond())));
       formLayout->addRow("Damage Per Second: ", new QLabel(QString::number(attackingBuilding->getDamagePerSecond())));
       formLayout->addRow("Range: ", new QLabel(QString::number(attackingBuilding->getRange())));
-    }
+
+  }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
+        path= path + buildingTroopSpawner->getPath();
       formLayout->addRow("Building Health: ", new QLabel(QString::number(buildingTroopSpawner->getBuildHealth())));
       formLayout->addRow("Troop Health: ", new QLabel(QString::number(buildingTroopSpawner->getTroopHealth())));
       formLayout->addRow("Life Time: ", new QLabel(QString::number(buildingTroopSpawner->getLifeTime())));
@@ -308,10 +318,11 @@ void MainWindow::viewCardInfo(int pos)
       formLayout->addRow("Spawn Death Damage: ", new QLabel(QString::number(buildingTroopSpawner->getSpawnDD())));
       formLayout->addRow("Range: ", new QLabel(QString::number(buildingTroopSpawner->getRange())));
       formLayout->addRow("Count: ", new QLabel(QString::number(buildingTroopSpawner->getCount())));
-            }
+
+  }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
-
+       path= path + spellTroopSpawner->getPath();
        formLayout->addRow("Damage: ", new QLabel(QString::number(spellTroopSpawner->getSpellDamage())));
        formLayout->addRow("Crown Tower Damage: ", new QLabel(QString::number(spellTroopSpawner->getCrownTowerDamage())));
        formLayout->addRow("Radius: ", new QLabel(QString::number(spellTroopSpawner->getRadius())));
@@ -327,6 +338,7 @@ void MainWindow::viewCardInfo(int pos)
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
+    path= path + troopSpawner->getPath();
     formLayout->addRow("Shield: ", new QLabel(QString::number(troopSpawner->getShield())));
     formLayout->addRow("Health: ", new QLabel(QString::number(troopSpawner->getTroopHealth())));
     formLayout->addRow("Hit Per Second: ", new QLabel(QString::number(troopSpawner->getHitxSec())));
@@ -335,7 +347,15 @@ void MainWindow::viewCardInfo(int pos)
     formLayout->addRow("Range: ", new QLabel(QString::number(troopSpawner->getRange())));
     formLayout->addRow("Count: ", new QLabel(QString::number(troopSpawner->getCount())));
     formLayout->addRow("Time and Description: ", new QLabel(QString::fromStdString(troopSpawner->getTimeDesc())));
-      }
+
+  }
+
+  QString s=QString::fromStdString(path);
+  QPixmap cardimg =QPixmap(s);
+  cardLabel->setPixmap(cardimg);
+  cardLabel->setFixedSize(180,180);
+  cardLabel->setScaledContents(true);
+
   layoutInfoBasic->addWidget(NameCard);
   layoutInfoBasic->addLayout(formLayout1);
   layoutInfoTop->addWidget(cardLabel);
@@ -358,6 +378,21 @@ void MainWindow::addRightLayout(){
     stackedWidget->addWidget(insertWidget);
     rightLayout->addWidget(stackedWidget);
     mainLayout->addLayout(rightLayout);
+
+}
+
+
+
+void MainWindow::setdefault(const QString &type){
+
+
+    if(type.toStdString()==":/img/iconCard/default.png")
+    { pathImg="default.png";}
+    else {
+      QFileInfo fi(type);
+      QString name=fi.fileName();
+      pathImg=name.toStdString();
+             }
 
 }
 
@@ -497,9 +532,6 @@ void MainWindow::addInsertWidget()
     // cardLevel
     QLineEdit* cardLevelEdit = new QLineEdit();
     QValidator* cardLevel1Validator = new QIntValidator(1, 13);
-    //QValidator* cardLevel2Validator = new QIntValidator(1, 13); //Modifica Livelli
-    //QValidator* cardLevel3Validator = new QIntValidator(1, 13);
-    //QValidator* cardLevel4Validator = new QIntValidator(1, 13);
     cardLevelEdit->setValidator(cardLevel1Validator);
     cardLevelEdit->setPlaceholderText("Level (max:13)");
 
@@ -507,8 +539,9 @@ void MainWindow::addInsertWidget()
     // Descrizione
     QTextEdit* descEdit = new QTextEdit();
     descEdit->setPlaceholderText("Description");
-
+    descEdit->setFixedSize(250,70);
     // -----> CardForm <------
+
     QFormLayout* formLayout= new QFormLayout();
     formLayout->insertRow(0, cardLabel, comboClassEdit);
     formLayout->insertRow(1, nameLabel, nameEdit);
@@ -723,10 +756,6 @@ void MainWindow::addInsertWidget()
     attackingBuildingWidget->setLayout(attckingBuildingFormLayout);
     attackingBuildingWidget->setVisible(false);
 
-
-
-
-
    /* "Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                                  "Building troop spawner", "Attacking building"};*/
 
@@ -815,8 +844,40 @@ void MainWindow::addInsertWidget()
 
 
 
+    QPushButton* choseImg = new QPushButton("Add Img");
+    QPushButton* deleteImg = new QPushButton("Delete Img");
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
+
+    connect(cancelInsert, &QPushButton::clicked, [this] {
+       setStackedWidgetPage(0);
+    });
+
+    QLabel *BoxImg=new QLabel;
+    //DeafultImg
+    QPixmap imgDefault = QPixmap(":/img/iconCard/default.png");
+    BoxImg->setPixmap(imgDefault);
+
+    //InserImg
+    connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
+     QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/",tr("images (*.png *.jpg *.jpeg *.gif)"));
+     setdefault(img);
+     if(img!=""){
+     BoxImg->setPixmap(img);
+     BoxImg->setScaledContents(true);
+     }
+             });
+
+    connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
+       QString img=":/img/iconCard/default.png";
+       setdefault(img);
+       BoxImg->setPixmap(QPixmap(img));
+       });
+
+
+
+
+
   /*
    * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
                              "Building troop spawner", "Attacking building"};
@@ -848,37 +909,37 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
          {
        DeepPtr<Card> card;
        if (comboClassEdit->currentText() == "Troop" ) {
-            card=new Troop(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+            card=new Troop(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                            hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt());
         }
         else if (comboClassEdit->currentText() == "Spell") {
-             card=new Spell(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+             card=new Spell(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble());
          }
         else if (comboClassEdit->currentText() == "Building") {
-             card=new Building(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+             card=new Building(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble());
          }
         else if (comboClassEdit->currentText() == "Troop spawner") {
-           card=new TroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+           card=new TroopSpawner(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                            cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                            hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeDescEditTroopSpawner->text().toStdString());
               }
         else if (comboClassEdit->currentText() == "Spell troop spawner") {
-             card=new SpellTroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+             card=new SpellTroopSpawner(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                                         cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),spellDamageEdit->text().toDouble(),crownTowerDamageEdit->text().toDouble(),radiusEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                                         hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeSpawnEditSpellTroopSpawner->text().toStdString());
 
                }
         else if (comboClassEdit->currentText() == "Building troop spawner") {
 
-             card=new BuildingTroopSpawner(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+             card=new BuildingTroopSpawner(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                                hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),spawnSpeedEdit->text().toDouble());
          }
         else if (comboClassEdit->currentText() == "Attacking building") {
-             card=new AttackingBuilding(nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
+             card=new AttackingBuilding(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                             cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
          }
             container.insert(card);
@@ -893,8 +954,43 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
     });
 
 
+    // Set size Button And BoxImg
+    BoxImg->setFixedSize(190,190);
+    choseImg->setFixedSize(90,40);
+    deleteImg->setFixedSize(90,40);
 
-    insertLayout->addLayout(formLayout);
+    //Set size Button Conferm AND Cancel insert
+    confirmInsert->setFixedSize(100,50);
+    cancelInsert->setFixedSize(100,50);
+
+
+    // Set icon Button
+    //Delete Button
+    QPixmap pixmap1(":/img/x.png");
+    QIcon ButtonIcon1(pixmap1);
+    deleteImg->setIcon(ButtonIcon1);
+    // deleteImg->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+    // Insert Button
+    QPixmap pixmap2(":/img/add.png");
+    QIcon ButtonIcon2(pixmap2);
+    choseImg->setIcon(ButtonIcon2);
+    // choseImg->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+
+    // ButtonLayout
+    QHBoxLayout* buttonImgBoxLayout = new QHBoxLayout();
+    buttonImgBoxLayout->addWidget(choseImg);
+    buttonImgBoxLayout->addWidget(deleteImg);
+
+    // ImgBoxLayout
+    QVBoxLayout* imgBoxLayout = new QVBoxLayout();
+    imgBoxLayout->addWidget(BoxImg);
+    imgBoxLayout->addLayout(buttonImgBoxLayout);
+    imgBoxLayout->setSpacing(2);
+    // BoxLayout
+    QHBoxLayout* basicCard= new QHBoxLayout();
+    basicCard->addLayout(imgBoxLayout);
+    basicCard->addLayout(formLayout);
+    insertLayout->addLayout(basicCard);
 
     QHBoxLayout* cardTypeLatout=new QHBoxLayout();
     cardTypeLatout->addWidget(troopWidget);
@@ -909,6 +1005,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
     QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
+    buttonInsertLatout->setMargin(10);
     insertLayout->addLayout(buttonInsertLatout);
 
 }
@@ -949,6 +1046,8 @@ void MainWindow::loadFile(){
                                             else if (type == "Troop Spawner") card = new TroopSpawner();
                                             card->readJson(obj);
                                             container.insert(card);
+                                            listImg->addItem(new QListWidgetItem(QString::fromStdString(card->getName()))); //salvo percorso dati su listIMG
+
                                         }
                                }
                     clearLayout(infolayout);

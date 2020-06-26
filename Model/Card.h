@@ -17,6 +17,7 @@ class Card
 public:
     enum rarity{common,rare,epic,legendary};
 private:
+    string path;
     string name;
     unsigned int manaCost;
     rarity cardRarity;
@@ -29,11 +30,12 @@ private:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Card()=default;
-    Card(string, unsigned int, rarity, unsigned int,string);
+    Card(string, string, unsigned int, rarity, unsigned int,string);
     Card(const Card&);
     virtual ~Card() = default;
 
     // SETTERS
+    void setPath(string p);
     void setName(string n);
     void setManaCost(unsigned int mana);
     void setCardRarity(rarity rar);
@@ -41,6 +43,7 @@ public:
     void setDescription(string desc);
 
     // GETTERs
+    string getPath() const;
     string getName() const;
     unsigned int getManaCost() const;
     rarity getCardRarity() const;

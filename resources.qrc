@@ -31,5 +31,8 @@
         <file>img/insertIcon/shield.png</file>
         <file>img/insertIcon/spawnDD.png</file>
         <file>Style/white.css</file>
+        <file>img/x.png</file>
+        <file>img/iconCard/default.png</file>
+        <file>img/iconCard/icon.png</file>
     </qresource>
 </RCC>

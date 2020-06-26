@@ -65,7 +65,7 @@ void Building::readJson(const QJsonObject &obj)
 
 
 
-Building::Building(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime):
-    Card(n,mana,rar,cLevel,desc), buildHealth(bHealth), lifeTime(lTime){}
+Building::Building(std::string p, std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime):
+    Card(p,n,mana,rar,cLevel,desc), buildHealth(bHealth), lifeTime(lTime){}
 
 Building::Building(const Building &b): Card(b), buildHealth(b.getBuildHealth()), lifeTime(b.getLifeTime()){}

@@ -8,7 +8,7 @@ private:
     double spawnSpeed;
 public:
     BuildingTroopSpawner()=default;
-    BuildingTroopSpawner(string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime,
+    BuildingTroopSpawner(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc, double bHealth, double lTime,
     double shld,
     double tHealth,
     double hxSec,

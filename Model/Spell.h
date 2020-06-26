@@ -14,7 +14,7 @@ protected:
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Spell()=default;
-    Spell(string, unsigned int, rarity, unsigned int,string
+    Spell(string, string, unsigned int, rarity, unsigned int,string
           ,double,double,double);
     Spell(const Spell&);
     // GETTERS

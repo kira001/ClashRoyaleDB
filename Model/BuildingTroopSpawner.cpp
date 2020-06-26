@@ -1,10 +1,10 @@
 #include"BuildingTroopSpawner.h"
 
 
-BuildingTroopSpawner::BuildingTroopSpawner(std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime, double shld, double tHealth, double hxSec, double dxSec, double sDD, double rng, unsigned int cnt, double sSpeed):
-                                         Card(n,mana,rar,cLevel,desc),
-                                         Building(n,mana,rar,cLevel,desc,bHealth,lTime),
-                                         Troop(n,mana,rar,cLevel,desc, shld, tHealth, hxSec, dxSec, sDD, rng, cnt), spawnSpeed(sSpeed){}
+BuildingTroopSpawner::BuildingTroopSpawner(std::string p,std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime, double shld, double tHealth, double hxSec, double dxSec, double sDD, double rng, unsigned int cnt, double sSpeed):
+                                         Card(p,n,mana,rar,cLevel,desc),
+                                         Building(p,n,mana,rar,cLevel,desc,bHealth,lTime),
+                                         Troop(p,n,mana,rar,cLevel,desc, shld, tHealth, hxSec, dxSec, sDD, rng, cnt), spawnSpeed(sSpeed){}
 
 
 BuildingTroopSpawner::BuildingTroopSpawner(const BuildingTroopSpawner &bts):
