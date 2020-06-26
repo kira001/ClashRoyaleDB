@@ -2,7 +2,7 @@
 #include "myexception.h"
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 Card::Card(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
-           name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
+           path(p),name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
            {
             Card::setMaxLevel(rar);
             controlRarityLevel(rar,cLevel);
