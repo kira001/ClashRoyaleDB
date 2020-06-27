@@ -891,21 +891,6 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
        });
 
-
-
-
-
-  /*
-   * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
-                             "Building troop spawner", "Attacking building"};
-
-    double buildHealth;
-    double lifeTime;
-TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
-                           double s,double th,double hxs,double dxs,
-                           double sdd,double r,unsigned int c,string td)
-                           :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
-*/
     connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
             shieldEdit,troopHealthEdit,hitPerSecondTroopEdit,damagePerSecondTroopEdit,spawnDDEdit,rangeTroopEdit,countEdit,
             spellDamageEdit,crownTowerDamageEdit,radiusEdit,
@@ -914,7 +899,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             timeSpawnEditSpellTroopSpawner,
             spawnSpeedEdit,
             hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit, Edit, cardPos] {
- try {
+        try {
             if ((comboClassEdit->currentText()=="Select card type") || nameEdit->text().isEmpty() || manaCostEdit->text().isEmpty() || comboRarity->currentText()=="Select rarity"
                             || cardLevelEdit->text().isEmpty() || descEdit->document()->isEmpty()) {
                         throw MyException("Some field are empty");
@@ -922,11 +907,6 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                     else
                     {
 
-                        /* if ( || shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() ||
-                                    damagePerSecondTroopEdit->text().isEmpty() || spawnDDEdit->text().isEmpty() || rangeTroopEdit->text().isEmpty() || countEdit->text().isEmpty() || spellDamageEdit->text().isEmpty() ||
-                                    crownTowerDamageEdit->text().isEmpty() || radiusEdit->text().isEmpty() || buildHealthEdit->text().isEmpty() || lifeTimeBuildEdit->text().isEmpty() || timeDescEditTroopSpawner->text().isEmpty() ||
-                                    timeSpawnEditSpellTroopSpawner->text().isEmpty() || spawnSpeedEdit->text().isEmpty() || hitPerSecondAttBuildingEdit->text().isEmpty() || damagePerSecondAttBuildingEdit->text().isEmpty() || rangeAttBuildingEdit->text().isEmpty())
-                           */
                 DeepPtr<Card> card;
                          if (comboClassEdit->currentText() == "Troop" ) {
                              if( shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() ||
@@ -987,7 +967,11 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                                               cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
                            }
                               if (Edit) container.remove(cardPos);
-                              container.insert(card);
+
+                              if(isCardNameInContainer(card->getName()))
+                                  throw  MyException("This name is alredy insert");
+                              else
+                                  container.insert(card);
                               setStackedWidgetPage(0);
                               resetlist();
                               clearLayout(insertLayout);
@@ -1327,4 +1311,13 @@ void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString&
     list->clear();
     filterTypeRarity(filterTypeTxt, filterRarityTxt);
     findNameCard(searchTxt);
+}
+
+bool MainWindow::isCardNameInContainer(std::string cardName)
+{
+    for (unsigned int i = 0; i < container.getSize(); ++i) {
+        if (container[i]->getName() == cardName)
+            return true;
+    }
+    return false;
 }

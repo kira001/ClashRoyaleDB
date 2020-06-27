@@ -82,7 +82,7 @@ private:
     void setdefault(const QString& type);
     void filterTypeRarity(const QString& type, const QString &rarity);
     void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
-
+    bool isCardNameInContainer(string cardName);
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
