@@ -71,7 +71,7 @@ private:
     void setWidgetStyleWhite();
     void basicInfoWidget();
     void viewCardInfo(int);
-    void addInsertWidget();
+    void addInsertWidget(bool Edit=false, int cardPos=-1);
     void setStackedWidgetPage(int);
     void findNameCard(const QString& std);
     void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
