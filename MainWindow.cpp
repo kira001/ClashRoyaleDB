@@ -93,8 +93,7 @@ void MainWindow::addLeftLayout(){
       if (list->count()>0)
     {
           clearLayout(infolayout);
-          viewCardInfo(list->currentRow());
-          //viewCardInfo(findListItemInContainer(list->currentRow()));
+          viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
       }
     });
@@ -1293,23 +1292,17 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
     }*/
 
     if(rarity!= "All"){
-        string c;
         list->reset();
         list->clear();
         if(type=="All"){
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity)
-                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
-                    //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-                    list->addItem(new QListWidgetItem(QString::fromStdString(c)));
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
         else{
-            for(int unsigned i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
-
-                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
-                                  list->addItem(new QListWidgetItem(QString::fromStdString(c)));
-                    //list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
     }
 
@@ -1317,12 +1310,12 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
         list->reset();
         list->clear();
         if(rarity=="All"){
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
         else{
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
