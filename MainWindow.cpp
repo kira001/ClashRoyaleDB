@@ -104,7 +104,6 @@ void MainWindow::addLeftLayout(){
     searchbox->setClearButtonEnabled(true);
     searchbox->addAction(QIcon(":/img/whitesearch.png"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
-    searchbox->setFixedSize(190,30);
 
    connect(searchbox, &QLineEdit::textChanged, [this] {
          if (container.getSize() > 0)
@@ -164,8 +163,9 @@ void MainWindow::addLeftLayout(){
    */
 
 
+    searchbox->setFixedSize(190,30);
     filterTypeBox->setFixedSize(150,30);
-    filterRarityBox->setFixedSize(80,30);
+    filterRarityBox->setFixedSize(20,30);
     searchLayout->addWidget(searchbox);
     searchLayout->addWidget(filterTypeBox);
     searchLayout->addWidget(filterRarityBox);
@@ -195,7 +195,7 @@ void MainWindow::addMenu(){
     QAction* save= new QAction(QIcon(":img/add.png"),"Save Set", this);
     QAction* load=new QAction(QIcon(":img/save.png"), "Load Set", this);
     QAction* about=new QAction("About", this);
-    QAction* white=new QAction("White", this);
+    QAction* white=new QAction("Lite", this);
     QAction* dark=new QAction("Dark", this);
 
 
@@ -321,7 +321,7 @@ void MainWindow::viewCardInfo(int pos)
     //Picture+infocardBasic
 
    QHBoxLayout* layoutInfoTop=new QHBoxLayout(this);
-    QFormLayout* formLayout1 = new QFormLayout(this);
+    QFormLayout* formLayout0 = new QFormLayout(this);
 
     unsigned int fixPos= static_cast<unsigned int>(pos);
 
@@ -334,18 +334,19 @@ void MainWindow::viewCardInfo(int pos)
     QLabel* descCard=new QLabel("Description:  "+ QString::number(container[fixPos]->getManaCost()));
 
     //Form1
-    formLayout1->insertRow(0,nameLabel,nameCard);
-    formLayout1->insertRow(1,cardLabel0,typeCard);
-    formLayout1->insertRow(2,cardRarityLabel,rarityCard);
-    formLayout1->insertRow(3,manaCostLabel,manaCostCard);
-    formLayout1->insertRow(4,descLabel,descCard);
+    formLayout0->insertRow(0,nameLabel,nameCard);
+    formLayout0->insertRow(1,cardLabel0,typeCard);
+    formLayout0->insertRow(2,cardRarityLabel,rarityCard);
+    formLayout0->insertRow(3,manaCostLabel,manaCostCard);
+    formLayout0->insertRow(4,descLabel,descCard);
 
-   //string path=":/img/iconCard/";
+    //string path=":/img/iconCard/";
     string path=pathImg;
     QLabel* cardLabel=new QLabel();
 
 
     //Button Edit
+    QHBoxLayout* Multiform=new QHBoxLayout(this);
     QHBoxLayout* buttonLayout=new QHBoxLayout(this);
     QPushButton* editButton = new QPushButton("Edit");
     editButton->setFixedSize(100,50);
@@ -361,42 +362,38 @@ void MainWindow::viewCardInfo(int pos)
 
 
    //info Card Base
-  QFormLayout* formLayout = new QFormLayout(this);
-  formLayout->setHorizontalSpacing(1);
-  formLayout->setVerticalSpacing(1);
+  QFormLayout* formLayout1 = new QFormLayout(this);
+  QFormLayout* formLayout2 = new QFormLayout(this);
+  QFormLayout* formLayout3 = new QFormLayout(this);
 
   if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
-      //:/img/iconCard/default.png
-     //path= path + building->getPath();
       path= building->getPath();
       QLabel* healthBuilding=new QLabel("Health: "+ QString::number(building->getBuildHealth()));
       QLabel* lifetimeBuilding=new QLabel("Life Time: "+ QString::number(building->getLifeTime()));
 
-      formLayout->addRow(healthLabel,healthBuilding);
-      formLayout->addRow(lifeTimeBuildingLabel,lifetimeBuilding);
+      formLayout1->addRow(healthLabel,healthBuilding);
+      formLayout1->addRow(lifeTimeBuildingLabel,lifetimeBuilding);
 
   }
   else if(container[fixPos]->getType()=="Spell")
   {
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
-    //path= path + spell->getPath();
     path= spell->getPath();
 
     QLabel* damageSpell=new QLabel("Damage: "+ QString::number(spell->getSpellDamage()));
     QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(spell->getCrownTowerDamage()));
     QLabel* radius=new QLabel("Radius: "+ QString::number(spell->getRadius()));
 
-    formLayout->addRow(damagePerSecondLabel,damageSpell);
-    formLayout->addRow(crownTowerDmgLabel,crownTowerDamage);
-    formLayout->addRow(radiusLabel,radius);
+    formLayout1->addRow(damagePerSecondLabel,damageSpell);
+    formLayout1->addRow(crownTowerDmgLabel,crownTowerDamage);
+    formLayout1->addRow(radiusLabel,radius);
 
   }
   else if(container[fixPos]->getType()=="Troop"){
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
-       // path= path + troop->getPath();
-      path= troop->getPath();
+       path= troop->getPath();
 
 
       QLabel* shieldTroop=new QLabel("Shield: "+ QString::number(troop->getShield()));
@@ -407,19 +404,19 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* rangeTroop=new QLabel("Range: "+ QString::number(troop->getRange()));
       QLabel* countTroop=new QLabel("Count: "+ QString::number(troop->getCount()));
 
-      formLayout->addRow(shieldLabel,shieldTroop);
-      formLayout->addRow(healthLabel,healthTroop);
-      formLayout->addRow(hitPerSecondLabel,hitxsecTroop);
-      formLayout->addRow(damagePerSecondLabel,damagexsecTroop);
-      formLayout->addRow(spawnDDLabel,sddTroop);
-      formLayout->addRow(rangeLabel,rangeTroop);
-      formLayout->addRow(countLabel,countTroop);
+      formLayout1->addRow(shieldLabel,shieldTroop);
+      formLayout1->addRow(healthLabel,healthTroop);
+      formLayout1->addRow(hitPerSecondLabel,hitxsecTroop);
+      formLayout1->addRow(damagePerSecondLabel,damagexsecTroop);
+      formLayout1->addRow(spawnDDLabel,sddTroop);
+      formLayout1->addRow(rangeLabel,rangeTroop);
+      formLayout1->addRow(countLabel,countTroop);
 
 
   }
   else if(container[fixPos]->getType()=="Attacking Building"){
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
-      //path= path + attackingBuilding->getPath();
+
       path= attackingBuilding->getPath();
 
 
@@ -429,15 +426,15 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* damagexsecAttBuilding=new QLabel("Damage (per second): "+ QString::number(attackingBuilding->getDamagePerSecond()));
       QLabel* rangeAttBuilding=new QLabel("Range: "+ QString::number(attackingBuilding->getRange()));
 
-      formLayout->addRow(healthBuildingLabel,healthAttBuilding);
-      formLayout->addRow(lifeTimeBuildingLabel,lifetimeAttBuilding);
-      formLayout->addRow(hitPerSecondLabel,hitxsecAttBuilding);
-      formLayout->addRow(damagePerSecondLabel,damagexsecAttBuilding);
-      formLayout->addRow(rangeLabel,rangeAttBuilding);
+      formLayout1->addRow(healthBuildingLabel,healthAttBuilding);
+      formLayout1->addRow(lifeTimeBuildingLabel,lifetimeAttBuilding);
+      formLayout1->addRow(hitPerSecondLabel,hitxsecAttBuilding);
+      formLayout1->addRow(damagePerSecondLabel,damagexsecAttBuilding);
+      formLayout1->addRow(rangeLabel,rangeAttBuilding);
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
-      //path= path + buildingTroopSpawner->getPath();
+
       path= buildingTroopSpawner->getPath();
 
       QLabel* health1BuildingTroop=new QLabel("Building Health: "+ QString::number(buildingTroopSpawner->getBuildHealth()));
@@ -451,23 +448,25 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* rangeBuildingTroop=new QLabel("Range: "+ QString::number(buildingTroopSpawner->getRange()));
       QLabel* countBuildingTroop=new QLabel("Count: "+ QString::number(buildingTroopSpawner->getCount()));
 
-      formLayout->addRow(healthBuildingLabel,health1BuildingTroop);
-      formLayout->addRow(healthLabel,health2BuildingTroop);
-      formLayout->addRow(lifeTimeBuildingLabel,lifetimeBuildingTroop);
-      formLayout->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
-      formLayout->addRow(shieldLabel,shieldBuildingTroop);
-      formLayout->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
-      formLayout->addRow(damageLabel,damagexsecBuildingTroop);
-      formLayout->addRow(spawnSpeedBuildingTroopSpawnerLabel,sddBuildingTroop);
-      formLayout->addRow(rangeLabel,rangeBuildingTroop);
-      formLayout->addRow(countLabel,countBuildingTroop);
+      formLayout1->addRow(shieldLabel,shieldBuildingTroop);
+      formLayout1->addRow(healthBuildingLabel,health1BuildingTroop);
+      formLayout1->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
+      formLayout1->addRow(damageLabel,damagexsecBuildingTroop);
+      formLayout1->addRow(spawnSpeedBuildingTroopSpawnerLabel,sddBuildingTroop);
+      formLayout1->addRow(rangeLabel,rangeBuildingTroop);
+      formLayout1->addRow(countLabel,countBuildingTroop);
 
 
-
+      formLayout2->addRow(healthLabel,health2BuildingTroop);
+      formLayout2->addRow(lifeTimeBuildingLabel,lifetimeBuildingTroop);
+      formLayout3->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
+      Multiform->addLayout(formLayout1);
+      Multiform->addLayout(formLayout2);
+      Multiform->addLayout(formLayout3);
   }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
-       //path= path + spellTroopSpawner->getPath();
+
        path=spellTroopSpawner->getPath();
 
 
@@ -485,27 +484,28 @@ void MainWindow::viewCardInfo(int pos)
 
 
 
-        formLayout->addRow(shieldLabel,shieldSpellTroop);
-        formLayout->addRow(healthLabel,healthSpellTroop);
-        formLayout->addRow(hitPerSecondLabel,hitxsecSpellTroop);
-        formLayout->addRow(damagePerSecondLabel,damagexsecSpellTroop);
-        formLayout->addRow(spawnDDLabel,sddSpellTroop);
-        formLayout->addRow(rangeLabel,rangeSpellTroop);
-        formLayout->addRow(countLabel,countSpellTroop);
-        formLayout->addRow(damageLabel,damageSpellTroop);
-        formLayout->addRow(crownTowerDmgLabel,crowntowerdamageSpellTroop);
-        formLayout->addRow(radiusLabel,radiusSpellTroop);
-        formLayout->addRow(spawnTimeLabel,tsSpellTroop);
+        formLayout1->addRow(shieldLabel,shieldSpellTroop);
+        formLayout1->addRow(healthLabel,healthSpellTroop);
+        formLayout1->addRow(hitPerSecondLabel,hitxsecSpellTroop);
+        formLayout1->addRow(damagePerSecondLabel,damagexsecSpellTroop);
+        formLayout1->addRow(spawnDDLabel,sddSpellTroop);
+        formLayout1->addRow(rangeLabel,rangeSpellTroop);
+        formLayout1->addRow(countLabel,countSpellTroop);
+
+        formLayout2->addRow(damageLabel,damageSpellTroop);
+        formLayout2->addRow(crownTowerDmgLabel,crowntowerdamageSpellTroop);
+        formLayout2->addRow(radiusLabel,radiusSpellTroop);
+        formLayout3->addRow(spawnTimeLabel,tsSpellTroop);
+
+        Multiform->addLayout(formLayout1);
+        Multiform->addLayout(formLayout2);
+        Multiform->addLayout(formLayout3);
 
 
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
-    //path=path + troopSpawner->getPath();
-    path=troopSpawner->getPath();
-
-    QFormLayout* form2 = new QFormLayout(this);
-
+     path=troopSpawner->getPath();
 
 
      QLabel* shieldTroopSpawner=new QLabel("Shield: "+ QString::number(troopSpawner->getShield()));
@@ -518,32 +518,68 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* timedescTroopSpawner=new QLabel("Time and Description: "+ QString::fromStdString(troopSpawner->getTimeDesc()));
 
 
-     formLayout->addRow(shieldLabel,shieldTroopSpawner);
-     formLayout->addRow(healthLabel,healthTroopSpawner);
-     formLayout->addRow(hitPerSecondLabel,hitxsecTroopSpawner);
-     formLayout->addRow(damagePerSecondLabel,damagexsecTroopSpawner);
-     formLayout->addRow(spawnDDLabel,sddTroopSpawner);
-     formLayout->addRow(rangeLabel,rangeTroopSpawner);
-     formLayout->addRow(countLabel,countTroopSpawner);
-     form2->addRow(spawnTimeLabel,timedescTroopSpawner);
+     formLayout1->addRow(shieldLabel,shieldTroopSpawner);
+     formLayout1->addRow(healthLabel,healthTroopSpawner);
+     formLayout1->addRow(hitPerSecondLabel,hitxsecTroopSpawner);
+     formLayout1->addRow(damagePerSecondLabel,damagexsecTroopSpawner);
+     formLayout1->addRow(spawnDDLabel,sddTroopSpawner);
+     formLayout1->addRow(rangeLabel,rangeTroopSpawner);
+     formLayout1->addRow(countLabel,countTroopSpawner);
 
+    formLayout2->addRow(spawnTimeLabel,timedescTroopSpawner);
+    Multiform->addLayout(formLayout1);
+    Multiform->addLayout(formLayout2);
   }
 
+
+
+  QPushButton* lvUpgrade = new QPushButton();
+  connect(lvUpgrade, &QPushButton::clicked, [this,fixPos] {
+      clearLayout(infolayout);
+      container[fixPos]->lvlUpgrade();
+      viewCardInfo(fixPos);
+
+  } );
+
+  QPushButton* lvDowngrade = new QPushButton();
+  connect(lvDowngrade, &QPushButton::clicked, [this,fixPos] {
+      clearLayout(infolayout);
+      container[fixPos]->lvlDowngrade();
+      viewCardInfo(fixPos);
+
+  } );
+
+  // Set icon Button
+  //Delete Button
+  QPixmap pixmap1(":/img/add.png");
+  QIcon ButtonIcon1(pixmap1);
+  lvUpgrade->setIcon(ButtonIcon1);
+  lvUpgrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+  // Insert Button
+  QPixmap pixmap2(":/img/min.png");
+  QIcon ButtonIcon2(pixmap2);
+  lvDowngrade->setIcon(ButtonIcon2);
+  lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+
+
+
+
+    formLayout0->setMargin(20);
+    buttonLayout->setMargin(6);
   QString s=QString::fromStdString(path);
   QPixmap cardimg =QPixmap(s);
   cardLabel->setPixmap(cardimg);
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
-  formLayout->setHorizontalSpacing(3);
-  formLayout->setVerticalSpacing(4);
-  formLayout->setMargin(30);
-  formLayout1->setMargin(37);
   layoutInfoTop->addWidget(cardLabel);
-  layoutInfoTop->addLayout(formLayout1);
+  layoutInfoTop->addLayout(formLayout0);
+  layoutInfoTop->addWidget(lvUpgrade);
+  layoutInfoTop->addWidget(lvDowngrade);
   infolayout->addLayout(layoutInfoTop);
-  infolayout->addLayout(layoutInfoTop);
-  infolayout->addLayout(formLayout);
+  infolayout->addLayout(Multiform);
+  infolayout->addLayout(formLayout1);
   infolayout->addLayout(buttonLayout);
+
 
   //infolayout->addStretch();
 }
@@ -563,18 +599,6 @@ void MainWindow::addRightLayout(){
 }
 
 
-
-void MainWindow::setdefault(const QString &type){
-    //if(type.toStdString()==":/img/iconCard/default.png"){
-     //   pathImg="default.png";
-   // }
-    //else {
-      //QFileInfo fi(type);
-      //QString name=fi.fileName();
-      pathImg=type.toStdString();
-    //}
-
-}
 
 void MainWindow::addInsertWidget(bool Edit, int cardPos)
 {
@@ -1022,9 +1046,6 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
     });
 
 
-
-
-
     QPushButton* choseImg = new QPushButton("Add Img");
     QPushButton* deleteImg = new QPushButton("Delete Img");
     QPushButton* confirmInsert = new QPushButton("Confirm");
@@ -1039,21 +1060,24 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
     QPixmap imgDefault = QPixmap(":/img/iconCard/default.png");
     BoxImg->setPixmap(imgDefault);
 
+
+
+
     //InserImg
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
      QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/",tr("images (*.png *.jpg *.jpeg *.gif)"));
-     setdefault(img);
+     pathImg=img.toStdString();
      if(img!=""){
      BoxImg->setPixmap(img);
      BoxImg->setScaledContents(true);
      }else
      {
-     setdefault(":/img/iconCard/default.png");
+           pathImg=":/img/iconCard/default.png";
      }
-             });
+     });
 
     connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
-       setdefault(":/img/iconCard/default.png");
+        pathImg=":/img/iconCard/default.png";
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
        });
 
@@ -1369,6 +1393,7 @@ void MainWindow::setWidgetStyleWhite(){
    setMaximumSize(QSize(1200,800));
    //setMinimumSize(QSize(800,500));
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
 
     //Imposto il foglio di stile
   QFile file(":/Style/white.css");

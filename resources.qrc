@@ -34,5 +34,6 @@
         <file>img/iconCard/default.png</file>
         <file>img/iconCard/icon.png</file>
         <file>Style/dark.css</file>
+        <file>img/min.png</file>
     </qresource>
 </RCC>

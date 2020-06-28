@@ -79,7 +79,7 @@ private:
     int findListItemInContainer(int itemPos) const;
     void showInfoCard(int);
     void clearLayout(QLayout*);
-    void setdefault(const QString& type);
+    void test();
     void filterTypeRarity(const QString& type, const QString &rarity);
     void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
     bool isCardNameInContainer(string cardName);
