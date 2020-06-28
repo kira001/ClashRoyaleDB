@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>img/icon.png</file>
         <file>Load&amp;Save/InputTest.json</file>
-        <file>Style/test.css</file>
         <file>img/search.png</file>
         <file>img/info.png</file>
         <file>img/infobox.png</file>
@@ -34,5 +33,6 @@
         <file>img/x.png</file>
         <file>img/iconCard/default.png</file>
         <file>img/iconCard/icon.png</file>
+        <file>Style/dark.css</file>
     </qresource>
 </RCC>

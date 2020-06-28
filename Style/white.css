@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    background-color: rgb(214,214,214);
+    background-color: rgb(210,210,210);
     color:black;
 selection-background-color: rgb(190,190,190);
 }
@@ -32,9 +32,8 @@ border: 0.5px solid black;
 border-radius: 4px;
 height:20%;
 min-width: 5em;
- font: 17px;
+font: 17px;
  }
-
 QToolBar{
 spacing: 15px;
 border: 0.2px solid black;
