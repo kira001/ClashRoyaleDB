@@ -93,8 +93,7 @@ void MainWindow::addLeftLayout(){
       if (list->count()>0)
     {
           clearLayout(infolayout);
-          viewCardInfo(list->currentRow());
-          //viewCardInfo(findListItemInContainer(list->currentRow()));
+          viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
       }
     });
@@ -141,12 +140,11 @@ void MainWindow::addLeftLayout(){
           combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
 
-
    filterRarityBox->addItem("All");
-   filterRarityBox->addItem("Comune");
-   filterRarityBox->addItem("Rara");
-   filterRarityBox->addItem("Epica");
-   filterRarityBox->addItem("Leggendaria");
+   filterRarityBox->addItem("Common");
+   filterRarityBox->addItem("Rare");
+   filterRarityBox->addItem("Epic");
+   filterRarityBox->addItem("Legendary");
    connect(filterRarityBox, &QComboBox::currentTextChanged,[this]{
        if(container.getSize()>0)
            combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
@@ -353,6 +351,13 @@ void MainWindow::viewCardInfo(int pos)
     editButton->setFixedSize(100,50);
     buttonLayout->addWidget(editButton);
 
+    connect(editButton, &QPushButton::clicked, [this, pos] {
+    clearLayout(insertLayout);
+    addInsertWidget(true,pos);
+    insertWidget->setLayout(insertLayout);
+    setStackedWidgetPage(2);
+
+    });
 
 
    //info Card Base
@@ -571,7 +576,7 @@ void MainWindow::setdefault(const QString &type){
 
 }
 
-void MainWindow::addInsertWidget()
+void MainWindow::addInsertWidget(bool Edit, int cardPos)
 {
 
     //Icone
@@ -679,8 +684,8 @@ void MainWindow::addInsertWidget()
 
     /***********************/
 
-    QStringList classList = {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
-                             "Building troop spawner", "Attacking building"};
+    QStringList classList = {"Select card type", "Troop", "Spell", "Building", "Troop Spawner", "Spell-Troop Spawner",
+                             "Building-Troop Spawner", "Attacking Building"};
     QComboBox* comboClassEdit = new QComboBox;
     comboClassEdit->addItems(classList);
     comboClassEdit->insertSeparator(1);
@@ -974,7 +979,7 @@ void MainWindow::addInsertWidget()
                 buildingTroopSpawnerWidget->setVisible(false);
                 attackingBuildingWidget->setVisible(false);
         }
-        else if (comboClassEdit->currentText() == "Troop spawner") {
+        else if (comboClassEdit->currentText() == "Troop Spawner") {
                 troopWidget->setVisible(true);
                 troopSpawnerWidget->setVisible(true);
                 spellWidget->setVisible(false);
@@ -983,7 +988,7 @@ void MainWindow::addInsertWidget()
                 buildingTroopSpawnerWidget->setVisible(false);
                 attackingBuildingWidget->setVisible(false);
         }
-        else if (comboClassEdit->currentText() == "Spell troop spawner") {
+        else if (comboClassEdit->currentText() == "Spell-Troop Spawner") {
                 troopWidget->setVisible(true);
                 spellWidget->setVisible(true);
                 spellTroopSpawnerWidget->setVisible(true);
@@ -993,7 +998,7 @@ void MainWindow::addInsertWidget()
                 buildingTroopSpawnerWidget->setVisible(false);
                 attackingBuildingWidget->setVisible(false);
         }
-        else if (comboClassEdit->currentText() == "Building troop spawner") {
+        else if (comboClassEdit->currentText() == "Building-Troop Spawner") {
                 buildingWidget->setVisible(true);
                 troopWidget->setVisible(true);
                 buildingTroopSpawnerWidget->setVisible(true);
@@ -1052,21 +1057,6 @@ void MainWindow::addInsertWidget()
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
        });
 
-
-
-
-
-  /*
-   * {"Select card type", "Troop", "Spell", "Building", "Troop spawner", "Spell troop spawner",
-                             "Building troop spawner", "Attacking building"};
-
-    double buildHealth;
-    double lifeTime;
-TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,string desc,
-                           double s,double th,double hxs,double dxs,
-                           double sdd,double r,unsigned int c,string td)
-                           :Troop(n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
-*/
     connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
             shieldEdit,troopHealthEdit,hitPerSecondTroopEdit,damagePerSecondTroopEdit,spawnDDEdit,rangeTroopEdit,countEdit,
             spellDamageEdit,crownTowerDamageEdit,radiusEdit,
@@ -1074,8 +1064,8 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             timeDescEditTroopSpawner,
             timeSpawnEditSpellTroopSpawner,
             spawnSpeedEdit,
-            hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit] {
- try {
+            hitPerSecondAttBuildingEdit,damagePerSecondAttBuildingEdit,rangeAttBuildingEdit, Edit, cardPos] {
+        try {
             if ((comboClassEdit->currentText()=="Select card type") || nameEdit->text().isEmpty() || manaCostEdit->text().isEmpty() || comboRarity->currentText()=="Select rarity"
                             || cardLevelEdit->text().isEmpty() || descEdit->document()->isEmpty()) {
                         throw MyException("Some field are empty");
@@ -1083,11 +1073,6 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                     else
                     {
 
-                        /* if ( || shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() ||
-                                    damagePerSecondTroopEdit->text().isEmpty() || spawnDDEdit->text().isEmpty() || rangeTroopEdit->text().isEmpty() || countEdit->text().isEmpty() || spellDamageEdit->text().isEmpty() ||
-                                    crownTowerDamageEdit->text().isEmpty() || radiusEdit->text().isEmpty() || buildHealthEdit->text().isEmpty() || lifeTimeBuildEdit->text().isEmpty() || timeDescEditTroopSpawner->text().isEmpty() ||
-                                    timeSpawnEditSpellTroopSpawner->text().isEmpty() || spawnSpeedEdit->text().isEmpty() || hitPerSecondAttBuildingEdit->text().isEmpty() || damagePerSecondAttBuildingEdit->text().isEmpty() || rangeAttBuildingEdit->text().isEmpty())
-                           */
                 DeepPtr<Card> card;
                          if (comboClassEdit->currentText() == "Troop" ) {
                              if( shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() ||
@@ -1112,7 +1097,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                                card=new Building(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                                               cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble());
                            }
-                          else if (comboClassEdit->currentText() == "Troop spawner") {
+                          else if (comboClassEdit->currentText() == "Troop Spawner") {
                              if( shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() ||
                                      damagePerSecondTroopEdit->text().isEmpty() || spawnDDEdit->text().isEmpty() || rangeTroopEdit->text().isEmpty() || countEdit->text().isEmpty() || timeDescEditTroopSpawner->text().isEmpty() )
                                  throw MyException("Some field are empty");
@@ -1121,7 +1106,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                                              cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                                              hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeDescEditTroopSpawner->text().toStdString());
                                 }
-                          else if (comboClassEdit->currentText() == "Spell troop spawner") {
+                          else if (comboClassEdit->currentText() == "Spell-Troop Spawner") {
                              if( shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() || damagePerSecondTroopEdit->text().isEmpty() || spawnDDEdit->text().isEmpty() ||
                                      rangeTroopEdit->text().isEmpty() || countEdit->text().isEmpty() || spellDamageEdit->text().isEmpty() || crownTowerDamageEdit->text().isEmpty() || radiusEdit->text().isEmpty() || timeSpawnEditSpellTroopSpawner->text().isEmpty())
                                  throw MyException("Some field are empty");
@@ -1131,7 +1116,7 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                                                           hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),timeSpawnEditSpellTroopSpawner->text().toStdString());
 
                                  }
-                          else if (comboClassEdit->currentText() == "Building troop spawner") {
+                          else if (comboClassEdit->currentText() == "Building-Troop Spawner") {
                              if( shieldEdit->text().isEmpty() || troopHealthEdit->text().isEmpty() || hitPerSecondTroopEdit->text().isEmpty() || damagePerSecondTroopEdit->text().isEmpty() || spawnDDEdit->text().isEmpty() ||
                                      rangeTroopEdit->text().isEmpty() || countEdit->text().isEmpty() || buildHealthEdit->text().isEmpty() || lifeTimeBuildEdit->text().isEmpty() || spawnSpeedEdit->text().isEmpty())
                                  throw MyException("Some field are empty");
@@ -1140,14 +1125,19 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
                                               cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),shieldEdit->text().toDouble(),troopHealthEdit->text().toDouble(),
                                                  hitPerSecondTroopEdit->text().toDouble(),damagePerSecondTroopEdit->text().toDouble(),spawnDDEdit->text().toDouble(),rangeTroopEdit->text().toDouble(),countEdit->text().toUInt(),spawnSpeedEdit->text().toDouble());
                            }
-                          else if (comboClassEdit->currentText() == "Attacking building") {
+                          else if (comboClassEdit->currentText() == "Attacking Building") {
                              if( buildHealthEdit->text().isEmpty() || lifeTimeBuildEdit->text().isEmpty()  || hitPerSecondAttBuildingEdit->text().isEmpty() || damagePerSecondAttBuildingEdit->text().isEmpty() || rangeAttBuildingEdit->text().isEmpty())
                                  throw MyException("Some field are empty");
                              else
                                card=new AttackingBuilding(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                                               cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
                            }
-                              container.insert(card);
+                              if (Edit) container.remove(cardPos);
+
+                              if(isCardNameInContainer(card->getName()))
+                                  throw  MyException("This name is alredy insert");
+                              else
+                                  container.insert(card);
                               setStackedWidgetPage(0);
                               resetlist();
                               clearLayout(insertLayout);
@@ -1165,6 +1155,67 @@ TroopSpawner::TroopSpawner(string n,unsigned int mc,rarity cr, unsigned int cl,s
             setStackedWidgetPage(0);
     });
 
+    // Set texts when edit
+    if(Edit){
+
+        /************ Card attributes ************/
+        comboClassEdit->setCurrentText(QString::fromStdString(container[cardPos]->getType()));
+        nameEdit->setText(QString::fromStdString(container[cardPos]->getName()));
+        manaCostEdit->setText(QString::number(container[cardPos]->getManaCost()));
+        comboRarity->setCurrentText(QString::fromStdString(container[cardPos]->RarityToString()));
+        cardLevelEdit->setText(QString::number(container[cardPos]->getCardLevel()));
+        descEdit->setText(QString::fromStdString(container[cardPos]->getDescription()));
+
+        /************ Other attributes ************/
+
+        QString typeCard= QString::fromStdString(container[cardPos]->getType());
+
+        if (typeCard == "Spell" || typeCard == "Spell-Troop Spawner"){
+            Spell* spellCard= dynamic_cast<Spell*> (container[cardPos].operator ->());
+            spellDamageEdit->setText(QString::number(spellCard->getSpellDamage()));
+            crownTowerDamageEdit->setText(QString::number(spellCard->getCrownTowerDamage()));
+            radiusEdit->setText(QString::number(spellCard->getRadius()));
+        }
+
+        if (typeCard == "Troop" || typeCard == "Building-Troop Spawner" || typeCard == "Spell-Troop Spawner" || typeCard == "Troop Spawner") {
+            Troop* troopCard= dynamic_cast<Troop*> (container[cardPos].operator ->());
+            shieldEdit->setText(QString::number(troopCard->getShield()));
+            troopHealthEdit->setText(QString::number(troopCard->getTroopHealth()));
+            hitPerSecondTroopEdit->setText(QString::number(troopCard->getHitxSec()));
+            damagePerSecondTroopEdit->setText(QString::number(troopCard->getDamagexSec()));
+            spawnDDEdit->setText(QString::number(troopCard->getSpawnDD()));
+            rangeTroopEdit->setText(QString::number(troopCard->getRange()));
+            countEdit->setText(QString::number(troopCard->getCount()));
+        }
+
+        if (typeCard == "Building" || typeCard == "Building-Troop Spawner" || typeCard == "Attacking Building") {
+            Building* buildingCard= dynamic_cast<Building*> (container[cardPos].operator ->());
+            buildHealthEdit->setText(QString::number(buildingCard->getBuildHealth()));
+            lifeTimeBuildEdit->setText(QString::number(buildingCard->getLifeTime()));
+        }
+
+        if (typeCard == "Building-Troop Spawner"){
+           BuildingTroopSpawner* buildingTroopSpawnerCard= dynamic_cast<BuildingTroopSpawner*> (container[cardPos].operator ->());
+           spawnSpeedEdit->setText(QString::number(buildingTroopSpawnerCard->getSpawnSpeed()));
+        }
+
+        if (typeCard == "Spell-Troop Spawner"){
+           SpellTroopSpawner* spellTroopSpawnerCard= dynamic_cast<SpellTroopSpawner*> (container[cardPos].operator ->());
+           timeSpawnEditSpellTroopSpawner->setText(QString::fromStdString(spellTroopSpawnerCard->getTimeSpawn()));
+        }
+
+        if (typeCard == "Attacking Building") {
+            AttackingBuilding* attackingBuildingCard= dynamic_cast<AttackingBuilding*> (container[cardPos].operator ->());
+            hitPerSecondAttBuildingEdit->setText(QString::number(attackingBuildingCard->getHitPerSecond()));
+            damagePerSecondAttBuildingEdit->setText(QString::number(attackingBuildingCard->getDamagePerSecond()));
+            rangeAttBuildingEdit->setText(QString::number(attackingBuildingCard->getRange()));
+        }
+
+        if (typeCard == "Troop Spawner"){
+           TroopSpawner* troopSpawnerCard= dynamic_cast<TroopSpawner*> (container[cardPos].operator ->());
+           timeDescEditTroopSpawner->setText(QString::fromStdString(troopSpawnerCard->getTimeDesc()));
+        }
+    }
 
     // Set size Button And BoxImg
     BoxImg->setFixedSize(190,190);
@@ -1390,23 +1441,17 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
     }*/
 
     if(rarity!= "All"){
-        string c;
         list->reset();
         list->clear();
         if(type=="All"){
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity)
-                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
-                    //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-                    list->addItem(new QListWidgetItem(QString::fromStdString(c)));
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
         else{
-            for(int unsigned i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
-
-                    string c=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
-                                  list->addItem(new QListWidgetItem(QString::fromStdString(c)));
-                    //list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+                    list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
     }
 
@@ -1414,12 +1459,12 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
         list->reset();
         list->clear();
         if(rarity=="All"){
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
         else{
-            for(unsigned int i=0; i<container.getSize(); ++i)
+            for(int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity&& QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
         }
@@ -1431,4 +1476,13 @@ void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString&
     list->clear();
     filterTypeRarity(filterTypeTxt, filterRarityTxt);
     findNameCard(searchTxt);
+}
+
+bool MainWindow::isCardNameInContainer(std::string cardName)
+{
+    for (unsigned int i = 0; i < container.getSize(); ++i) {
+        if (container[i]->getName() == cardName)
+            return true;
+    }
+    return false;
 }
