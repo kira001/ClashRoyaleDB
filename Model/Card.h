@@ -25,7 +25,7 @@ private:
     string description;
     const unsigned int MaxLevel=13;
 
-    void controlRarityLevel(unsigned int cLevel) const;
+    void controlRarityLevel(rarity cardRar,unsigned int cLevel) const;
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Card()=default;

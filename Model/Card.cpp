@@ -4,7 +4,7 @@
 Card::Card(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
            path(p),name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
            {
-            controlRarityLevel(cLevel);
+            controlRarityLevel(rar,cLevel);
            }
 
 Card::Card(const Card& c):
@@ -63,13 +63,30 @@ bool Card::isUpgradable() const
 
 bool Card::isDowngradable() const
 {
-    return cardLevel>1? true: throw MyException("Minimum level reached");
+    switch (cardRarity)
+       {
+         case Card::rarity::common: return cardLevel>1? true: throw MyException("Minimum level reached for common");
+         case Card::rarity::rare:  return cardLevel>3? true: throw MyException("Minimum level reached for rare");
+         case Card::rarity::epic:  return cardLevel>6? true: throw MyException("Minimum level reached for epic");
+         case Card::rarity::legendary:  return cardLevel>9? true: throw MyException("Minimum level reached for legendary");
+       }
+
 }
 
-void Card::controlRarityLevel(unsigned int cLevel) const{
+void Card::controlRarityLevel(rarity cardRar, unsigned int cLevel) const{
     if(cLevel>13)
     {
         throw MyException("Max level is 13");
+    }
+    else
+    {
+        switch (cardRar)
+           {
+             case Card::rarity::common:  cardLevel>0? true: throw MyException("Minimum level for common is 1");break;
+             case Card::rarity::rare:   cardLevel>3? true: throw MyException("Minimum level for rare is 3");break;
+             case Card::rarity::epic:   cardLevel>6? true: throw MyException("Minimum level for epic is 6");break;
+             case Card::rarity::legendary:   cardLevel>9? true: throw MyException("Minimum level for legendary is 9");break;
+           }
     }
 }
 QJsonObject Card::writeJson() const
