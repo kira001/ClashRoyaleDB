@@ -83,9 +83,9 @@ void Card::controlRarityLevel(rarity cardRar, unsigned int cLevel) const{
         switch (cardRar)
            {
              case Card::rarity::common:  cardLevel>0? true: throw MyException("Minimum level for common is 1");break;
-             case Card::rarity::rare:   cardLevel>3? true: throw MyException("Minimum level for rare is 3");break;
-             case Card::rarity::epic:   cardLevel>6? true: throw MyException("Minimum level for epic is 6");break;
-             case Card::rarity::legendary:   cardLevel>9? true: throw MyException("Minimum level for legendary is 9");break;
+             case Card::rarity::rare:   cardLevel>2? true: throw MyException("Minimum level for rare is 3");break;
+             case Card::rarity::epic:   cardLevel>5? true: throw MyException("Minimum level for epic is 6");break;
+             case Card::rarity::legendary:   cardLevel>8? true: throw MyException("Minimum level for legendary is 9");break;
            }
     }
 }
