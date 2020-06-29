@@ -97,7 +97,7 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
        if (obj.contains("Spawn Death Damage") && obj["Spawn Death Damage"].isDouble())
            setSpawnDD(obj["Spawn Death Damage"].toDouble());
        if (obj.contains("Range") && obj["Range"].isDouble())
-           setHitxSec(obj["Range"].toDouble());
+           setRange(obj["Range"].toDouble());
        if (obj.contains("Count") && obj["Count"].isDouble())
            setCount(static_cast<unsigned int>(obj["Count"].toInt()));
 
