@@ -334,7 +334,7 @@ void MainWindow::viewCardInfo(int pos)
     QLabel* typeCard=new QLabel("Type: "+ QString::fromStdString(container[fixPos]->getType()));
     QLabel* rarityCard=new QLabel("Rarity: "+ QString::fromStdString(container[fixPos]->RarityToString()));
     QLabel* manaCostCard=new QLabel("Mana Cost: "+ QString::number(container[fixPos]->getManaCost()));
-    QLabel* descCard=new QLabel("Description:  "+ QString::number(container[fixPos]->getManaCost()));
+    QLabel* descCard=new QLabel("Description:  "+ QString::fromStdString(container[fixPos]->getDescription()));
 
     //Form1
     formLayout0->insertRow(0,nameLabel,nameCard);
