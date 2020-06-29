@@ -69,9 +69,9 @@ void AttackingBuilding::readJson(const QJsonObject &obj)
     Building::readJson(obj);
 
     if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
-        setHitPerSecond(obj["Card Name"].toDouble());
+        setHitPerSecond(obj["Hit per Second"].toDouble());
     if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())
-        setDamagePerSecond(obj["Mana Cost"].toDouble());
+        setDamagePerSecond(obj["Damage per Second"].toDouble());
     if (obj.contains("Range") && obj["Range"].isDouble())
         setRange(obj["Range"].toDouble());
 

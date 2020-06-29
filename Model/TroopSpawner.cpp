@@ -31,7 +31,7 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
    {
        QJsonObject TSjson = Troop::writeJson();
        TSjson["Type"] = QString::fromStdString(getType());
-       TSjson["Time and description"] =QString::fromStdString(getTimeDesc());
+       TSjson["Time and Description"] =QString::fromStdString(getTimeDesc());
        return TSjson;
    }
    void TroopSpawner::readJson(const QJsonObject &obj)

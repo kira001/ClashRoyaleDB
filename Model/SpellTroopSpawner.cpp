@@ -48,8 +48,8 @@ QJsonObject SpellTroopSpawner::writeJson() const
 }
 void SpellTroopSpawner::readJson(const QJsonObject &obj)
 {
-    Spell::readJson(obj);
     Troop::readJson(obj);
+     Spell::readJson(obj);
     if (obj.contains("Time Spawn") && obj["Time Spawn"].isString())
           setTimeSpawn(obj["Time Spawn"].toString().toStdString());
 }
