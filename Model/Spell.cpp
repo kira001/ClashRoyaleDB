@@ -43,6 +43,7 @@ void Spell::lvlDowngrade(){
         Card::lvlDowngrade();
     }
 }
+
 QJsonObject Spell::writeJson() const
 {
     QJsonObject SJson=Card::writeJson();

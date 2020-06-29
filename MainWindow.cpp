@@ -734,7 +734,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     /*******************    CARD   ********************/
     // Name
     QLineEdit* nameEdit = new QLineEdit();
-    nameEdit->setMaxLength(20);
+    nameEdit->setMaxLength(80);
     nameEdit->setPlaceholderText("Card name");
 
 

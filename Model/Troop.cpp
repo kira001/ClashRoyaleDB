@@ -70,12 +70,13 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
             Card::lvlDowngrade();
        }
    }
+
    QJsonObject Troop::writeJson() const
    {
        QJsonObject TJson=Card::writeJson();
        TJson["Type"] = QString::fromStdString(getType());
        TJson["Shield"] = getShield();
-       TJson["Health"] = getTroopHealth();
+       TJson["Troop Health"] = getTroopHealth();
        TJson["Hit per Second"] = getHitxSec();
        TJson["Damage per Second"] = getDamagexSec();
        TJson["Spawn Death Damage"] = getSpawnDD();
@@ -88,8 +89,8 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
        Card::readJson(obj);
        if (obj.contains("Shield") && obj["Shield"].isDouble())
            setShield(obj["Shield"].toDouble());
-       if (obj.contains("Health") && obj["Health"].isDouble())
-           setTroopHealth(obj["Health"].toDouble());
+       if (obj.contains("Troop Health") && obj["Troop Health"].isDouble())
+           setTroopHealth(obj["Troop Health"].toDouble());
        if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
            setHitxSec(obj["Hit per Second"].toDouble());
        if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())

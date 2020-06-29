@@ -89,6 +89,7 @@ void Card::controlRarityLevel(rarity cardRar, unsigned int cLevel) const{
            }
     }
 }
+
 QJsonObject Card::writeJson() const
 {
     QJsonObject cardJson;

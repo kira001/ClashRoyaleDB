@@ -39,7 +39,6 @@ QJsonObject BuildingTroopSpawner::writeJson() const
      bJson=Troop::writeJson();
      bJson["Type"] = QString::fromStdString(getType());
      bJson["Spawn Speed"] = getSpawnSpeed();
-     bJson["Life Time"] = getLifeTime();
      return bJson;
 
 }
@@ -49,8 +48,6 @@ void BuildingTroopSpawner::readJson(const QJsonObject &obj)
     Troop::readJson(obj);
     if (obj.contains("Spawn Speed") && obj["Spawn Speed"].isDouble())
         setSpawnSpeed(obj["Spawn Speed"].toDouble());
-    if (obj.contains("Life Time") && obj["Life Time"].isDouble())
-        setLifeTime(obj["Life Time"].toDouble());
 }
 
 string BuildingTroopSpawner::getType() const{return "Building-Troop Spawner";}

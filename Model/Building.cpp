@@ -38,18 +38,18 @@ Building* Building::clone() const{
 
 void Building::upgradeStats(){
     buildHealth= (buildHealth*(100+7*Card::getCardLevel()))/100;
-    lifeTime= (lifeTime*(100+5*Card::getCardLevel()))/100;
 }
 
 void Building::downgradeStats(){
     buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
-    lifeTime= (lifeTime*100/(100+5*Card::getCardLevel()));
 }
+
+
 QJsonObject Building::writeJson() const
 {
     QJsonObject bJson=Card::writeJson();
     bJson["Type"] = QString::fromStdString(getType());
-    bJson["Health"] = getBuildHealth();
+    bJson["Build Health"] = getBuildHealth();
     bJson["Life Time"] = getLifeTime();
     return bJson;
 
@@ -58,8 +58,8 @@ QJsonObject Building::writeJson() const
 void Building::readJson(const QJsonObject &obj)
 {    Card::readJson(obj);
 
-    if (obj.contains("Health") && obj["Health"].isDouble())
-        setBuildHealth(obj["Health"].toDouble());
+    if (obj.contains("Build Health") && obj["Build Health"].isDouble())
+        setBuildHealth(obj["Build Health"].toDouble());
     if (obj.contains("Life Time") && obj["Life Time"].isDouble())
         setLifeTime(obj["Life Time"].toDouble());
 }
