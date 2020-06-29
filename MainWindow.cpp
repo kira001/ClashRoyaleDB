@@ -573,8 +573,8 @@ void MainWindow::viewCardInfo(int pos)
   cardLabel->setScaledContents(true);
   layoutInfoTop->addWidget(cardLabel);
   layoutInfoTop->addLayout(formLayout0);
-  layoutInfoTop->addWidget(lvUpgrade);
   layoutInfoTop->addWidget(lvDowngrade);
+  layoutInfoTop->addWidget(lvUpgrade);
   infolayout->addLayout(layoutInfoTop);
   infolayout->addLayout(Multiform);
   infolayout->addLayout(formLayout1);
@@ -1051,9 +1051,6 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
 
-    connect(cancelInsert, &QPushButton::clicked, [this] {
-       setStackedWidgetPage(0);
-    });
 
     QLabel *BoxImg=new QLabel();
     //DeafultImg
@@ -1161,10 +1158,12 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
                               if(isCardNameInContainer(card->getName()))
                                   throw  MyException("This name is alredy insert");
                               else
-                                  container.insert(card);
-                              setStackedWidgetPage(0);
+                              container.insert(card);
                               resetlist();
-                              clearLayout(insertLayout);
+                              clearLayout(infolayout);
+                              viewCardInfo(list->count()-1);
+                              setStackedWidgetPage(1);
+
 
                         }
         } catch (MyException e) {
@@ -1175,8 +1174,12 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
         }
      });
 
-    connect(cancelInsert, &QPushButton::clicked, [this] {
-            setStackedWidgetPage(0);
+    connect(cancelInsert, &QPushButton::clicked, [this, Edit] {
+        if(Edit==true)
+        {setStackedWidgetPage(1);}
+        else{
+         setStackedWidgetPage(0);
+         }
     });
 
     // Set texts when edit
