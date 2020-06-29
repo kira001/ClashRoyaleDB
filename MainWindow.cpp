@@ -535,17 +535,31 @@ void MainWindow::viewCardInfo(int pos)
 
   QPushButton* lvUpgrade = new QPushButton();
   connect(lvUpgrade, &QPushButton::clicked, [this,fixPos] {
-      clearLayout(infolayout);
-      container[fixPos]->lvlUpgrade();
-      viewCardInfo(fixPos);
+      try {
+          container[fixPos]->lvlUpgrade();
+          clearLayout(infolayout);
+          viewCardInfo(fixPos);
+      } catch (MyException e) {
+          QMessageBox msgBox;
+          msgBox.setText(QString::fromStdString(e.getMsgException()));
+          msgBox.exec();
+      }
+
 
   } );
 
   QPushButton* lvDowngrade = new QPushButton();
   connect(lvDowngrade, &QPushButton::clicked, [this,fixPos] {
-      clearLayout(infolayout);
-      container[fixPos]->lvlDowngrade();
-      viewCardInfo(fixPos);
+      try {
+          container[fixPos]->lvlDowngrade();
+          clearLayout(infolayout);
+          viewCardInfo(fixPos);
+
+      } catch (MyException e) {
+          QMessageBox msgBox;
+          msgBox.setText(QString::fromStdString(e.getMsgException()));
+          msgBox.exec();
+      }
 
   } );
 
@@ -736,7 +750,7 @@ void MainWindow::addInsertWidget(bool Edit, int cardPos)
 
     // cardLevel
     QLineEdit* cardLevelEdit = new QLineEdit();
-    QValidator* cardLevel1Validator = new QIntValidator(1, 13);
+    QValidator* cardLevel1Validator = new QIntValidator(1, 99);
     cardLevelEdit->setValidator(cardLevel1Validator);
     cardLevelEdit->setPlaceholderText("Level (max:13)");
 

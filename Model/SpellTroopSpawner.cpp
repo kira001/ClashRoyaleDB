@@ -24,15 +24,14 @@ void SpellTroopSpawner::setTimeSpawn(string timeSp){timeSpawn=timeSp;}
 
 /********************** METHODS *********************/
 void SpellTroopSpawner::lvlUpgrade(){
-    if(Card::getCardLevel()<Card::getMaxLevel()){
+    if(Card::isUpgradable()){
         Card::lvlUpgrade();
         Spell::upgradeStats();
         Troop::upgradeStats();
     }
 }
 void SpellTroopSpawner::lvlDowngrade(){
-    if(Card::getCardLevel()>1){
-
+    if(Card::isDowngradable()){
        Spell::downgradeStats();
        Troop::downgradeStats();
        Card::lvlDowngrade();

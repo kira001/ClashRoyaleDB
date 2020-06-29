@@ -23,10 +23,9 @@ private:
     rarity cardRarity;
     unsigned int cardLevel;
     string description;
-    unsigned int MaxLevel;
+    const unsigned int MaxLevel=13;
 
-     void setMaxLevel(rarity rar);
-    void controlRarityLevel(rarity rar ,unsigned int cLevel) const;
+    void controlRarityLevel(unsigned int cLevel) const;
 public:
     // CONSTRUCTORS/DESTRUCTORS
     Card()=default;
@@ -41,7 +40,6 @@ public:
     void setCardRarity(rarity rar);
     void setCardLevel(unsigned int cLevel);
     void setDescription(string desc);
-
     // GETTERs
     string getPath() const;
     string getName() const;
@@ -59,24 +57,14 @@ public:
     // METHODS
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
-
+    bool isUpgradable() const;
+    bool isDowngradable() const;
     virtual string getType() const = 0; // Controllo il tipo -> Troop,Spell,Building ecc
 
     virtual Card* clone() const = 0;
     virtual QJsonObject writeJson() const;
     virtual void readJson(const QJsonObject& obj);
 
-/*
-     aggiungere le variabili con solo :
-        -string timeSpawn;
-        - unsigned int maxSpawned;
-     di conseguenza aggiornare i cotruttori e metodi
-     Distruttori
-     Operatori
-     Clone
-     Gestore dei Json
-    */
 };
 
-//unsigned int Card::MaxLevel=13;
 #endif // CARD_H

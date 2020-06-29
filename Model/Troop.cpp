@@ -58,15 +58,14 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
 
 
    void Troop::lvlUpgrade(){
-
-      if(Card::getCardLevel()<Card::getMaxLevel()){
+      if(Card::isUpgradable()){
             Card::lvlUpgrade();
             upgradeStats();
       }
    }
 
    void Troop::lvlDowngrade(){
-       if(Card::getCardLevel()>1){
+       if(Card::isDowngradable()){
             downgradeStats();
             Card::lvlDowngrade();
        }

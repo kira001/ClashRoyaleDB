@@ -1,5 +1,5 @@
 #include "Spell.h"
-
+#include "myexception.h"
 /******************** CONSTRUCTORS/DESTRUCTORS  ********************/
 
 Spell::Spell(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc,double spellD,double crownTD,double rad):
@@ -32,13 +32,13 @@ void Spell::downgradeStats(){
     crownTowerDamage=(crownTowerDamage*100/(100+2*Card::getCardLevel()));
 }
 void Spell::lvlUpgrade(){
-    if(Card::getCardLevel()<Card::getMaxLevel()){
+    if(Card::isUpgradable()){
         Card::lvlUpgrade();
         upgradeStats();
     }
 }
 void Spell::lvlDowngrade(){
-    if(Card::getCardLevel()>1){
+    if(Card::isDowngradable()){
         downgradeStats();
         Card::lvlDowngrade();
     }

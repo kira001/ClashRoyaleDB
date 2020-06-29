@@ -4,9 +4,7 @@
 Card::Card(string p,string n, unsigned int mana, rarity rar, unsigned int cLevel,string desc):
            path(p),name(n),manaCost(mana),cardRarity(rar),cardLevel(cLevel),description(desc)
            {
-            Card::setMaxLevel(rar);
-            controlRarityLevel(rar,cLevel);
-
+            controlRarityLevel(cLevel);
            }
 
 Card::Card(const Card& c):
@@ -27,20 +25,9 @@ unsigned int Card::getMaxLevel() const{ return MaxLevel; }
 void Card::setPath(string p){ path=p; }
 void Card::setName(string n){ name=n; }
 void Card::setManaCost(unsigned int mana){ manaCost=mana; }
-void Card::setCardRarity(Card::rarity rar){ cardRarity=rar;  Card::setMaxLevel(rar); }
+void Card::setCardRarity(Card::rarity rar){ cardRarity=rar;}
 void Card::setCardLevel(unsigned int cLevel){ cardLevel=cLevel; }
 void Card::setDescription(string desc){ description=desc; }
-void Card::setMaxLevel(Card::rarity rar){
-    switch (rar)
-       {
-         case Card::rarity::common: MaxLevel=13; break;
-         case Card::rarity::rare: MaxLevel=11;break;
-         case Card::rarity::epic: MaxLevel=8;break;
-         case Card::rarity::legendary: MaxLevel=5;break;
-       }
-}
-
-
 
 /******************** CONVERSION ENUM<--->STRING ********************/
 string Card::RarityToString() const{
@@ -54,60 +41,36 @@ string Card::RarityToString() const{
 }
 
 Card::rarity Card::StringToRarity(string sRar){
+
     if(sRar=="Common") return Card::rarity::common;
-    if(sRar=="Rare") return Card::rarity::rare;
-    if(sRar=="Epic") return Card::rarity::epic;
-    return Card::rarity::legendary;
+    else if(sRar=="Rare") return Card::rarity::rare;
+    else if(sRar=="Epic") return Card::rarity::epic;
+    else return Card::rarity::legendary;
 }
 
 /************************ METHODS **************************/
 void Card::lvlUpgrade(){
-    if(cardLevel<MaxLevel){
         cardLevel++;
-    }
-    else{
-        // qui potremmo mettere una exception al posto del cout ovviamente
-        std::cout<<"Livello massimo raggiunto";
-    }
 }
 void Card::lvlDowngrade(){
-    if(cardLevel>1){
-        cardLevel--;
-    }
-    else{
-        // qui potremmo mettere una exception al posto del cout ovviamente
-        std::cout<<"Livello minimo raggiunto";
-    }
+    cardLevel--;
 }
 
-void Card::controlRarityLevel(rarity rar,unsigned int cLevel) const{
-    switch (rar)
-       {
-         case Card::rarity::common:{
-            if(cLevel>13){
-                throw MyException("Max level is 13 for a common");
-            }
-            break;
-         }
-         case Card::rarity::rare:{
-                if(cLevel>11){
-                    throw MyException("Max level is 11 for a rare");
-                }
-                break;
-         }
-         case Card::rarity::epic:{
-            if(cLevel>8){
-                throw MyException("Max level is 8 for a epic");
-            }
-            break;
-         }
-         case Card::rarity::legendary: {
-            if(cLevel>5){
-                throw MyException("Max level is 5 for a legendary");
-            }
-            break;
-         }
-       }
+bool Card::isUpgradable() const
+{
+    return cardLevel<MaxLevel? true: throw MyException("Maximum level reached");
+}
+
+bool Card::isDowngradable() const
+{
+    return cardLevel>1? true: throw MyException("Minimum level reached");
+}
+
+void Card::controlRarityLevel(unsigned int cLevel) const{
+    if(cLevel>13)
+    {
+        throw MyException("Max level is 13");
+    }
 }
 QJsonObject Card::writeJson() const
 {
@@ -132,7 +95,7 @@ if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
     setManaCost(static_cast<unsigned int>(obj["Mana Cost"].toInt())); //conversione
 if (obj.contains("Rarity") && obj["Rarity"].isString())
     setCardRarity(StringToRarity(obj["Rarity"].toString().toStdString()));
-    setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
+  //  setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
 if (obj.contains("Level") && obj["Level"].isDouble())
     setCardLevel(static_cast<unsigned int>(obj["Level"].toInt()));
 if (obj.contains("Description") && obj["Description"].isString())

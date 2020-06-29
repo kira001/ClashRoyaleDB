@@ -1,5 +1,5 @@
 #include "Building.h"
-
+#include "myexception.h"
 double Building::getBuildHealth() const{
     return buildHealth;
 }
@@ -17,14 +17,15 @@ void Building::setLifeTime(double lTime){
 }
 string Building::getType() const{return "Building";}
 void Building::lvlUpgrade(){
-    if(Card::getCardLevel()<Card::getMaxLevel()){
+    if(Card::isUpgradable()){
         Card::lvlUpgrade();
         upgradeStats();
     }
+
 }
 
 void Building::lvlDowngrade(){
-    if(Card::getCardLevel()>1){
+    if(Card::isDowngradable()){
         downgradeStats();
         Card::lvlDowngrade();
     }

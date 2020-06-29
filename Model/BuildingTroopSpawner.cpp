@@ -19,7 +19,7 @@ void BuildingTroopSpawner::setSpawnSpeed(double sSpeed){
 }
 
 void BuildingTroopSpawner::lvlUpgrade(){
-    if(Card::getCardLevel()<Card::getMaxLevel()){
+    if(Card::isUpgradable()){
         Card::lvlUpgrade();
         Building::upgradeStats();
         Troop::upgradeStats();
@@ -27,7 +27,7 @@ void BuildingTroopSpawner::lvlUpgrade(){
 }
 
 void BuildingTroopSpawner::lvlDowngrade(){
-    if(Card::getCardLevel()>1){
+    if(Card::isDowngradable()){
        Building::downgradeStats();
        Troop::downgradeStats();
        Card::lvlDowngrade();

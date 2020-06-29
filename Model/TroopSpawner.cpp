@@ -20,10 +20,12 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
 /******************** METHODS ********************/
 
    void TroopSpawner::lvlUpgrade(){
-       Troop::lvlUpgrade();
+       if(Card::isUpgradable())
+            Troop::lvlUpgrade();
    }
    void TroopSpawner::lvlDowngrade(){
-       Troop::lvlDowngrade();
+       if(Card::isDowngradable())
+            Troop::lvlDowngrade();
    }
    QJsonObject TroopSpawner::writeJson() const
    {

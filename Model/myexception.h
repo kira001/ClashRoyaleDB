@@ -8,6 +8,7 @@ using std::string;
 
 class MyException : public std::exception {
     const string msg;
+
 public:
     MyException(string msg);
     const string getMsgException() const;

@@ -25,14 +25,14 @@ void AttackingBuilding::setRange(double rng){
 }
 
 void AttackingBuilding::lvlUpgrade(){
-    if(Card::getCardLevel()<Card::getMaxLevel()){
+    if(Card::isUpgradable()){
         Building::lvlUpgrade();
         upgradeStats();
     }
 }
 
 void AttackingBuilding::lvlDowngrade(){
-    if(Card::getCardLevel()>1){
+    if(Card::isDowngradable()){
         downgradeStats();
         Building::lvlDowngrade();
     }
