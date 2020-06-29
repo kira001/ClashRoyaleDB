@@ -10,26 +10,29 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(980,620);
 
     mainWidget=new QWidget(this);
-    infoWidget=new QWidget;
-    mainLayout=new QHBoxLayout(this);
 
-    leftLayout=new QVBoxLayout(this);
-    rightLayout=new QVBoxLayout(this);
+    mainLayout=new QHBoxLayout;
+    stackedWidget = new QStackedWidget;
+    infoWidget=new QWidget;
+    list = new QListWidget;
+    listImg = new QListWidget;
+    insertWidget=new QWidget;
+
+    leftLayout=new QVBoxLayout;
+    rightLayout=new QVBoxLayout;
     infolayout=new QVBoxLayout;
-    list = new QListWidget();
-    listImg = new QListWidget();
-    stackedWidget = new QStackedWidget();
-    menubar= new QMenuBar();
-    searchbox= new QLineEdit();
-    completer= new QCompleter();
+    insertLayout=new QVBoxLayout;
+
+    menubar= new QMenuBar;
     menu =new QMenu("File",menubar);
     menu2 =new QMenu("Themes",menubar);
-    popup=new QMessageBox();
-    insertWidget=new QWidget();
-    filterTypeBox=new QComboBox();
-    filterRarityBox=new QComboBox();
+    searchbox= new QLineEdit;
+    completer= new QCompleter;
+    popup=new QMessageBox;
+    filterTypeBox=new QComboBox;
+    filterRarityBox=new QComboBox;
     pathImg=":/img/iconCard/default.png";
-    insertLayout=new QVBoxLayout();
+
     addMenu();
     addLeftLayout();
     addRightLayout();
@@ -76,18 +79,18 @@ void MainWindow::infoguide(){
 
 void MainWindow::addLeftLayout(){
 
-    QScrollArea* leftbox= new QScrollArea();
+    QScrollArea* leftbox= new QScrollArea;
     leftbox->setWidget(list);
     leftbox->setWidgetResizable(true);
     leftbox->setFixedSize(450,400);
     leftbox->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
+    QHBoxLayout* buttonLayout=new QHBoxLayout;
     QPushButton* insertButton = new QPushButton("Insert");
     QPushButton* deleteButton= new QPushButton("Delete");
     insertButton->setFixedSize(100,50);
     deleteButton->setFixedSize(100,50);
-    QHBoxLayout* searchLayout= new QHBoxLayout(this);
+    QHBoxLayout* searchLayout= new QHBoxLayout;
 
     connect(list, &QListWidget::currentRowChanged, [this] {
       if (list->count()>0)
@@ -320,8 +323,8 @@ void MainWindow::viewCardInfo(int pos)
 
     //Picture+infocardBasic
 
-   QHBoxLayout* layoutInfoTop=new QHBoxLayout(this);
-    QFormLayout* formLayout0 = new QFormLayout(this);
+    QHBoxLayout* layoutInfoTop=new QHBoxLayout();
+    QFormLayout* formLayout0 = new QFormLayout();
 
     unsigned int fixPos= static_cast<unsigned int>(pos);
 
@@ -346,15 +349,15 @@ void MainWindow::viewCardInfo(int pos)
 
 
     //Button Edit
-    QHBoxLayout* Multiform=new QHBoxLayout(this);
-    QHBoxLayout* buttonLayout=new QHBoxLayout(this);
+    QHBoxLayout* Multiform=new QHBoxLayout();
+    QHBoxLayout* buttonLayout=new QHBoxLayout();
     QPushButton* editButton = new QPushButton("Edit");
     editButton->setFixedSize(100,50);
     buttonLayout->addWidget(editButton);
 
-    connect(editButton, &QPushButton::clicked, [this, pos] {
+    connect(editButton, &QPushButton::clicked, [this, fixPos] {
     clearLayout(insertLayout);
-    addInsertWidget(true,pos);
+    addInsertWidget(true,fixPos);
     insertWidget->setLayout(insertLayout);
     setStackedWidgetPage(2);
 
@@ -362,9 +365,9 @@ void MainWindow::viewCardInfo(int pos)
 
 
    //info Card Base
-  QFormLayout* formLayout1 = new QFormLayout(this);
-  QFormLayout* formLayout2 = new QFormLayout(this);
-  QFormLayout* formLayout3 = new QFormLayout(this);
+  QFormLayout* formLayout1 = new QFormLayout();
+  QFormLayout* formLayout2 = new QFormLayout();
+  QFormLayout* formLayout3 = new QFormLayout();
 
   if(container[fixPos]->getType()=="Building")
   {
@@ -452,7 +455,7 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(healthBuildingLabel,health1BuildingTroop);
       formLayout1->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
       formLayout1->addRow(damageLabel,damagexsecBuildingTroop);
-      formLayout1->addRow(spawnSpeedBuildingTroopSpawnerLabel,sddBuildingTroop);
+      formLayout1->addRow(spawnTimeLabel,sddBuildingTroop);
       formLayout1->addRow(rangeLabel,rangeBuildingTroop);
       formLayout1->addRow(countLabel,countBuildingTroop);
 
@@ -538,7 +541,7 @@ void MainWindow::viewCardInfo(int pos)
       try {
           container[fixPos]->lvlUpgrade();
           clearLayout(infolayout);
-          viewCardInfo(fixPos);
+          viewCardInfo(static_cast<int>(fixPos));
       } catch (MyException e) {
           QMessageBox msgBox;
           msgBox.setText(QString::fromStdString(e.getMsgException()));
@@ -553,7 +556,7 @@ void MainWindow::viewCardInfo(int pos)
       try {
           container[fixPos]->lvlDowngrade();
           clearLayout(infolayout);
-          viewCardInfo(fixPos);
+          viewCardInfo(static_cast<int>(fixPos));
 
       } catch (MyException e) {
           QMessageBox msgBox;
@@ -761,7 +764,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     descEdit->setFixedSize(250,70);
     // -----> CardForm <------
 
-    QFormLayout* formLayout= new QFormLayout(this);
+    QFormLayout* formLayout= new QFormLayout();
     formLayout->insertRow(0, cardLabel, comboClassEdit);
     formLayout->insertRow(1, nameLabel, nameEdit);
     formLayout->insertRow(2, manaCostLabel,manaCostEdit);
@@ -816,7 +819,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
 
     // -----> TroopForm <------
-    QFormLayout* troopFormLayout= new QFormLayout(this);
+    QFormLayout* troopFormLayout= new QFormLayout();
     troopFormLayout->addRow(shieldTroopLabel, shieldEdit);
     troopFormLayout->addRow(healthTroopLabel, troopHealthEdit);
     troopFormLayout->addRow(hitPerSecondTroopLabel,hitPerSecondTroopEdit);
@@ -848,7 +851,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     radiusEdit->setPlaceholderText("Radius");
 
     // -----> SpellForm <-----
-    QFormLayout* spellFormLayout= new QFormLayout(this);
+    QFormLayout* spellFormLayout= new QFormLayout();
     spellFormLayout->addRow(dmgSpellLabel, spellDamageEdit);
     spellFormLayout->addRow(crownTowerDmgSpellLabel, crownTowerDamageEdit);
     spellFormLayout->addRow(radiusSpellLabel, radiusEdit);
@@ -870,7 +873,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
 
     // -----> BuildingForm <-----
-    QFormLayout* buildingFormLayout= new QFormLayout(this);
+    QFormLayout* buildingFormLayout= new QFormLayout();
     buildingFormLayout->addRow(healthBuildingLabel, buildHealthEdit);
     buildingFormLayout->addRow(lifeTimeBuildingLabel, lifeTimeBuildEdit);
 
@@ -884,7 +887,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     timeDescEditTroopSpawner->setPlaceholderText("Time and description of the cause");
 
     // -----> TroopSpawnerForm <-----
-    QFormLayout* troopSpawnerFormLayout= new QFormLayout(this);
+    QFormLayout* troopSpawnerFormLayout= new QFormLayout();
     troopSpawnerFormLayout->addRow(spawnTimeTroopSpawnerLabel, timeDescEditTroopSpawner);
 
 
@@ -897,7 +900,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     timeSpawnEditSpellTroopSpawner->setPlaceholderText("Time and description of the cause");
 
     // -----> SpellTroopSpawnerForm <-----
-    QFormLayout* spellTroopSpawnerFormLayout= new QFormLayout(this);
+    QFormLayout* spellTroopSpawnerFormLayout= new QFormLayout();
     spellTroopSpawnerFormLayout->addRow(spawnTimeSpellTroopSpawnerLabel, timeSpawnEditSpellTroopSpawner);
 
 
@@ -910,7 +913,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     spawnSpeedEdit->setPlaceholderText("Spawn speed(in sec)");
 
     // -----> BuildingTroopSpawnerForm <-----
-    QFormLayout* buildingTroopSpawnerFormLayout= new QFormLayout(this);
+    QFormLayout* buildingTroopSpawnerFormLayout= new QFormLayout();
     buildingTroopSpawnerFormLayout->addRow(spawnSpeedBuildingTroopSpawnerLabel, spawnSpeedEdit);
 
 
@@ -935,7 +938,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     rangeAttBuildingEdit->setPlaceholderText("Range");
 
     // -----> AttackingBuildingForm <-----
-    QFormLayout* attckingBuildingFormLayout= new QFormLayout(this);
+    QFormLayout* attckingBuildingFormLayout= new QFormLayout();
     attckingBuildingFormLayout->addRow(hitPerSecondAttackingBuildingLabel, hitPerSecondAttBuildingEdit);
     attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
     attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
@@ -1167,7 +1170,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                                card=new AttackingBuilding(pathImg,nameEdit->text().toStdString(),manaCostEdit->text().toUInt(),Card::StringToRarity(comboRarity->currentText().toStdString()),
                                               cardLevelEdit->text().toUInt(),descEdit->toPlainText().toStdString(),buildHealthEdit->text().toDouble(),lifeTimeBuildEdit->text().toDouble(),hitPerSecondAttBuildingEdit->text().toDouble(),damagePerSecondAttBuildingEdit->text().toDouble(),rangeAttBuildingEdit->text().toDouble());
                            }
-                              if (Edit) container.remove(cardPos);
+                              if (Edit) container.remove(static_cast<int>(cardPos));
 
                               if(isCardNameInContainer(card->getName()))
                                   throw  MyException("This name is alredy insert");
@@ -1281,22 +1284,22 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     // choseImg->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
 
     // ButtonLayout
-    QHBoxLayout* buttonImgBoxLayout = new QHBoxLayout(this);
+    QHBoxLayout* buttonImgBoxLayout = new QHBoxLayout();
     buttonImgBoxLayout->addWidget(choseImg);
     buttonImgBoxLayout->addWidget(deleteImg);
 
     // ImgBoxLayout
-    QVBoxLayout* imgBoxLayout = new QVBoxLayout(this);
+    QVBoxLayout* imgBoxLayout = new QVBoxLayout();
     imgBoxLayout->addWidget(BoxImg);
     imgBoxLayout->addLayout(buttonImgBoxLayout);
     imgBoxLayout->setSpacing(2);
     // BoxLayout
-    QHBoxLayout* basicCard= new QHBoxLayout(this);
+    QHBoxLayout* basicCard= new QHBoxLayout();
     basicCard->addLayout(imgBoxLayout);
     basicCard->addLayout(formLayout);
     insertLayout->addLayout(basicCard);
 
-    QHBoxLayout* cardTypeLatout=new QHBoxLayout(this);
+    QHBoxLayout* cardTypeLatout=new QHBoxLayout();
     cardTypeLatout->addWidget(troopWidget);
     cardTypeLatout->addWidget(spellWidget);
     cardTypeLatout->addWidget(buildingWidget);
@@ -1306,7 +1309,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     cardTypeLatout->addWidget(attackingBuildingWidget);
     insertLayout->addLayout(cardTypeLatout);
     insertLayout->addStretch();
-    QHBoxLayout* buttonInsertLatout=new QHBoxLayout(this);
+    QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
     buttonInsertLatout->setMargin(10);
@@ -1430,7 +1433,7 @@ void MainWindow::basicInfoWidget() //Pagina Iniziale
     logoLabel->setPixmap(logo);
     logoLabel->setStyleSheet("margin-bottom: 2em");
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(logoLabel);
     QWidget* basicInfo=new QWidget();
     basicInfo->setLayout(layout);

@@ -39,12 +39,14 @@ private:
     Container<DeepPtr<Card>> container;
     QWidget* mainWidget;
     QWidget* infoWidget;
+    QWidget* insertWidget;
+
     QHBoxLayout* mainLayout;
     QVBoxLayout* leftLayout;
     QVBoxLayout* infolayout;
     QVBoxLayout* rightLayout;
     QListWidget* list;
-    QWidget* insertWidget;
+
     QVBoxLayout* insertLayout;
     string pathImg;
 
