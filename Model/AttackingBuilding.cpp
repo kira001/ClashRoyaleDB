@@ -24,6 +24,22 @@ void AttackingBuilding::setRange(double rng){
     range = rng;
 }
 
+bool AttackingBuilding::operator==(const AttackingBuilding & ab) const
+{
+    return Building::operator==(ab) &&
+           hitPerSecond == ab.hitPerSecond &&
+           damagePerSecond == ab.damagePerSecond &&
+           range == ab.range;
+}
+
+bool AttackingBuilding::operator!=(const AttackingBuilding & ab) const
+{
+    return Building::operator!=(ab) ||
+           hitPerSecond != ab.hitPerSecond ||
+           damagePerSecond != ab.damagePerSecond ||
+           range != ab.range;
+}
+
 void AttackingBuilding::lvlUpgrade(){
     if(Card::isUpgradable()){
         Building::lvlUpgrade();

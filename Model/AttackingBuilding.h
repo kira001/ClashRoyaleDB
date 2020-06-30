@@ -21,6 +21,10 @@ public:
     void setDamagePerSecond(double dPerSecond);
     double getRange() const;
     void setRange(double rng);
+    //OVERLOADING
+    virtual bool  operator==(const AttackingBuilding&) const;
+    virtual bool  operator!=(const AttackingBuilding&) const;
+
     virtual QJsonObject writeJson() const;
     virtual void readJson(const QJsonObject& obj);
     virtual string getType() const;

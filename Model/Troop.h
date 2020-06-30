@@ -37,6 +37,9 @@ public:
     void setSpawnDD(double);
     void setRange(double);
     void setCount(unsigned int);
+    //OVERLOADING
+    virtual bool  operator==(const Troop&) const;
+    virtual bool  operator!=(const Troop&) const;
     // METHODS
     double damage() const;
     string DimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)

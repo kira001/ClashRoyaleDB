@@ -14,8 +14,22 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
 //GETTERS
    string TroopSpawner::getTimeDesc() const{return TimeDesc;}
 
-//SETTERS
+   //SETTERS
    void TroopSpawner::setTimeDesc(string td){TimeDesc=td;}
+
+/******************** OVERLOADING ********************/
+
+   bool TroopSpawner::operator==(const TroopSpawner & ts) const
+   {
+       return Troop::operator==(ts) &&
+              TimeDesc == ts.TimeDesc;
+   }
+
+   bool TroopSpawner::operator!=(const TroopSpawner & ts) const
+   {
+       return Troop::operator!=(ts) ||
+              TimeDesc != ts.TimeDesc;
+   }
 
 /******************** METHODS ********************/
 

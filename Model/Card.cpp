@@ -48,6 +48,27 @@ Card::rarity Card::StringToRarity(string sRar){
     else return Card::rarity::legendary;
 }
 
+/********************** OVERLOADING *************************/
+bool Card::operator==(const Card & c) const
+{
+    return name == c.name &&
+           manaCost == c.manaCost &&
+           cardRarity == c.cardRarity &&
+           cardLevel == c.cardLevel &&
+           description == c.description &&
+           MaxLevel==c.MaxLevel;
+}
+
+bool Card::operator!=(const Card & c) const
+{
+    return name != c.name ||
+           manaCost != c.manaCost ||
+           cardRarity != c.cardRarity ||
+           cardLevel != c.cardLevel ||
+           description != c.description ||
+           MaxLevel != c.MaxLevel;
+}
+
 /************************ METHODS **************************/
 void Card::lvlUpgrade(){
         cardLevel++;

@@ -18,6 +18,20 @@ void BuildingTroopSpawner::setSpawnSpeed(double sSpeed){
     spawnSpeed = sSpeed;
 }
 
+bool BuildingTroopSpawner::operator==(const BuildingTroopSpawner & bts) const
+{
+    return Building::operator==(bts) &&
+           Troop::operator==(bts) &&
+           spawnSpeed == bts.spawnSpeed;
+}
+
+bool BuildingTroopSpawner::operator!=(const BuildingTroopSpawner & bts) const
+{
+    return Building::operator!=(bts) ||
+           Troop::operator!=(bts) ||
+           spawnSpeed != bts.spawnSpeed;
+}
+
 void BuildingTroopSpawner::lvlUpgrade(){
     if(Card::isUpgradable()){
         Card::lvlUpgrade();

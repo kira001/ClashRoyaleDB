@@ -25,6 +25,9 @@ public:
     void setSpellDamage(double);
     void setCrownTowerDamage(double);
     void setRadius(double);
+    //OVERLOADING
+    virtual bool  operator==(const Spell&) const;
+    virtual bool  operator!=(const Spell&) const;
 
     //METHODS
     virtual QJsonObject writeJson() const;

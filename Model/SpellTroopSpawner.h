@@ -20,7 +20,9 @@ public:
     string getTimeSpawn() const;
     // SETTERS
     void setTimeSpawn(string);
-
+    //OVERLOADING
+    virtual bool  operator==(const SpellTroopSpawner&) const;
+    virtual bool  operator!=(const SpellTroopSpawner&) const;
     // METHODS
     virtual QJsonObject writeJson() const;
     virtual void readJson(const QJsonObject& obj);

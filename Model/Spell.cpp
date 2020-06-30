@@ -20,6 +20,24 @@ void Spell::setSpellDamage(double spellD){spellDamage=spellD;}
 void Spell::setCrownTowerDamage(double crownTD){crownTowerDamage=crownTD;}
 void Spell::setRadius(double rad){radius=rad;}
 
+/********************** OVERLOADING *********************/
+
+bool Spell::operator==(const Spell & s) const
+{
+    return Card::operator==(s) &&
+           spellDamage == s.spellDamage &&
+           crownTowerDamage == s.crownTowerDamage &&
+           radius == s.radius;
+}
+
+bool Spell::operator!=(const Spell & s) const
+{
+    return Card::operator!=(s) ||
+           spellDamage != s.spellDamage ||
+           crownTowerDamage != s.crownTowerDamage ||
+           radius != s.radius;
+}
+
 
 
 /********************** METHODS *********************/

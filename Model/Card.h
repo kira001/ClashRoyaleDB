@@ -54,6 +54,10 @@ public:
     string RarityToString() const;
     static rarity StringToRarity(std::string);
 
+    //OVERLOADING
+    virtual bool operator==(const Card&) const;
+    virtual bool operator!=(const Card&) const;
+
     // METHODS
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();

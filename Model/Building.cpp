@@ -15,6 +15,22 @@ double Building::getLifeTime() const{
 void Building::setLifeTime(double lTime){
     lifeTime = lTime;
 }
+
+
+bool Building::operator==(const Building & b) const
+{
+    return Card::operator==(b) &&
+           buildHealth == b.buildHealth &&
+           lifeTime == b.lifeTime;
+
+}
+bool Building::operator!=(const Building & b) const
+{
+    return Card::operator!=(b) ||
+           buildHealth != b.buildHealth ||
+           lifeTime != b.lifeTime;
+}
+
 string Building::getType() const{return "Building";}
 void Building::lvlUpgrade(){
     if(Card::isUpgradable()){

@@ -21,6 +21,9 @@ public:
     double getLifeTime() const;
     void setLifeTime(double lTime);
 
+    virtual bool  operator==(const Building&) const;
+    virtual bool  operator!=(const Building&) const;
+
     virtual string getType() const;
     virtual QJsonObject writeJson () const;
     virtual void readJson(const QJsonObject& obj);

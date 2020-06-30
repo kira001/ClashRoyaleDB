@@ -21,6 +21,20 @@ string SpellTroopSpawner::getTimeSpawn() const{return timeSpawn;}
 //SETTERS
 void SpellTroopSpawner::setTimeSpawn(string timeSp){timeSpawn=timeSp;}
 
+bool SpellTroopSpawner::operator==(const SpellTroopSpawner & sts) const
+{
+    return Spell::operator==(sts) &&
+           Troop::operator==(sts) &&
+           timeSpawn == sts.timeSpawn;
+}
+
+bool SpellTroopSpawner::operator!=(const SpellTroopSpawner & sts) const
+{
+    return Spell::operator!=(sts) ||
+           Troop::operator!=(sts) ||
+           timeSpawn != sts.timeSpawn;
+}
+
 
 /********************** METHODS *********************/
 void SpellTroopSpawner::lvlUpgrade(){

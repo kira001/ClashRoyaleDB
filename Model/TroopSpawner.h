@@ -17,6 +17,9 @@ public:
     string getTimeDesc()const;
     // SETTERS
     void setTimeDesc(string);
+    //OVERLOADING
+    virtual bool  operator==(const TroopSpawner&) const;
+    virtual bool  operator!=(const TroopSpawner&) const;
     // METHODS
     virtual QJsonObject writeJson() const;
     virtual void readJson(const QJsonObject& obj);

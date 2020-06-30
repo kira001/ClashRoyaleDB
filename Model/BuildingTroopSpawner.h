@@ -18,9 +18,11 @@ public:
     unsigned int cnt,
     double sSpeed);
     BuildingTroopSpawner(const BuildingTroopSpawner& bts);
-
     double getSpawnSpeed() const;
     void setSpawnSpeed(double sSpeed);
+    //OVERLOADING
+    virtual bool  operator==(const BuildingTroopSpawner&) const;
+    virtual bool  operator!=(const BuildingTroopSpawner&) const;
     virtual QJsonObject writeJson() const;
     virtual void readJson (const QJsonObject& obj);
     virtual void lvlUpgrade();
