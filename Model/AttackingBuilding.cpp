@@ -54,6 +54,7 @@ void AttackingBuilding::upgradeStats(){
 void AttackingBuilding::downgradeStats(){
     damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
 }
+
 QJsonObject AttackingBuilding::writeJson() const
 {
     QJsonObject abJson=Building::writeJson();
