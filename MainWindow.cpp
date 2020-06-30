@@ -1191,12 +1191,10 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
         }
      });
 
-    connect(cancelInsert, &QPushButton::clicked, [this, Edit] {
-        if(Edit==true)
-        {setStackedWidgetPage(1);}
-        else{
-         setStackedWidgetPage(0);
-         }
+    connect(cancelInsert, &QPushButton::clicked, [this] {
+        if(list->count() < 1) setStackedWidgetPage(0);
+        else setStackedWidgetPage(1);
+
     });
 
     // Set texts when edit
@@ -1210,6 +1208,9 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
         cardLevelEdit->setText(QString::number(container[cardPos]->getCardLevel()));
         descEdit->setText(QString::fromStdString(container[cardPos]->getDescription()));
 
+        QPixmap cardImg= QPixmap(QString::fromStdString(container[cardPos]->getPath()));
+        BoxImg->setPixmap(cardImg);
+        BoxImg->setScaledContents(true);
         /************ Other attributes ************/
 
         QString typeCard= QString::fromStdString(container[cardPos]->getType());
