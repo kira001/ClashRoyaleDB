@@ -198,7 +198,7 @@ void MainWindow::addMenu(){
     QAction* save= new QAction(QIcon(":img/add.png"),"Save Set", this);
     QAction* load=new QAction(QIcon(":img/save.png"), "Load Set", this);
     QAction* about=new QAction("About", this);
-    QAction* white=new QAction("Lite", this);
+    QAction* white=new QAction("Light", this);
     QAction* dark=new QAction("Dark", this);
 
 
@@ -300,6 +300,42 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* crownTowerDmgLabel= new QLabel();
      crownTowerDmgLabel->setPixmap(crownTowerDmgIcon);
 
+     /***************    SPELL ICON    *****************/
+     QPixmap dmgSpellIcon= QPixmap(":/img/insertIcon/dmg.png");
+     QLabel* dmgSpellLabel= new QLabel();
+     dmgSpellLabel->setPixmap(dmgSpellIcon);
+
+     QPixmap crownTowerDmgSpellIcon= QPixmap(":/img/insertIcon/crownTowerDamage.png");
+     QLabel* crownTowerDmgSpellLabel= new QLabel();
+     crownTowerDmgSpellLabel->setPixmap(crownTowerDmgSpellIcon);
+
+     QPixmap radiusSpellIcon= QPixmap(":/img/insertIcon/radius.png");
+     QLabel* radiusSpellLabel= new QLabel();
+     radiusSpellLabel->setPixmap(radiusSpellIcon);
+
+     /***************    TROOP-SPAWNER ICON    *****************/
+     QPixmap spawnTimeTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+     QLabel* spawnTimeTroopSpawnerLabel= new QLabel();
+     spawnTimeTroopSpawnerLabel->setPixmap(spawnTimeTroopSpawnerIcon);
+
+     /***************    SPELL-TROOP-SPAWNER ICON    *****************/
+     QPixmap spawnTimeSpellTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
+     QLabel* spawnTimeSpellTroopSpawnerLabel= new QLabel();
+     spawnTimeSpellTroopSpawnerLabel->setPixmap(spawnTimeSpellTroopSpawnerIcon);
+
+     /***************    ATTACKING-BUILDING ICON    *****************/
+     QPixmap hitPerSecondAttackingBuildingIcon= QPixmap(":/img/insertIcon/hitPerSecond.png");
+     QLabel* hitPerSecondAttackingBuildingLabel= new QLabel();
+     hitPerSecondAttackingBuildingLabel->setPixmap(hitPerSecondAttackingBuildingIcon);
+
+     QPixmap damagePerSecondAttackingBuildingIcon= QPixmap(":/img/insertIcon/damagePerSecond.png");
+     QLabel* damagePerSecondAttackingBuildingLabel= new QLabel();
+     damagePerSecondAttackingBuildingLabel->setPixmap(damagePerSecondAttackingBuildingIcon);
+
+     QPixmap rangeAttackingBuildingIcon= QPixmap(":/img/insertIcon/range.png");
+     QLabel* rangeAttackingBuildingLabel= new QLabel();
+     rangeAttackingBuildingLabel->setPixmap(rangeAttackingBuildingIcon);
+
      /***************    BUILDING ICON    *****************/
      QPixmap healthBuildingIcon= QPixmap(":/img/insertIcon/health.png");
      QLabel* healthBuildingLabel= new QLabel();
@@ -327,28 +363,41 @@ void MainWindow::viewCardInfo(int pos)
     QFormLayout* formLayout0 = new QFormLayout();
 
     unsigned int fixPos= static_cast<unsigned int>(pos);
-
+    QTextEdit* desc=new QTextEdit(QString::fromStdString(container[fixPos]->getDescription()));
     //Label Text
     string cardNameLevel= container[fixPos]->getName() + " [" + "Level: "+ std::to_string(container[fixPos]->getCardLevel())+"]";
     QLabel* nameCard=new QLabel(QString::fromStdString(cardNameLevel));
     QLabel* typeCard=new QLabel("Type: "+ QString::fromStdString(container[fixPos]->getType()));
     QLabel* rarityCard=new QLabel("Rarity: "+ QString::fromStdString(container[fixPos]->RarityToString()));
     QLabel* manaCostCard=new QLabel("Mana Cost: "+ QString::number(container[fixPos]->getManaCost()));
-    QLabel* descCard=new QLabel("Description:  "+ QString::fromStdString(container[fixPos]->getDescription()));
+    desc->setReadOnly(true);
+    desc->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    desc->setFixedSize(200,100);
 
     //Form1
-    formLayout0->insertRow(0,nameLabel,nameCard);
+
+
+
+    formLayout0->addRow(nameLabel,nameCard);
+    formLayout0->addRow(cardLabel0,typeCard);
+    formLayout0->addRow(cardRarityLabel,rarityCard);
+    formLayout0->addRow(manaCostLabel,manaCostCard);
+    formLayout0->addRow(descLabel,desc);
+
+  /*formLayout0->insertRow(0,nameLabel,nameCard);
     formLayout0->insertRow(1,cardLabel0,typeCard);
     formLayout0->insertRow(2,cardRarityLabel,rarityCard);
     formLayout0->insertRow(3,manaCostLabel,manaCostCard);
-    formLayout0->insertRow(4,descLabel,descCard);
-
+    formLayout0->insertRow(4,descLabel,desc);
+*/
     //string path=":/img/iconCard/";
     string path=pathImg;
     QLabel* cardLabel=new QLabel();
 
 
     //Button Edit
+    QVBoxLayout* imgAndButton=new QVBoxLayout();
+    QHBoxLayout* buttonUpAndDown=new QHBoxLayout();
     QHBoxLayout* Multiform=new QHBoxLayout();
     QHBoxLayout* buttonLayout=new QHBoxLayout();
     QPushButton* editButton = new QPushButton("Edit");
@@ -389,9 +438,9 @@ void MainWindow::viewCardInfo(int pos)
     QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(spell->getCrownTowerDamage()));
     QLabel* radius=new QLabel("Radius: "+ QString::number(spell->getRadius()));
 
-    formLayout1->addRow(damagePerSecondLabel,damageSpell);
-    formLayout1->addRow(crownTowerDmgLabel,crownTowerDamage);
-    formLayout1->addRow(radiusLabel,radius);
+    formLayout1->addRow(dmgSpellLabel,damageSpell);
+    formLayout1->addRow(crownTowerDmgSpellLabel,crownTowerDamage);
+    formLayout1->addRow(radiusSpellLabel,radius);
 
   }
   else if(container[fixPos]->getType()=="Troop"){
@@ -412,9 +461,10 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(hitPerSecondLabel,hitxsecTroop);
       formLayout1->addRow(damagePerSecondLabel,damagexsecTroop);
       formLayout1->addRow(spawnDDLabel,sddTroop);
-      formLayout1->addRow(rangeLabel,rangeTroop);
-      formLayout1->addRow(countLabel,countTroop);
-
+      formLayout2->addRow(rangeLabel,rangeTroop);
+      formLayout2->addRow(countLabel,countTroop);
+      Multiform->addLayout(formLayout1);
+      Multiform->addLayout(formLayout2);
 
   }
   else if(container[fixPos]->getType()=="Attacking Building"){
@@ -431,9 +481,9 @@ void MainWindow::viewCardInfo(int pos)
 
       formLayout1->addRow(healthBuildingLabel,healthAttBuilding);
       formLayout1->addRow(lifeTimeBuildingLabel,lifetimeAttBuilding);
-      formLayout1->addRow(hitPerSecondLabel,hitxsecAttBuilding);
-      formLayout1->addRow(damagePerSecondLabel,damagexsecAttBuilding);
-      formLayout1->addRow(rangeLabel,rangeAttBuilding);
+      formLayout1->addRow(hitPerSecondAttackingBuildingLabel,hitxsecAttBuilding);
+      formLayout1->addRow(damagePerSecondAttackingBuildingLabel,damagexsecAttBuilding);
+      formLayout1->addRow(rangeAttackingBuildingLabel,rangeAttBuilding);
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
@@ -455,17 +505,15 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(healthBuildingLabel,health1BuildingTroop);
       formLayout1->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
       formLayout1->addRow(damageLabel,damagexsecBuildingTroop);
-      formLayout1->addRow(spawnTimeLabel,sddBuildingTroop);
-      formLayout1->addRow(rangeLabel,rangeBuildingTroop);
-      formLayout1->addRow(countLabel,countBuildingTroop);
-
-
+      formLayout1->addRow(spawnDDLabel,sddBuildingTroop);
+      formLayout2->addRow(rangeLabel,rangeBuildingTroop);
+      formLayout2->addRow(countLabel,countBuildingTroop);
       formLayout2->addRow(healthLabel,health2BuildingTroop);
       formLayout2->addRow(lifeTimeBuildingLabel,lifetimeBuildingTroop);
-      formLayout3->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
+      formLayout2->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
       Multiform->addLayout(formLayout1);
       Multiform->addLayout(formLayout2);
-      Multiform->addLayout(formLayout3);
+
   }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
@@ -492,12 +540,11 @@ void MainWindow::viewCardInfo(int pos)
         formLayout1->addRow(hitPerSecondLabel,hitxsecSpellTroop);
         formLayout1->addRow(damagePerSecondLabel,damagexsecSpellTroop);
         formLayout1->addRow(spawnDDLabel,sddSpellTroop);
-        formLayout1->addRow(rangeLabel,rangeSpellTroop);
-        formLayout1->addRow(countLabel,countSpellTroop);
-
-        formLayout2->addRow(damageLabel,damageSpellTroop);
-        formLayout2->addRow(crownTowerDmgLabel,crowntowerdamageSpellTroop);
-        formLayout2->addRow(radiusLabel,radiusSpellTroop);
+        formLayout2->addRow(rangeLabel,rangeSpellTroop);
+        formLayout2->addRow(countLabel,countSpellTroop);
+        formLayout2->addRow(dmgSpellLabel,damageSpellTroop);
+        formLayout2->addRow(crownTowerDmgSpellLabel,crowntowerdamageSpellTroop);
+        formLayout2->addRow(radiusSpellLabel,radiusSpellTroop);
         formLayout3->addRow(spawnTimeLabel,tsSpellTroop);
 
         Multiform->addLayout(formLayout1);
@@ -526,10 +573,10 @@ void MainWindow::viewCardInfo(int pos)
      formLayout1->addRow(hitPerSecondLabel,hitxsecTroopSpawner);
      formLayout1->addRow(damagePerSecondLabel,damagexsecTroopSpawner);
      formLayout1->addRow(spawnDDLabel,sddTroopSpawner);
-     formLayout1->addRow(rangeLabel,rangeTroopSpawner);
-     formLayout1->addRow(countLabel,countTroopSpawner);
+     formLayout2->addRow(rangeLabel,rangeTroopSpawner);
+     formLayout2->addRow(countLabel,countTroopSpawner);
 
-    formLayout2->addRow(spawnTimeLabel,timedescTroopSpawner);
+    formLayout2->addRow(spawnTimeTroopSpawnerLabel,timedescTroopSpawner);
     Multiform->addLayout(formLayout1);
     Multiform->addLayout(formLayout2);
   }
@@ -572,26 +619,35 @@ void MainWindow::viewCardInfo(int pos)
   QIcon ButtonIcon1(pixmap1);
   lvUpgrade->setIcon(ButtonIcon1);
   lvUpgrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+  lvUpgrade->setFixedSize(40,40);
+  lvUpgrade->setIconSize(QSize(30,30));
+   lvUpgrade->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
   // Insert Button
   QPixmap pixmap2(":/img/min.png");
   QIcon ButtonIcon2(pixmap2);
   lvDowngrade->setIcon(ButtonIcon2);
   lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
+  lvDowngrade->setFixedSize(40,40);
+  lvDowngrade->setIconSize(QSize(30,30));
+  lvDowngrade->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+  //cardLabel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
 
-
-
-    formLayout0->setMargin(20);
-    buttonLayout->setMargin(6);
+  buttonLayout->setMargin(6);
   QString s=QString::fromStdString(path);
   QPixmap cardimg =QPixmap(s);
   cardLabel->setPixmap(cardimg);
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
-  layoutInfoTop->addWidget(cardLabel);
+
+
+
+  imgAndButton->addWidget(cardLabel);
+  buttonUpAndDown->addWidget(lvDowngrade);
+  buttonUpAndDown->addWidget(lvUpgrade);
+  imgAndButton->addLayout(buttonUpAndDown);
+  layoutInfoTop->addLayout(imgAndButton);
   layoutInfoTop->addLayout(formLayout0);
-  layoutInfoTop->addWidget(lvDowngrade);
-  layoutInfoTop->addWidget(lvUpgrade);
   infolayout->addLayout(layoutInfoTop);
   infolayout->addLayout(Multiform);
   infolayout->addLayout(formLayout1);

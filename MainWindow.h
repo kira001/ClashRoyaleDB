@@ -31,6 +31,7 @@
 #include <QLabel>
 #include <QImage>
 #include<QTextEdit>
+
 //stacked W
 class MainWindow : public QMainWindow
 {
