@@ -983,81 +983,85 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
     connect(comboClassEdit, &QComboBox::currentTextChanged, [comboClassEdit, troopWidget,spellWidget,buildingWidget,troopSpawnerWidget,spellTroopSpawnerWidget,
             buildingTroopSpawnerWidget,attackingBuildingWidget] {
-        if (comboClassEdit->currentText()=="Select card type") {
-            troopWidget->setVisible(false);
-            spellWidget->setVisible(false);
-            buildingWidget->setVisible(false);
-            troopSpawnerWidget->setVisible(false);
-            spellTroopSpawnerWidget->setVisible(false);
-            buildingTroopSpawnerWidget->setVisible(false);
-            attackingBuildingWidget->setVisible(false);
+                QTimer::singleShot(300,[comboClassEdit, troopWidget,spellWidget,buildingWidget,troopSpawnerWidget,spellTroopSpawnerWidget,
+                           buildingTroopSpawnerWidget,attackingBuildingWidget]()->void {
+                               if (comboClassEdit->currentText()=="Select card type") {
+                                   troopWidget->setVisible(false);
+                                   spellWidget->setVisible(false);
+                                   buildingWidget->setVisible(false);
+                                   troopSpawnerWidget->setVisible(false);
+                                   spellTroopSpawnerWidget->setVisible(false);
+                                   buildingTroopSpawnerWidget->setVisible(false);
+                                   attackingBuildingWidget->setVisible(false);
 
-        }
-        else if (comboClassEdit->currentText() == "Troop") {
-                troopWidget->setVisible(true);
-                spellWidget->setVisible(false);
-                buildingWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else if (comboClassEdit->currentText() == "Spell") {
-                spellWidget->setVisible(true);
-                troopWidget->setVisible(false);
-                buildingWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else if (comboClassEdit->currentText() == "Building") {
-                buildingWidget->setVisible(true);
-                troopWidget->setVisible(false);
-                spellWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else if (comboClassEdit->currentText() == "Troop Spawner") {
-                troopWidget->setVisible(true);
-                troopSpawnerWidget->setVisible(true);
-                spellWidget->setVisible(false);
-                buildingWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else if (comboClassEdit->currentText() == "Spell-Troop Spawner") {
-                troopWidget->setVisible(true);
-                spellWidget->setVisible(true);
-                spellTroopSpawnerWidget->setVisible(true);
+                               }
+                               else if (comboClassEdit->currentText() == "Troop") {
+                                       troopWidget->setVisible(true);
+                                       spellWidget->setVisible(false);
+                                       buildingWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else if (comboClassEdit->currentText() == "Spell") {
+                                       spellWidget->setVisible(true);
+                                       troopWidget->setVisible(false);
+                                       buildingWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else if (comboClassEdit->currentText() == "Building") {
+                                       buildingWidget->setVisible(true);
+                                       troopWidget->setVisible(false);
+                                       spellWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else if (comboClassEdit->currentText() == "Troop Spawner") {
+                                       troopWidget->setVisible(true);
+                                       troopSpawnerWidget->setVisible(true);
+                                       spellWidget->setVisible(false);
+                                       buildingWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else if (comboClassEdit->currentText() == "Spell-Troop Spawner") {
+                                       troopWidget->setVisible(true);
+                                       spellWidget->setVisible(true);
+                                       spellTroopSpawnerWidget->setVisible(true);
 
-                buildingWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else if (comboClassEdit->currentText() == "Building-Troop Spawner") {
-                buildingWidget->setVisible(true);
-                troopWidget->setVisible(true);
-                buildingTroopSpawnerWidget->setVisible(true);
-                spellWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                attackingBuildingWidget->setVisible(false);
-        }
-        else{
-            // Attacking building
-                buildingWidget->setVisible(true);
-                attackingBuildingWidget->setVisible(true);
-                troopWidget->setVisible(false);
-                spellWidget->setVisible(false);
-                troopSpawnerWidget->setVisible(false);
-                spellTroopSpawnerWidget->setVisible(false);
-                buildingTroopSpawnerWidget->setVisible(false);
-        }
+                                       buildingWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else if (comboClassEdit->currentText() == "Building-Troop Spawner") {
+                                       buildingWidget->setVisible(true);
+                                       troopWidget->setVisible(true);
+                                       buildingTroopSpawnerWidget->setVisible(true);
+                                       spellWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       attackingBuildingWidget->setVisible(false);
+                               }
+                               else{
+                                   // Attacking building
+                                       buildingWidget->setVisible(true);
+                                       attackingBuildingWidget->setVisible(true);
+                                       troopWidget->setVisible(false);
+                                       spellWidget->setVisible(false);
+                                       troopSpawnerWidget->setVisible(false);
+                                       spellTroopSpawnerWidget->setVisible(false);
+                                       buildingTroopSpawnerWidget->setVisible(false);
+                               }
+                  });
+
 
 
     });
