@@ -71,32 +71,6 @@ void AttackingBuilding::downgradeStats(){
     damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
 }
 
-QJsonObject AttackingBuilding::writeJson() const
-{
-    QJsonObject abJson=Building::writeJson();
-    abJson["Type"] = QString::fromStdString(getType());
-    abJson["Hit per Second"] = getHitPerSecond();
-    abJson["Damage per Second"] = getDamagePerSecond();
-    abJson["Range"] = getRange();
-    return abJson;
-
-}
-void AttackingBuilding::readJson(const QJsonObject &obj)
-{
-    Building::readJson(obj);
-
-    if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
-        setHitPerSecond(obj["Hit per Second"].toDouble());
-    if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())
-        setDamagePerSecond(obj["Damage per Second"].toDouble());
-    if (obj.contains("Range") && obj["Range"].isDouble())
-        setRange(obj["Range"].toDouble());
-
-
-}
-
-
-
 AttackingBuilding::AttackingBuilding(std::string p,std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):
     Card(p,n,mana,rar,cLevel,desc),Building(p,n,mana,rar,cLevel,desc, bHealth, lTime), hitPerSecond(hPerSecond), damagePerSecond(dPerSecond), range(rng){}
 

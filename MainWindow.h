@@ -30,8 +30,12 @@
 #include <QCompleter>
 #include <QLabel>
 #include <QImage>
-#include<QTextEdit>
+#include <QTextEdit>
 #include <QTimer>
+#include <QString>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 //stacked W
 class MainWindow : public QMainWindow
 {
@@ -41,18 +45,19 @@ private:
     QWidget* mainWidget;
     QWidget* infoWidget;
     QWidget* insertWidget;
+    QListWidget* list;
+
+    QStackedWidget *stackedWidget;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout* leftLayout;
     QVBoxLayout* infolayout;
     QVBoxLayout* rightLayout;
-    QListWidget* list;
-
     QVBoxLayout* insertLayout;
+
     string pathImg;
 
     QListWidget* listImg;
-    QStackedWidget *stackedWidget;
 
     QLineEdit* searchbox; //Search
     QCompleter* completer; //SuggestionWordsFromSearch
@@ -78,19 +83,16 @@ private:
     void setStackedWidgetPage(int);
     void findNameCard(const QString& std);
     void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
-    void infoguide();
+    void infoguide() const;
     int findListItemInContainer(int itemPos) const;
-    void showInfoCard(int);
     void clearLayout(QLayout*);
-    void test();
     void filterTypeRarity(const QString& type, const QString &rarity);
     void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
-    bool isCardNameInContainer(string cardName);
+    bool isCardNameInContainer(string cardName) const;
     QJsonObject writeJson(Card* card) const;
     void readJson(Card* card, const QJsonObject& obj);
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void addCardView(string);
 };
 #endif // MAINWINDOWH

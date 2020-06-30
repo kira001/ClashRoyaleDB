@@ -51,22 +51,6 @@ void SpellTroopSpawner::lvlDowngrade(){
        Card::lvlDowngrade();
     }
 }
-QJsonObject SpellTroopSpawner::writeJson() const
-{
-    QJsonObject STJson=Spell::writeJson(); //Ffantascientifico sci-fi
-    STJson=Troop::writeJson();
-    STJson["Type"] = QString::fromStdString(getType());
-    STJson["Time Spawn"] = QString::fromStdString(getTimeSpawn());
-    return STJson;
-
-}
-void SpellTroopSpawner::readJson(const QJsonObject &obj)
-{
-    Troop::readJson(obj);
-    Spell::readJson(obj);
-    if (obj.contains("Time Spawn") && obj["Time Spawn"].isString())
-          setTimeSpawn(obj["Time Spawn"].toString().toStdString());
-}
 string SpellTroopSpawner::getType() const{return "Spell-Troop Spawner";}
 
 SpellTroopSpawner* SpellTroopSpawner::clone() const { return new SpellTroopSpawner(*this); }

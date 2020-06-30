@@ -21,8 +21,6 @@ public:
     virtual bool  operator==(const TroopSpawner&) const;
     virtual bool  operator!=(const TroopSpawner&) const;
     // METHODS
-    virtual QJsonObject writeJson() const;
-    virtual void readJson(const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual string getType() const;

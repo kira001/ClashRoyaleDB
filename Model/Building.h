@@ -25,8 +25,6 @@ public:
     virtual bool  operator!=(const Building&) const;
 
     virtual string getType() const;
-    virtual QJsonObject writeJson () const;
-    virtual void readJson(const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual Building* clone() const;

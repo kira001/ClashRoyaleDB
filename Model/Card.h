@@ -1,17 +1,9 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <iostream>
-
 #include <string>
-
-
-#include <QString> //In questa classe non viene usato 
-#include <QJsonArray> ////In questa classe non viene usato 
-#include <QJsonDocument>
-#include <QJsonObject>
-
 using std::string;
+
 class Card
 {
 public:
@@ -49,7 +41,6 @@ public:
     string getDescription() const;
     unsigned int getMaxLevel() const;
 
-
     // CONVERSION ENUM<--->STRING
     string RarityToString() const;
     static rarity StringToRarity(std::string);
@@ -66,9 +57,6 @@ public:
     virtual string getType() const = 0; // Controllo il tipo -> Troop,Spell,Building ecc
 
     virtual Card* clone() const = 0;
-    virtual QJsonObject writeJson() const;
-    virtual void readJson(const QJsonObject& obj);
-
 };
 
 #endif // CARD_H

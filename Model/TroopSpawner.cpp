@@ -6,12 +6,11 @@ TroopSpawner::TroopSpawner(string p,string n,unsigned int mc,rarity cr, unsigned
                            double sdd,double r,unsigned int c,string td)
                            :Card(p,n,mc,cr,cl,desc),Troop(p,n,mc,cr,cl,desc,s,th,hxs,dxs,sdd,r,c),TimeDesc(td){}
 
-
 TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.getTimeDesc()){}
 
 /******************** GETTERS/SETTERS ********************/
 
-//GETTERS
+   //GETTERS
    string TroopSpawner::getTimeDesc() const{return TimeDesc;}
 
    //SETTERS
@@ -32,7 +31,6 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
    }
 
 /******************** METHODS ********************/
-
    void TroopSpawner::lvlUpgrade(){
        if(Card::isUpgradable())
             Troop::lvlUpgrade();
@@ -40,19 +38,6 @@ TroopSpawner::TroopSpawner(const TroopSpawner& x):Card(x),Troop(x),TimeDesc(x.ge
    void TroopSpawner::lvlDowngrade(){
        if(Card::isDowngradable())
             Troop::lvlDowngrade();
-   }
-   QJsonObject TroopSpawner::writeJson() const
-   {
-       QJsonObject TSjson = Troop::writeJson();
-       TSjson["Type"] = QString::fromStdString(getType());
-       TSjson["Time and Description"] =QString::fromStdString(getTimeDesc());
-       return TSjson;
-   }
-   void TroopSpawner::readJson(const QJsonObject &obj)
-   {   Troop::readJson(obj);
-       if (obj.contains("Time and Description") && obj["Time and Description"].isString())
-           setTimeDesc(obj["Time and Description"].toString().toStdString());
-
    }
    string TroopSpawner::getType() const{return "Troop Spawner";}
 

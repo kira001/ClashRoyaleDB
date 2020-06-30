@@ -29,13 +29,7 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
    void Troop::setRange(double r){range=r;}
    void Troop::setCount(unsigned int c){count=c;}
 
-   double shield;
-   double troopHealth;
-   double hitxSec;
-   double damagexSec;
-   double spawnDD; //SpawnDeathDamage
-   double range;
-   unsigned int count;
+
  /******************** OVERLOADING ********************/
    bool Troop::operator==(const Troop & t) const
    {
@@ -88,52 +82,17 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
        spawnDD=(spawnDD*100/(100+6*Card::getCardLevel()));
    }
 
-
    void Troop::lvlUpgrade(){
       if(Card::isUpgradable()){
             Card::lvlUpgrade();
             upgradeStats();
       }
    }
-
    void Troop::lvlDowngrade(){
        if(Card::isDowngradable()){
             downgradeStats();
             Card::lvlDowngrade();
        }
-   }
-
-   QJsonObject Troop::writeJson() const
-   {
-       QJsonObject TJson=Card::writeJson();
-       TJson["Type"] = QString::fromStdString(getType());
-       TJson["Shield"] = getShield();
-       TJson["Troop Health"] = getTroopHealth();
-       TJson["Hit per Second"] = getHitxSec();
-       TJson["Damage per Second"] = getDamagexSec();
-       TJson["Spawn Death Damage"] = getSpawnDD();
-       TJson["Range"] = getRange();
-       TJson["Count"] = static_cast<int>(getCount());
-       return TJson;
-   }
-   void Troop::readJson(const QJsonObject &obj)
-   {
-       Card::readJson(obj);
-       if (obj.contains("Shield") && obj["Shield"].isDouble())
-           setShield(obj["Shield"].toDouble());
-       if (obj.contains("Troop Health") && obj["Troop Health"].isDouble())
-           setTroopHealth(obj["Troop Health"].toDouble());
-       if (obj.contains("Hit per Second") && obj["Hit per Second"].isDouble())
-           setHitxSec(obj["Hit per Second"].toDouble());
-       if (obj.contains("Damage per Second") && obj["Damage per Second"].isDouble())
-           setDamagexSec(obj["Damage per Second"].toDouble());
-       if (obj.contains("Spawn Death Damage") && obj["Spawn Death Damage"].isDouble())
-           setSpawnDD(obj["Spawn Death Damage"].toDouble());
-       if (obj.contains("Range") && obj["Range"].isDouble())
-           setRange(obj["Range"].toDouble());
-       if (obj.contains("Count") && obj["Count"].isDouble())
-           setCount(static_cast<unsigned int>(obj["Count"].toInt()));
-
    }
    string Troop::getType() const{return "Troop";}
 

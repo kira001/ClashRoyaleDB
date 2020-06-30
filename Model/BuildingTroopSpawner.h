@@ -23,8 +23,6 @@ public:
     //OVERLOADING
     virtual bool  operator==(const BuildingTroopSpawner&) const;
     virtual bool  operator!=(const BuildingTroopSpawner&) const;
-    virtual QJsonObject writeJson() const;
-    virtual void readJson (const QJsonObject& obj);
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual string getType() const;

@@ -25,8 +25,6 @@ public:
     virtual bool  operator==(const AttackingBuilding&) const;
     virtual bool  operator!=(const AttackingBuilding&) const;
 
-    virtual QJsonObject writeJson() const;
-    virtual void readJson(const QJsonObject& obj);
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();

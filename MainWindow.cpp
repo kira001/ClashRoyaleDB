@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     setWindowIcon(QIcon(":/img/icon.png"));
-    setFixedSize(980,620);
+    //setFixedSize(980,620);
 
     mainWidget=new QWidget(this);
 
@@ -65,7 +65,7 @@ void MainWindow::resetlist(){
 
 
 
-void MainWindow::infoguide(){
+void MainWindow::infoguide() const{
     QMessageBox Box;
     Box.setWindowTitle("About");
     Box.setText("\n\n Welcome to ClashRoyale v1.0");
@@ -166,8 +166,6 @@ void MainWindow::addLeftLayout(){
 
 }
 void MainWindow::findNameCard(const QString& str){
-
-
     for (int i = 0; i < list->count(); ++i) {
         QListWidgetItem* listItem = list->item(i);
         if (!listItem->text().toUpper().contains(str.toUpper())) {
@@ -798,7 +796,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     // Descrizione
     QTextEdit* descEdit = new QTextEdit();
     descEdit->setPlaceholderText("Description");
-    descEdit->setFixedSize(250,70);
+    descEdit->setFixedHeight(70);
     // -----> CardForm <------
 
     QFormLayout* formLayout= new QFormLayout();
@@ -1465,7 +1463,7 @@ void MainWindow::setWidgetStyleWhite(){
 
 }
 
-void MainWindow::basicInfoWidget() //Pagina Iniziale
+void MainWindow::basicInfoWidget()  //Pagina Iniziale
 {
     QPixmap logo = QPixmap(":/img/background.png");
     logo = logo.scaledToWidth(450);
@@ -1519,12 +1517,6 @@ void MainWindow::setStackedWidgetPage(int index)
 void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
 
     if(type=="All"&&rarity=="All") resetlist();
-    /*else{
-        for(int i=0; i<container.getSize(); ++i)
-            if(QString::fromStdString(container[i]->getType())== type)
-                list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
-    }*/
-
     if(rarity!= "All"){
         list->reset();
         list->clear();
@@ -1563,7 +1555,7 @@ void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString&
     findNameCard(searchTxt);
 }
 
-bool MainWindow::isCardNameInContainer(std::string cardName)
+bool MainWindow::isCardNameInContainer(std::string cardName) const
 {
     for (unsigned int i = 0; i < container.getSize(); ++i) {
         if (container[i]->getName() == cardName)

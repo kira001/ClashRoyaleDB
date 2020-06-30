@@ -39,7 +39,6 @@ void BuildingTroopSpawner::lvlUpgrade(){
         Troop::upgradeStats();
     }
 }
-
 void BuildingTroopSpawner::lvlDowngrade(){
     if(Card::isDowngradable()){
        Building::downgradeStats();
@@ -47,23 +46,6 @@ void BuildingTroopSpawner::lvlDowngrade(){
        Card::lvlDowngrade();
     }
 }
-QJsonObject BuildingTroopSpawner::writeJson() const
-{
-     QJsonObject bJson=Building::writeJson(); //Ffantascientifico sci-fi
-     bJson=Troop::writeJson();
-     bJson["Type"] = QString::fromStdString(getType());
-     bJson["Spawn Speed"] = getSpawnSpeed();
-     return bJson;
-
-}
-void BuildingTroopSpawner::readJson(const QJsonObject &obj)
-{
-    Building::readJson(obj);
-    Troop::readJson(obj);
-    if (obj.contains("Spawn Speed") && obj["Spawn Speed"].isDouble())
-        setSpawnSpeed(obj["Spawn Speed"].toDouble());
-}
-
 string BuildingTroopSpawner::getType() const{return "Building-Troop Spawner";}
 BuildingTroopSpawner* BuildingTroopSpawner::clone() const{
     return new BuildingTroopSpawner(*this);

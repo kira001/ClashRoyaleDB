@@ -31,17 +31,13 @@ void Card::setDescription(string desc){ description=desc; }
 
 /******************** CONVERSION ENUM<--->STRING ********************/
 string Card::RarityToString() const{
-    switch (cardRarity)
-       {
-         case Card::rarity::common:return "Common";
-         case Card::rarity::rare:return "Rare";
-         case Card::rarity::epic:return "Epic";
-         case Card::rarity::legendary:return "Legendary";
-       }
+    if(cardRarity==Card::rarity::common)return "Common";
+    else if(cardRarity==Card::rarity::rare) return "Rare";
+    else if(cardRarity==Card::rarity::epic) return "Epic";
+    else return "Legendary";
 }
 
 Card::rarity Card::StringToRarity(string sRar){
-
     if(sRar=="Common") return Card::rarity::common;
     else if(sRar=="Rare") return Card::rarity::rare;
     else if(sRar=="Epic") return Card::rarity::epic;
@@ -109,35 +105,4 @@ void Card::controlRarityLevel(rarity cardRar, unsigned int cLevel) const{
              case Card::rarity::legendary:   cardLevel>8? true: throw MyException("Minimum level for legendary is 9");break;
            }
     }
-}
-
-QJsonObject Card::writeJson() const
-{
-    QJsonObject cardJson;
-    cardJson["Icon NameFile"] = QString::fromStdString(getPath());
-    cardJson["Card Name"] = QString::fromStdString(getName());
-    cardJson["Mana Cost"] = static_cast<int>(getManaCost()); //conversione unsigned int -> int
-    cardJson["Rarity"] = QString::fromStdString(RarityToString());
-    cardJson["Level"] = static_cast<int>(getCardLevel());
-    cardJson["Description"] = QString::fromStdString(getDescription());
-    return cardJson;
-
-}
-
-void Card::readJson(const QJsonObject& obj)
-{
-if (obj.contains("Icon NameFile") && obj["Icon NameFile"].isString())
-        setPath(obj["Icon NameFile"].toString().toStdString());
-if (obj.contains("Card Name") && obj["Card Name"].isString())
-    setName(obj["Card Name"].toString().toStdString());
-if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
-    setManaCost(static_cast<unsigned int>(obj["Mana Cost"].toInt())); //conversione
-if (obj.contains("Rarity") && obj["Rarity"].isString())
-    setCardRarity(StringToRarity(obj["Rarity"].toString().toStdString()));
-  //  setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
-if (obj.contains("Level") && obj["Level"].isDouble())
-    setCardLevel(static_cast<unsigned int>(obj["Level"].toInt()));
-if (obj.contains("Description") && obj["Description"].isString())
-    setDescription(obj["Description"].toString().toStdString());
-
 }

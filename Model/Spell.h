@@ -28,10 +28,7 @@ public:
     //OVERLOADING
     virtual bool  operator==(const Spell&) const;
     virtual bool  operator!=(const Spell&) const;
-
     //METHODS
-    virtual QJsonObject writeJson() const;
-    virtual void readJson(const QJsonObject& obj);
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
