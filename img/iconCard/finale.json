@@ -56,23 +56,6 @@
         "Type": "Troop Spawner"
     },
     {
-        "Card Name": "Spell-Troop spawner",
-        "Count": 29,
-        "Damage per Second": 26,
-        "Description": "bellalella",
-        "Hit per Second": 25,
-        "Icon NameFile": ":/img/iconCard/default.png",
-        "Level": 10,
-        "Mana Cost": 9,
-        "Range": 28,
-        "Rarity": "Common",
-        "Shield": 23,
-        "Spawn Death Damage": 27,
-        "Time Spawn": "33",
-        "Troop Health": 24,
-        "Type": "Spell-Troop Spawner"
-    },
-    {
         "Build Health": 50,
         "Card Name": "Att Build",
         "Damage per Second": 53,
@@ -87,6 +70,7 @@
         "Type": "Attacking Building"
     },
     {
+        "Build Health": 40,
         "Card Name": "Building-Troop spawner ",
         "Count": 56,
         "Damage per Second": 53,
@@ -94,6 +78,7 @@
         "Hit per Second": 52,
         "Icon NameFile": ":/img/iconCard/default.png",
         "Level": 8,
+        "Life Time": 41,
         "Mana Cost": 5,
         "Range": 55,
         "Rarity": "Common",
@@ -102,5 +87,25 @@
         "Spawn Speed": 59,
         "Troop Health": 51,
         "Type": "Building-Troop Spawner"
+    },
+    {
+        "Card Name": "Spell-Troop spawner",
+        "Count": 29,
+        "Crown Tower Damage": 11,
+        "Damage": 11,
+        "Damage per Second": 26,
+        "Description": "bellalella",
+        "Hit per Second": 25,
+        "Icon NameFile": ":/img/iconCard/default.png",
+        "Level": 10,
+        "Mana Cost": 9,
+        "Radius": 11,
+        "Range": 28,
+        "Rarity": "Common",
+        "Shield": 23,
+        "Spawn Death Damage": 27,
+        "Time Spawn": "33",
+        "Troop Health": 24,
+        "Type": "Spell-Troop Spawner"
     }
 ]

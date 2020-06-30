@@ -151,20 +151,6 @@ void MainWindow::addLeftLayout(){
        if(container.getSize()>0)
            combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
-   /* TEST PER I FILTRI
-   DeepPtr<Card> spell= new Spell("Spell1",10,Card::StringToRarity("Comune"),1,"koko is a gorilla!!!!",500,300,3);
-   DeepPtr<Card> spell2= new Spell("Spell2",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300,3);
-   DeepPtr<Card> build= new Building("building",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300);
-   DeepPtr<Card> build2= new Building("bulding2",10,Card::StringToRarity("Rara"),1,"koko is a gorilla!!!!",500,300);
-   DeepPtr<Card> build3= new Building("bulding3",10,Card::StringToRarity("Leggendaria"),1,"koko is a gorilla!!!!",500,300);
-   container.insert(spell);
-   container.insert(spell2);
-   container.insert(build);
-   container.insert(build2);
-   container.insert(build3);
-   resetlist();
-   */
-
 
     searchbox->setFixedSize(190,30);
     filterTypeBox->setFixedSize(150,30);
@@ -384,13 +370,6 @@ void MainWindow::viewCardInfo(int pos)
     formLayout0->addRow(manaCostLabel,manaCostCard);
     formLayout0->addRow(descLabel,desc);
 
-  /*formLayout0->insertRow(0,nameLabel,nameCard);
-    formLayout0->insertRow(1,cardLabel0,typeCard);
-    formLayout0->insertRow(2,cardRarityLabel,rarityCard);
-    formLayout0->insertRow(3,manaCostLabel,manaCostCard);
-    formLayout0->insertRow(4,descLabel,desc);
-*/
-    //string path=":/img/iconCard/";
     string path=pathImg;
     QLabel* cardLabel=new QLabel();
 
@@ -427,6 +406,8 @@ void MainWindow::viewCardInfo(int pos)
 
       formLayout1->addRow(healthLabel,healthBuilding);
       formLayout1->addRow(lifeTimeBuildingLabel,lifetimeBuilding);
+      Multiform->addLayout(formLayout1);
+
 
   }
   else if(container[fixPos]->getType()=="Spell")
@@ -441,6 +422,8 @@ void MainWindow::viewCardInfo(int pos)
     formLayout1->addRow(dmgSpellLabel,damageSpell);
     formLayout1->addRow(crownTowerDmgSpellLabel,crownTowerDamage);
     formLayout1->addRow(radiusSpellLabel,radius);
+    Multiform->addLayout(formLayout1);
+
 
   }
   else if(container[fixPos]->getType()=="Troop"){
@@ -484,6 +467,8 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(hitPerSecondAttackingBuildingLabel,hitxsecAttBuilding);
       formLayout1->addRow(damagePerSecondAttackingBuildingLabel,damagexsecAttBuilding);
       formLayout1->addRow(rangeAttackingBuildingLabel,rangeAttBuilding);
+      Multiform->addLayout(formLayout1);
+
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
@@ -502,13 +487,14 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* countBuildingTroop=new QLabel("Count: "+ QString::number(buildingTroopSpawner->getCount()));
 
       formLayout1->addRow(shieldLabel,shieldBuildingTroop);
-      formLayout1->addRow(healthBuildingLabel,health1BuildingTroop);
+      formLayout1->addRow (healthLabel,health2BuildingTroop);
       formLayout1->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
       formLayout1->addRow(damageLabel,damagexsecBuildingTroop);
       formLayout1->addRow(spawnDDLabel,sddBuildingTroop);
       formLayout2->addRow(rangeLabel,rangeBuildingTroop);
       formLayout2->addRow(countLabel,countBuildingTroop);
-      formLayout2->addRow(healthLabel,health2BuildingTroop);
+
+      formLayout2->addRow(healthBuildingLabel,health1BuildingTroop);
       formLayout2->addRow(lifeTimeBuildingLabel,lifetimeBuildingTroop);
       formLayout2->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
       Multiform->addLayout(formLayout1);
@@ -550,8 +536,6 @@ void MainWindow::viewCardInfo(int pos)
         Multiform->addLayout(formLayout1);
         Multiform->addLayout(formLayout2);
         Multiform->addLayout(formLayout3);
-
-
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
@@ -594,8 +578,6 @@ void MainWindow::viewCardInfo(int pos)
           msgBox.setText(QString::fromStdString(e.getMsgException()));
           msgBox.exec();
       }
-
-
   } );
 
   QPushButton* lvDowngrade = new QPushButton();
@@ -650,7 +632,6 @@ void MainWindow::viewCardInfo(int pos)
   layoutInfoTop->addLayout(formLayout0);
   infolayout->addLayout(layoutInfoTop);
   infolayout->addLayout(Multiform);
-  infolayout->addLayout(formLayout1);
   infolayout->addLayout(buttonLayout);
 
 
@@ -1337,12 +1318,10 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QPixmap pixmap1(":/img/x.png");
     QIcon ButtonIcon1(pixmap1);
     deleteImg->setIcon(ButtonIcon1);
-    // deleteImg->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
     // Insert Button
     QPixmap pixmap2(":/img/add.png");
     QIcon ButtonIcon2(pixmap2);
     choseImg->setIcon(ButtonIcon2);
-    // choseImg->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
 
     // ButtonLayout
     QHBoxLayout* buttonImgBoxLayout = new QHBoxLayout();
