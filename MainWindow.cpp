@@ -4,49 +4,37 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent){
-
-
-    setWindowIcon(QIcon(":/img/icon.png"));
-    //setFixedSize(980,620);
-
+    setWindowIcon(QIcon(":/img/insertIcon/icon.png"));
     mainWidget=new QWidget(this);
-
     mainLayout=new QHBoxLayout;
     stackedWidget = new QStackedWidget;
     infoWidget=new QWidget;
     list = new QListWidget;
-    listImg = new QListWidget;
     insertWidget=new QWidget;
-
     leftLayout=new QVBoxLayout;
     rightLayout=new QVBoxLayout;
     infolayout=new QVBoxLayout;
     insertLayout=new QVBoxLayout;
-
     menubar= new QMenuBar;
     menu =new QMenu("File",menubar);
     menu2 =new QMenu("Themes",menubar);
     searchbox= new QLineEdit;
     completer= new QCompleter;
-    popup=new QMessageBox;
     filterTypeBox=new QComboBox;
     filterRarityBox=new QComboBox;
     pathImg=":/img/iconCard/default.png";
-
+    StyleWhite=false;
     addMenu();
     addLeftLayout();
     addRightLayout();
     setWidgetStyle();
-
-
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
 }
 
 MainWindow::~MainWindow(){}
 
-
-
+/************ Reset List ************/
 void MainWindow::resetlist(){
     if (list->count() != 0) {
         list->reset();
@@ -54,44 +42,38 @@ void MainWindow::resetlist(){
     }
     for (unsigned int i = 0; i < container.getSize(); i++)
    {
-    //crasha tutttooooo
-    //string cardList=container[i]->getName()+" ["+ std::to_string(container[i]->getCardLevel())+"]";
-    //list->addItem(new QListWidgetItem(QString::fromStdString(cardList)));
-     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
+      list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
     }
-
-
 }
 
-
-
+/************ Message box About ************/
 void MainWindow::infoguide() const{
     QMessageBox Box;
     Box.setWindowTitle("About");
     Box.setText("\n\n Welcome to ClashRoyale v1.0");
     Box.setInformativeText("\n Developed by \n KokoGorillaTEAM \n");
-    QPixmap logo = QPixmap(":/img/infobox.png");
+    QPixmap logo = QPixmap(":/img/insertIcon/infobox.png");
     logo = logo.scaledToWidth(150);
     Box.setIconPixmap(logo);
-    Box.setStyleSheet("background-color: rgb(30,30,30); color: rgb(246,163,5);");
+    if(!StyleWhite){
+    Box.setStyleSheet("background-color: rgb(30,30,30); color: rgb(246,163,5);");}
+    else{
+    Box.setStyleSheet("background-color: rgb(225,225,225); color: rgb(246,163,5);");
+    }
     Box.exec();
 }
-
+/************ Set Layout ************/
 void MainWindow::addLeftLayout(){
 
+   //set scrollArea & set Layout
     QScrollArea* leftbox= new QScrollArea;
     leftbox->setWidget(list);
     leftbox->setWidgetResizable(true);
     leftbox->setFixedSize(450,400);
     leftbox->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
     QHBoxLayout* buttonLayout=new QHBoxLayout;
-    QPushButton* insertButton = new QPushButton("Insert");
-    QPushButton* deleteButton= new QPushButton("Delete");
-    insertButton->setFixedSize(100,50);
-    deleteButton->setFixedSize(100,50);
     QHBoxLayout* searchLayout= new QHBoxLayout;
-
+    //list
     connect(list, &QListWidget::currentRowChanged, [this] {
       if (list->count()>0)
     {
@@ -100,35 +82,37 @@ void MainWindow::addLeftLayout(){
           setStackedWidgetPage(1);
       }
     });
-
-    buttonLayout->addWidget(insertButton);
-    buttonLayout->addWidget(deleteButton);
-
+   //searchbox
     searchbox->setClearButtonEnabled(true);
-    searchbox->addAction(QIcon(":/img/whitesearch.png"), QLineEdit::LeadingPosition);
+    searchbox->addAction(QIcon(":/img/insertIcon/whitesearch.png"), QLineEdit::LeadingPosition);
     searchbox->setPlaceholderText("Search");
-
    connect(searchbox, &QLineEdit::textChanged, [this] {
          if (container.getSize() > 0)
              combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
+   //insert&delete Button
+   QPushButton* insertButton = new QPushButton("Insert");
+   QPushButton* deleteButton= new QPushButton("Delete");
+   insertButton->setFixedSize(100,50);
+   deleteButton->setFixedSize(100,50);
    connect(insertButton, &QPushButton::clicked, [this] {
    clearLayout(insertLayout);
    addInsertWidget();
    insertWidget->setLayout(insertLayout);
    setStackedWidgetPage(2);
-
    });
    connect(deleteButton, &QPushButton::clicked, [this] {
        if (list->count() > 0 && list->currentRow() != -1) {
            container.remove(findListItemInContainer(list->currentRow()));
            list->takeItem(list->currentRow());
        }
-       if(list->currentRow() == -1){ //set BasicPage
+       if(list->currentRow() == -1){
            setStackedWidgetPage(0);
        }
    });
-
+   buttonLayout->addWidget(insertButton);
+   buttonLayout->addWidget(deleteButton);
+   //Filters
    filterTypeBox->addItem("All");
    filterTypeBox->addItem("Spell");
    filterTypeBox->addItem("Troop");
@@ -141,7 +125,6 @@ void MainWindow::addLeftLayout(){
            if(container.getSize()>0)
           combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
-
    filterRarityBox->addItem("All");
    filterRarityBox->addItem("Common");
    filterRarityBox->addItem("Rare");
@@ -151,7 +134,6 @@ void MainWindow::addLeftLayout(){
        if(container.getSize()>0)
            combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
-
     searchbox->setFixedSize(190,30);
     filterTypeBox->setFixedSize(150,30);
     filterRarityBox->setFixedSize(20,30);
@@ -163,62 +145,70 @@ void MainWindow::addLeftLayout(){
     leftLayout->addLayout(buttonLayout);
     mainLayout->addLayout(leftLayout);
 
-
 }
-void MainWindow::findNameCard(const QString& str){
-    for (int i = 0; i < list->count(); ++i) {
-        QListWidgetItem* listItem = list->item(i);
-        if (!listItem->text().toUpper().contains(str.toUpper())) {
-            list->takeItem(i);
-            --i;
-        }
-
-    }
-}
-
 
 void MainWindow::addMenu(){
-
-    QAction* save= new QAction(QIcon(":img/add.png"),"Save Set", this);
-    QAction* load=new QAction(QIcon(":img/save.png"), "Load Set", this);
+    QAction* save= new QAction(QIcon(":img/insertIcon/add.png"),"Save Set", this);
+    QAction* load=new QAction(QIcon(":img/insertIcon/save.png"), "Load Set", this);
     QAction* about=new QAction("About", this);
     QAction* white=new QAction("Light", this);
     QAction* dark=new QAction("Dark", this);
-
-
-    //Aggiungo le azioni al menu
+    //Add action
     menu->addAction(save);
     menu->addAction(load);
     menu2->addAction(white);
     menu2->addAction(dark);
-
-    //test della funzione loadFile e saveFile
     connect(load, &QAction::triggered, [this] {loadFile();});
     connect(save, &QAction::triggered, [this] {saveFile();});
-    connect(dark, &QAction::triggered, [this] {setWidgetStyle();});
-    connect(white, &QAction::triggered, [this] {setWidgetStyleWhite();});
-
-
-    //Aggiungo il menu alla barra
+    connect(dark, &QAction::triggered, [this] {
+        StyleWhite=false;
+        setWidgetStyle();});
+    connect(white, &QAction::triggered, [this] {
+        StyleWhite=true;
+                setWidgetStyleWhite();});
+    //Add menubar
     menubar->addMenu(menu);
     menubar->addMenu(menu2);
     menubar->addAction(about);
-
-    //seletore DarkMode
     connect(about, &QAction::triggered, [this] {infoguide();});
-
-    // Aggiungo la barra al Layout
+    // set menubar
     setMenuBar(menubar);
 }
 
+void MainWindow::addRightLayout()
+{
+    basicInfoWidget();
+    infoWidget->setLayout(infolayout);
+    stackedWidget->addWidget(infoWidget);
+    stackedWidget->addWidget(insertWidget);
+    rightLayout->addWidget(stackedWidget);
+    mainLayout->addLayout(rightLayout);
+}
 
+/************ Page of StackedWidget ************/
+//First Page
+void MainWindow::basicInfoWidget()
+{
+    QPixmap logo = QPixmap(":/img/insertIcon/background.png");
+    logo = logo.scaledToWidth(450);
+    QLabel* logoLabel = new QLabel();
+    logoLabel->setPixmap(logo);
+    logoLabel->setStyleSheet("margin-bottom: 2em");
 
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(logoLabel);
+    QWidget* basicInfo=new QWidget();
+    basicInfo->setLayout(layout);
+    stackedWidget->addWidget(basicInfo);
 
+}
+//View CardInfo page
 void MainWindow::viewCardInfo(int pos)
 {
  if(pos!=-1 && pos>=0){
+     unsigned int fixPos= static_cast<unsigned int>(pos);
 
-     //Icone
+     /***************    SET ICON    *****************/
      QPixmap cardIcon= QPixmap(":/img/insertIcon/cardType.png");
      QLabel* cardLabel0= new QLabel();
      cardLabel0->setPixmap(cardIcon);
@@ -334,63 +324,51 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* spawnTimeLabel= new QLabel();
      spawnTimeLabel->setPixmap(spawnTimeIcon);
 
-
      /***************    BUILDING-TROOP-SPAWNER ICON    *****************/
      QPixmap spawnSpeedBuildingTroopSpawnerIcon= QPixmap(":/img/insertIcon/lifeTime.png");
      QLabel* spawnSpeedBuildingTroopSpawnerLabel= new QLabel();
      spawnSpeedBuildingTroopSpawnerLabel->setPixmap(spawnSpeedBuildingTroopSpawnerIcon);
 
-
-    //Picture+infocardBasic
-
+    //Layout
     QHBoxLayout* layoutInfoTop=new QHBoxLayout();
     QFormLayout* formLayout0 = new QFormLayout();
+    QVBoxLayout* imgAndButton=new QVBoxLayout();
+    QHBoxLayout* buttonUpAndDown=new QHBoxLayout();
+    QHBoxLayout* Multiform=new QHBoxLayout();
+    QHBoxLayout* buttonLayout=new QHBoxLayout();
 
-    unsigned int fixPos= static_cast<unsigned int>(pos);
-    QTextEdit* desc=new QTextEdit(QString::fromStdString(container[fixPos]->getDescription()));
+    //Button Edit
+    QPushButton* editButton = new QPushButton("Edit");
+    editButton->setFixedSize(100,50);
+    buttonLayout->addWidget(editButton);
+
     //Label Text
     string cardNameLevel= container[fixPos]->getName() + " [" + "Level: "+ std::to_string(container[fixPos]->getCardLevel())+"]";
     QLabel* nameCard=new QLabel(QString::fromStdString(cardNameLevel));
     QLabel* typeCard=new QLabel("Type: "+ QString::fromStdString(container[fixPos]->getType()));
     QLabel* rarityCard=new QLabel("Rarity: "+ QString::fromStdString(container[fixPos]->RarityToString()));
     QLabel* manaCostCard=new QLabel("Mana Cost: "+ QString::number(container[fixPos]->getManaCost()));
+    QTextEdit* desc=new QTextEdit(QString::fromStdString(container[fixPos]->getDescription()));
     desc->setReadOnly(true);
     desc->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     desc->setFixedSize(200,100);
 
-    //Form1
-
-
-
+    //Form BasicInfo
     formLayout0->addRow(nameLabel,nameCard);
     formLayout0->addRow(cardLabel0,typeCard);
     formLayout0->addRow(cardRarityLabel,rarityCard);
     formLayout0->addRow(manaCostLabel,manaCostCard);
     formLayout0->addRow(descLabel,desc);
 
-    string path=pathImg;
-    QLabel* cardLabel=new QLabel();
-
-
-    //Button Edit
-    QVBoxLayout* imgAndButton=new QVBoxLayout();
-    QHBoxLayout* buttonUpAndDown=new QHBoxLayout();
-    QHBoxLayout* Multiform=new QHBoxLayout();
-    QHBoxLayout* buttonLayout=new QHBoxLayout();
-    QPushButton* editButton = new QPushButton("Edit");
-    editButton->setFixedSize(100,50);
-    buttonLayout->addWidget(editButton);
-
+    //Action EditButton
     connect(editButton, &QPushButton::clicked, [this, fixPos] {
     clearLayout(insertLayout);
     addInsertWidget(true,fixPos);
     insertWidget->setLayout(insertLayout);
     setStackedWidgetPage(2);
-
     });
 
-
-   //info Card Base
+   //layout info Card
   QFormLayout* formLayout1 = new QFormLayout();
   QFormLayout* formLayout2 = new QFormLayout();
   QFormLayout* formLayout3 = new QFormLayout();
@@ -398,20 +376,21 @@ void MainWindow::viewCardInfo(int pos)
   if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
-      path= building->getPath();
+      pathImg= building->getPath();
+
       QLabel* healthBuilding=new QLabel("Health: "+ QString::number(building->getBuildHealth()));
       QLabel* lifetimeBuilding=new QLabel("Life Time: "+ QString::number(building->getLifeTime()));
 
       formLayout1->addRow(healthLabel,healthBuilding);
       formLayout1->addRow(lifeTimeBuildingLabel,lifetimeBuilding);
-      Multiform->addLayout(formLayout1);
 
+      Multiform->addLayout(formLayout1);
 
   }
   else if(container[fixPos]->getType()=="Spell")
   {
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
-    path= spell->getPath();
+    pathImg= spell->getPath();
 
     QLabel* damageSpell=new QLabel("Damage: "+ QString::number(spell->getSpellDamage()));
     QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(spell->getCrownTowerDamage()));
@@ -420,14 +399,13 @@ void MainWindow::viewCardInfo(int pos)
     formLayout1->addRow(dmgSpellLabel,damageSpell);
     formLayout1->addRow(crownTowerDmgSpellLabel,crownTowerDamage);
     formLayout1->addRow(radiusSpellLabel,radius);
-    Multiform->addLayout(formLayout1);
 
+    Multiform->addLayout(formLayout1);
 
   }
   else if(container[fixPos]->getType()=="Troop"){
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
-       path= troop->getPath();
-
+       pathImg= troop->getPath();
 
       QLabel* shieldTroop=new QLabel("Shield: "+ QString::number(troop->getShield()));
       QLabel* healthTroop=new QLabel("Health: "+ QString::number(troop->getTroopHealth()));
@@ -444,15 +422,14 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(spawnDDLabel,sddTroop);
       formLayout2->addRow(rangeLabel,rangeTroop);
       formLayout2->addRow(countLabel,countTroop);
+
       Multiform->addLayout(formLayout1);
       Multiform->addLayout(formLayout2);
 
   }
   else if(container[fixPos]->getType()=="Attacking Building"){
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
-
-      path= attackingBuilding->getPath();
-
+      pathImg= attackingBuilding->getPath();
 
       QLabel* healthAttBuilding=new QLabel("Health: "+ QString::number(attackingBuilding->getBuildHealth()));
       QLabel* lifetimeAttBuilding=new QLabel("Life Time: "+ QString::number(attackingBuilding->getLifeTime()));
@@ -465,13 +442,13 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(hitPerSecondAttackingBuildingLabel,hitxsecAttBuilding);
       formLayout1->addRow(damagePerSecondAttackingBuildingLabel,damagexsecAttBuilding);
       formLayout1->addRow(rangeAttackingBuildingLabel,rangeAttBuilding);
+
       Multiform->addLayout(formLayout1);
 
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
-
-      path= buildingTroopSpawner->getPath();
+      pathImg= buildingTroopSpawner->getPath();
 
       QLabel* health1BuildingTroop=new QLabel("Building Health: "+ QString::number(buildingTroopSpawner->getBuildHealth()));
       QLabel* health2BuildingTroop=new QLabel("Troop Health: "+ QString::number(buildingTroopSpawner->getTroopHealth()));
@@ -491,19 +468,17 @@ void MainWindow::viewCardInfo(int pos)
       formLayout1->addRow(spawnDDLabel,sddBuildingTroop);
       formLayout2->addRow(rangeLabel,rangeBuildingTroop);
       formLayout2->addRow(countLabel,countBuildingTroop);
-
       formLayout2->addRow(healthBuildingLabel,health1BuildingTroop);
       formLayout2->addRow(lifeTimeBuildingLabel,lifetimeBuildingTroop);
       formLayout2->addRow(spawnSpeedBuildingTroopSpawnerLabel,spawnsecondBuildingTroop);
+
       Multiform->addLayout(formLayout1);
       Multiform->addLayout(formLayout2);
 
   }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
-
-       path=spellTroopSpawner->getPath();
-
+       pathImg=spellTroopSpawner->getPath();
 
         QLabel* shieldSpellTroop=new QLabel("Shield: "+ QString::number(spellTroopSpawner->getShield()));
         QLabel* healthSpellTroop=new QLabel("Health: "+ QString::number(spellTroopSpawner->getTroopHealth()));
@@ -516,8 +491,6 @@ void MainWindow::viewCardInfo(int pos)
         QLabel* crowntowerdamageSpellTroop=new QLabel("Crown Tower Damage: "+ QString::number(spellTroopSpawner->getCrownTowerDamage()));
         QLabel* radiusSpellTroop=new QLabel("Radius: "+ QString::number(spellTroopSpawner->getRadius()));
         QLabel* tsSpellTroop=new QLabel("Time Spawn: "+ QString::fromStdString(spellTroopSpawner->getTimeSpawn()));
-
-
 
         formLayout1->addRow(shieldLabel,shieldSpellTroop);
         formLayout1->addRow(healthLabel,healthSpellTroop);
@@ -537,8 +510,7 @@ void MainWindow::viewCardInfo(int pos)
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
-     path=troopSpawner->getPath();
-
+     pathImg=troopSpawner->getPath();
 
      QLabel* shieldTroopSpawner=new QLabel("Shield: "+ QString::number(troopSpawner->getShield()));
      QLabel* healthTroopSpawner=new QLabel("Health: "+ QString::number(troopSpawner->getTroopHealth()));
@@ -549,7 +521,6 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* countTroopSpawner=new QLabel("Count: "+ QString::number(troopSpawner->getCount()));
      QLabel* timedescTroopSpawner=new QLabel("Time and Description: "+ QString::fromStdString(troopSpawner->getTimeDesc()));
 
-
      formLayout1->addRow(shieldLabel,shieldTroopSpawner);
      formLayout1->addRow(healthLabel,healthTroopSpawner);
      formLayout1->addRow(hitPerSecondLabel,hitxsecTroopSpawner);
@@ -557,14 +528,13 @@ void MainWindow::viewCardInfo(int pos)
      formLayout1->addRow(spawnDDLabel,sddTroopSpawner);
      formLayout2->addRow(rangeLabel,rangeTroopSpawner);
      formLayout2->addRow(countLabel,countTroopSpawner);
+     formLayout2->addRow(spawnTimeTroopSpawnerLabel,timedescTroopSpawner);
 
-    formLayout2->addRow(spawnTimeTroopSpawnerLabel,timedescTroopSpawner);
-    Multiform->addLayout(formLayout1);
-    Multiform->addLayout(formLayout2);
+     Multiform->addLayout(formLayout1);
+     Multiform->addLayout(formLayout2);
   }
 
-
-
+  // Button Upgrade stats
   QPushButton* lvUpgrade = new QPushButton();
   connect(lvUpgrade, &QPushButton::clicked, [this,fixPos] {
       try {
@@ -576,8 +546,9 @@ void MainWindow::viewCardInfo(int pos)
           msgBox.setText(QString::fromStdString(e.getMsgException()));
           msgBox.exec();
       }
-  } );
+  });
 
+  // Button Upgrade stats
   QPushButton* lvDowngrade = new QPushButton();
   connect(lvDowngrade, &QPushButton::clicked, [this,fixPos] {
       try {
@@ -593,35 +564,30 @@ void MainWindow::viewCardInfo(int pos)
 
   } );
 
-  // Set icon Button
-  //Delete Button
-  QPixmap pixmap1(":/img/add.png");
+  //Set icon Upgrade Button
+  QPixmap pixmap1(":/img/insertIcon/add.png");
   QIcon ButtonIcon1(pixmap1);
   lvUpgrade->setIcon(ButtonIcon1);
   lvUpgrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
   lvUpgrade->setFixedSize(40,40);
   lvUpgrade->setIconSize(QSize(30,30));
-   lvUpgrade->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-  // Insert Button
-  QPixmap pixmap2(":/img/min.png");
+  //Set icon Downgrade Button
+  QPixmap pixmap2(":/img/insertIcon/min.png");
   QIcon ButtonIcon2(pixmap2);
   lvDowngrade->setIcon(ButtonIcon2);
   lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
   lvDowngrade->setFixedSize(40,40);
   lvDowngrade->setIconSize(QSize(30,30));
   lvDowngrade->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-  //cardLabel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-
-
-  buttonLayout->setMargin(6);
-  QString s=QString::fromStdString(path);
+  //Set Img Card
+  QString s=QString::fromStdString(pathImg);
+  pathImg=":/img/iconCard/default.png"; //Reset PathImg
   QPixmap cardimg =QPixmap(s);
+  QLabel* cardLabel=new QLabel();
   cardLabel->setPixmap(cardimg);
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
-
-
-
+  //Set Layout
   imgAndButton->addWidget(cardLabel);
   buttonUpAndDown->addWidget(lvDowngrade);
   buttonUpAndDown->addWidget(lvUpgrade);
@@ -632,30 +598,12 @@ void MainWindow::viewCardInfo(int pos)
   infolayout->addLayout(Multiform);
   infolayout->addLayout(buttonLayout);
 
+}}
 
-  //infolayout->addStretch();
-}
-
-  }
-
-
-void MainWindow::addRightLayout(){
-
-    basicInfoWidget();
-    infoWidget->setLayout(infolayout);
-    stackedWidget->addWidget(infoWidget);
-    stackedWidget->addWidget(insertWidget);
-    rightLayout->addWidget(stackedWidget);
-    mainLayout->addLayout(rightLayout);
-
-}
-
-
-
+//Insert And Edit Page
 void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 {
-
-    //Icone
+    /***************    SET ICON    *****************/
     QPixmap cardIcon= QPixmap(":/img/insertIcon/cardType.png");
     QLabel* cardLabel= new QLabel();
     cardLabel->setPixmap(cardIcon);
@@ -753,12 +701,9 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QLabel* damagePerSecondAttackingBuildingLabel= new QLabel();
     damagePerSecondAttackingBuildingLabel->setPixmap(damagePerSecondAttackingBuildingIcon);
 
-
     QPixmap rangeAttackingBuildingIcon= QPixmap(":/img/insertIcon/range.png");
     QLabel* rangeAttackingBuildingLabel= new QLabel();
     rangeAttackingBuildingLabel->setPixmap(rangeAttackingBuildingIcon);
-
-    /***********************/
 
     QStringList classList = {"Select card type", "Troop", "Spell", "Building", "Troop Spawner", "Spell-Troop Spawner",
                              "Building-Troop Spawner", "Attacking Building"};
@@ -767,38 +712,30 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     comboClassEdit->insertSeparator(1);
 
     /*******************    CARD   ********************/
-    // Name
+    //Name
     QLineEdit* nameEdit = new QLineEdit();
     nameEdit->setMaxLength(80);
     nameEdit->setPlaceholderText("Card name");
-
-
-    // manaCost
+    //manaCost
     QLineEdit* manaCostEdit = new QLineEdit();
     QValidator* manaCostValidator = new QIntValidator(1, 10);
     manaCostEdit->setValidator(manaCostValidator);
     manaCostEdit->setPlaceholderText("Mana cost (max:10)");
-
-
-    // cardRarity
+    //cardRarity
     QStringList cardRarity = {"Select rarity","Common","Rare","Epic","Legendary"};
     QComboBox* comboRarity = new QComboBox;
     comboRarity->addItems(cardRarity);
     comboRarity->insertSeparator(1);
-
-    // cardLevel
+    //cardLevel
     QLineEdit* cardLevelEdit = new QLineEdit();
     QValidator* cardLevel1Validator = new QIntValidator(1, 99);
     cardLevelEdit->setValidator(cardLevel1Validator);
     cardLevelEdit->setPlaceholderText("Level (max:13)");
-
-
-    // Descrizione
+    //Description
     QTextEdit* descEdit = new QTextEdit();
     descEdit->setPlaceholderText("Description");
     descEdit->setFixedHeight(70);
     // -----> CardForm <------
-
     QFormLayout* formLayout= new QFormLayout();
     formLayout->insertRow(0, cardLabel, comboClassEdit);
     formLayout->insertRow(1, nameLabel, nameEdit);
@@ -807,52 +744,42 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     formLayout->insertRow(4, cardLevelLabel,cardLevelEdit);
     formLayout->insertRow(5, descLabel, descEdit);
 
-
-
     /*******************    TROOP   ********************/
-    // shield
+    //shield
     QLineEdit* shieldEdit = new QLineEdit();
     QValidator* shieldValidator = new QDoubleValidator(0,99999,6);
     shieldEdit->setValidator(shieldValidator);
     shieldEdit->setPlaceholderText("Shield");
-
     //troopHealth
     QLineEdit* troopHealthEdit = new QLineEdit();
     QValidator* troopHealthValidator = new QDoubleValidator(0,99999,6);
     troopHealthEdit->setValidator(troopHealthValidator);
     troopHealthEdit->setPlaceholderText("Troop healt");
-
     //hitxSec
     QLineEdit* hitPerSecondTroopEdit = new QLineEdit();
     QValidator* hitPerSecondTroopValidator = new QDoubleValidator(0,99999,6);
     hitPerSecondTroopEdit->setValidator(hitPerSecondTroopValidator);
     hitPerSecondTroopEdit->setPlaceholderText("Hit (per second)");
-
     //damagexSec
     QLineEdit* damagePerSecondTroopEdit = new QLineEdit();
     QValidator* damagePerSecondTroopValidator = new QDoubleValidator(0,99999,6);
     damagePerSecondTroopEdit->setValidator(damagePerSecondTroopValidator);
     damagePerSecondTroopEdit->setPlaceholderText("Damage (per second)");
-
     //spawnDD--->SpawnDeathDamage
     QLineEdit* spawnDDEdit = new QLineEdit();
     QValidator* spawnDDValidator = new QDoubleValidator(0,99999,6);
     spawnDDEdit->setValidator(spawnDDValidator);
     spawnDDEdit->setPlaceholderText("Spawn/Death Damage");
-
     //range
     QLineEdit* rangeTroopEdit = new QLineEdit();
     QValidator* rangeTroopValidator = new QDoubleValidator(0,99999,6);
     rangeTroopEdit->setValidator(rangeTroopValidator);
     rangeTroopEdit->setPlaceholderText("Troop range");
-
     //count
     QLineEdit* countEdit = new QLineEdit();
     QValidator* countValidator = new QIntValidator(1, 99999);
     countEdit->setValidator(countValidator);
     countEdit->setPlaceholderText("Count");
-
-
     // -----> TroopForm <------
     QFormLayout* troopFormLayout= new QFormLayout();
     troopFormLayout->addRow(shieldTroopLabel, shieldEdit);
@@ -863,35 +790,27 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     troopFormLayout->addRow(rangeTroopLabel, rangeTroopEdit);
     troopFormLayout->addRow(countTroopLabel, countEdit);
 
-
-
     /*******************    SPELL   ********************/
     // spellDamage
     QLineEdit* spellDamageEdit = new QLineEdit();
     QValidator* spellDamageValidator = new QDoubleValidator(0,99999,6);
     spellDamageEdit->setValidator(spellDamageValidator);
     spellDamageEdit->setPlaceholderText("Spell damage");
-
-
     //crownTowerDamage
     QLineEdit* crownTowerDamageEdit = new QLineEdit();
     QValidator* crownTowerDamageValidator = new QDoubleValidator(0,99999,6);
     crownTowerDamageEdit->setValidator(crownTowerDamageValidator);
     crownTowerDamageEdit->setPlaceholderText("Spell tower damage");
-
     //radius
     QLineEdit* radiusEdit = new QLineEdit();
     QValidator* radiusValidator = new QDoubleValidator(0,99999,6);
     radiusEdit->setValidator(radiusValidator);
     radiusEdit->setPlaceholderText("Radius");
-
     // -----> SpellForm <-----
     QFormLayout* spellFormLayout= new QFormLayout();
     spellFormLayout->addRow(dmgSpellLabel, spellDamageEdit);
     spellFormLayout->addRow(crownTowerDmgSpellLabel, crownTowerDamageEdit);
     spellFormLayout->addRow(radiusSpellLabel, radiusEdit);
-
-
 
     /*******************    BUILDING   ********************/
     // buildHealth
@@ -899,7 +818,6 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QValidator* buildHealthValidator = new QDoubleValidator(0,99999,6);
     buildHealthEdit->setValidator(buildHealthValidator);
     buildHealthEdit->setPlaceholderText("Build health");
-
     //lifeTime
     QLineEdit* lifeTimeBuildEdit = new QLineEdit();
     QValidator* lifeTimeValidator = new QDoubleValidator(0,99999,6);
@@ -912,10 +830,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     buildingFormLayout->addRow(healthBuildingLabel, buildHealthEdit);
     buildingFormLayout->addRow(lifeTimeBuildingLabel, lifeTimeBuildEdit);
 
-
-
      /*******************    TROOP-SPAWNER  ********************/
-
     // TimeDesc
     QLineEdit* timeDescEditTroopSpawner = new QLineEdit();
     timeDescEditTroopSpawner->setMaxLength(50);
@@ -924,8 +839,6 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     // -----> TroopSpawnerForm <-----
     QFormLayout* troopSpawnerFormLayout= new QFormLayout();
     troopSpawnerFormLayout->addRow(spawnTimeTroopSpawnerLabel, timeDescEditTroopSpawner);
-
-
 
     /*******************    SPELL-TROOP-SPAWNER  ********************/
 
@@ -937,7 +850,6 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     // -----> SpellTroopSpawnerForm <-----
     QFormLayout* spellTroopSpawnerFormLayout= new QFormLayout();
     spellTroopSpawnerFormLayout->addRow(spawnTimeSpellTroopSpawnerLabel, timeSpawnEditSpellTroopSpawner);
-
 
     /*******************    BUILDING-TROOP-SPAWNER  ********************/
 
@@ -951,21 +863,17 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QFormLayout* buildingTroopSpawnerFormLayout= new QFormLayout();
     buildingTroopSpawnerFormLayout->addRow(spawnSpeedBuildingTroopSpawnerLabel, spawnSpeedEdit);
 
-
     /*******************   ATTACKING BUILDING   ********************/
-
     // hitPerSecond
     QLineEdit* hitPerSecondAttBuildingEdit = new QLineEdit();
     QValidator* hitPerSecondAttBuildingValidator = new QDoubleValidator(0,99999,6);
     hitPerSecondAttBuildingEdit->setValidator(hitPerSecondAttBuildingValidator);
     hitPerSecondAttBuildingEdit->setPlaceholderText("Hit (per second)");
-
     // damagePerSecond
     QLineEdit* damagePerSecondAttBuildingEdit = new QLineEdit();
     QValidator* damagePerSecondAttBuildingValidator = new QDoubleValidator(0,99999,6);
     damagePerSecondAttBuildingEdit->setValidator(damagePerSecondAttBuildingValidator);
     damagePerSecondAttBuildingEdit->setPlaceholderText("Damage (per second)");
-
     // range
     QLineEdit* rangeAttBuildingEdit = new QLineEdit();
     QValidator* rangeAttBuildingValidator = new QDoubleValidator(0,99999,6);
@@ -977,37 +885,30 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     attckingBuildingFormLayout->addRow(hitPerSecondAttackingBuildingLabel, hitPerSecondAttBuildingEdit);
     attckingBuildingFormLayout->addRow(damagePerSecondAttackingBuildingLabel, damagePerSecondAttBuildingEdit);
     attckingBuildingFormLayout->addRow(rangeAttackingBuildingLabel, rangeAttBuildingEdit);
-
     //troopWidget
     QWidget* troopWidget = new QWidget();
     troopWidget->setLayout(troopFormLayout);
     troopWidget->setVisible(false);
-
     //spellWidget
     QWidget* spellWidget = new QWidget();
     spellWidget->setLayout(spellFormLayout);
     spellWidget->setVisible(false);
-
     //buildingWidget
     QWidget* buildingWidget = new QWidget();
     buildingWidget->setLayout(buildingFormLayout);
     buildingWidget->setVisible(false);
-
     //troopSpawnerWidget
     QWidget* troopSpawnerWidget = new QWidget();
     troopSpawnerWidget->setLayout(troopSpawnerFormLayout);
     troopSpawnerWidget->setVisible(false);
-
     //spellTroopSpawnerWidget
     QWidget* spellTroopSpawnerWidget = new QWidget();
     spellTroopSpawnerWidget->setLayout(spellTroopSpawnerFormLayout);
     spellTroopSpawnerWidget->setVisible(false);
-
     //buildingTroopSpawnerWidget
     QWidget* buildingTroopSpawnerWidget = new QWidget();
     buildingTroopSpawnerWidget->setLayout(buildingTroopSpawnerFormLayout);
     buildingTroopSpawnerWidget->setVisible(false);
-
     //attackingBuildingWidget
     QWidget* attackingBuildingWidget = new QWidget();
     attackingBuildingWidget->setLayout(attckingBuildingFormLayout);
@@ -1096,29 +997,22 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                                        buildingTroopSpawnerWidget->setVisible(false);
                                }
                   });
-
-
-
     });
-
 
     QPushButton* choseImg = new QPushButton("Add Img");
     QPushButton* deleteImg = new QPushButton("Delete Img");
     QPushButton* confirmInsert = new QPushButton("Confirm");
     QPushButton* cancelInsert = new QPushButton("Cancel");
 
-
     QLabel *BoxImg=new QLabel();
     //DeafultImg
     QPixmap imgDefault = QPixmap(":/img/iconCard/default.png");
     BoxImg->setPixmap(imgDefault);
 
-
-
-
     //InserImg
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
-     QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/",tr("images (*.png *.jpg *.jpeg *.gif)"));
+
+       QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
      pathImg=img.toStdString();
      if(img!=""){
      BoxImg->setPixmap(img);
@@ -1128,7 +1022,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
            pathImg=":/img/iconCard/default.png";
      }
      });
-
+    //DeleteImg
     connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
         pathImg=":/img/iconCard/default.png";
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
@@ -1225,6 +1119,9 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
         } catch (MyException e) {
              QMessageBox msgBox;
              msgBox.setText(QString::fromStdString(e.getMsgException()));
+             if(!StyleWhite)
+             {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+             else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
              msgBox.exec();
 
         }
@@ -1310,7 +1207,6 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     confirmInsert->setFixedSize(100,50);
     cancelInsert->setFixedSize(100,50);
 
-
     // Set icon Button
     //Delete Button
     QPixmap pixmap1(":/img/x.png");
@@ -1355,130 +1251,52 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
 }
 
-void MainWindow::loadFile(){
-    QString fileName = QFileDialog::getOpenFileName(this->menu, tr("Open File"), ".../Load&Save", tr("JSON files (*.json)"));
-        if (!fileName.isEmpty()) {
-            if (!fileName.endsWith(".json")) {
-                QMessageBox msgBox;
-                msgBox.setText("Invalid format. Please select a .json file.");
-                msgBox.exec();
-            }
-            else {
-                QFile loadFile(fileName);
-                loadFile.open(QIODevice::ReadOnly);
-                QByteArray dataArray = loadFile.readAll();
-                loadFile.close();
-                QJsonDocument docJson = QJsonDocument::fromJson(dataArray);
-                QJsonArray arrayJson = docJson.array();
-                if (arrayJson.isEmpty()) {
-                    QMessageBox msgBox;
-                    msgBox.setText("The file is empty.");
-                    msgBox.exec();
-                }
-                else {
-                    if (container.getSize() != 0)
-                                       container.clear();
-                               foreach (const QJsonValue& value, arrayJson) {
-                                        QJsonObject obj = value.toObject();if (obj.contains("Type") && obj["Type"].isString()) {
-                                            QString type = obj["Type"].toString();
-                                            DeepPtr<Card> card;
-                                            if (type == "Spell") card = new Spell(); //Switch case ??
-                                            else if (type == "Troop") card = new Troop();
-                                            else if (type == "Building") card = new Building();
-                                            else if (type == "Building-Troop Spawner") card = new BuildingTroopSpawner();
-                                            else if (type == "Spell-Troop Spawner") card = new SpellTroopSpawner();
-                                            else if (type == "Attacking Building") card = new AttackingBuilding();
-                                            else if (type == "Troop Spawner") card = new TroopSpawner();
-                                            readJson(card.operator ->(),obj);
-                                            container.insert(card);
-
-
-                                        }
-                               }
-                    clearLayout(infolayout);
-                    resetlist();
-                      }
-              }
-
-        }
+void MainWindow::setStackedWidgetPage(int index)
+{
+    stackedWidget->setCurrentIndex(index);
 }
 
-void MainWindow::saveFile() const{
-     if (container.getSize() != 0) {
-        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save File"), ".../Load&Save", tr("JSON files (*.json)"));
-        if (!fileName.endsWith(".json"))
-            fileName.append(".json");
-        QJsonArray arrayJson;
-       //ciclo il container e faccio il push sull Json
-        for (unsigned int i = 0; i < container.getSize(); ++i)
-        arrayJson.push_back(QJsonValue(writeJson(container[i].operator ->())));
-        QJsonDocument docJson(arrayJson);
-        QString docString = docJson.toJson();
-        QFile saveFile(fileName);
-        saveFile.open(QIODevice::WriteOnly);
-        saveFile.write(docString.toUtf8());
-        saveFile.close();
-     }
-    else {
-        QMessageBox msgBox;
-        msgBox.setText("The container is empty.");
-        msgBox.exec();
-    }
-}
-
-
-
+/************ Methods for Style Windows ************/
 
 void MainWindow::setWidgetStyle()
 {
     mainLayout->setSpacing(6);
-    // Imposto le dimensioni
+    //SetSiz
    setMaximumSize(QSize(1200,800));
    //setMinimumSize(QSize(800,500));
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-
-    //Imposto il foglio di stile
-  QFile file(":/Style/dark.css");
-  file.open(QFile::ReadOnly);
-  QString styleSheet = QLatin1String(file.readAll());
-  setStyleSheet(styleSheet);
+   //setStule
+   QFile file(":/Style/dark.css");
+   file.open(QFile::ReadOnly);
+   QString styleSheet = QLatin1String(file.readAll());
+   setStyleSheet(styleSheet);
 }
 
 void MainWindow::setWidgetStyleWhite(){
 
-    mainLayout->setSpacing(6);
-    // Imposto le dimensioni
+   mainLayout->setSpacing(6);
+   //setSize
    setMaximumSize(QSize(1200,800));
    //setMinimumSize(QSize(800,500));
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-
-
-    //Imposto il foglio di stile
-  QFile file(":/Style/white.css");
-  file.open(QFile::ReadOnly);
-  QString styleSheet = QLatin1String(file.readAll());
-
-  setStyleSheet(styleSheet);
-
-
+   //set Style
+   QFile file(":/Style/white.css");
+   file.open(QFile::ReadOnly);
+   QString styleSheet = QLatin1String(file.readAll());
+   setStyleSheet(styleSheet);
 }
 
-void MainWindow::basicInfoWidget()  //Pagina Iniziale
-{
-    QPixmap logo = QPixmap(":/img/background.png");
-    logo = logo.scaledToWidth(450);
-    QLabel* logoLabel = new QLabel();
-    logoLabel->setPixmap(logo);
-    logoLabel->setStyleSheet("margin-bottom: 2em");
 
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(logoLabel);
-    QWidget* basicInfo=new QWidget();
-    basicInfo->setLayout(layout);
-    stackedWidget->addWidget(basicInfo);
-
+/************ Methods for Search & Filters ************/
+void MainWindow::findNameCard(const QString& str){
+    for (int i = 0; i < list->count(); ++i) {
+        QListWidgetItem* listItem = list->item(i);
+        if (!listItem->text().toUpper().contains(str.toUpper())) {
+            list->takeItem(i);
+            --i;
+        }
+    }
 }
-
 
 
 int MainWindow::findListItemInContainer(int itemPos) const{
@@ -1492,9 +1310,6 @@ int MainWindow::findListItemInContainer(int itemPos) const{
     return -1;
 }
 
-
-
-
 void MainWindow::clearLayout(QLayout* layout){
     while(layout->count() > 0){
         QLayoutItem* item = layout->takeAt(0);
@@ -1506,12 +1321,6 @@ void MainWindow::clearLayout(QLayout* layout){
         }
         delete item;
     }
-}
-
-
-void MainWindow::setStackedWidgetPage(int index)
-{
-    stackedWidget->setCurrentIndex(index);
 }
 
 void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
@@ -1564,16 +1373,16 @@ bool MainWindow::isCardNameInContainer(std::string cardName) const
     return false;
 }
 
+/************ Methods for Input/Output Files ************/
+//Write Json
 QJsonObject MainWindow::writeJson(Card *card) const{
-
     QJsonObject cardJson;
     cardJson["Icon NameFile"] = QString::fromStdString(card->getPath());
     cardJson["Card Name"] = QString::fromStdString(card->getName());
-    cardJson["Mana Cost"] = static_cast<int>(card->getManaCost()); //conversione unsigned int -> int
+    cardJson["Mana Cost"] = static_cast<int>(card->getManaCost());
     cardJson["Rarity"] = QString::fromStdString(card->RarityToString());
     cardJson["Level"] = static_cast<int>(card->getCardLevel());
     cardJson["Description"] = QString::fromStdString(card->getDescription());
-
 
     if(card->getType()== "Building" || card->getType()=="Attacking Building" || card->getType()=="Building-Troop Spawner"){
         Building* buildingCard= dynamic_cast<Building*>(card);
@@ -1631,23 +1440,19 @@ QJsonObject MainWindow::writeJson(Card *card) const{
     return cardJson;
 
 }
-
+//Read Json
 void MainWindow::readJson(Card *card, const QJsonObject &obj){
-
     if (obj.contains("Icon NameFile") && obj["Icon NameFile"].isString())
         card->setPath(obj["Icon NameFile"].toString().toStdString());
     if (obj.contains("Card Name") && obj["Card Name"].isString())
         card->setName(obj["Card Name"].toString().toStdString());
     if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
-        card->setManaCost(static_cast<unsigned int>(obj["Mana Cost"].toInt())); //conversione
-    if (obj.contains("Rarity") && obj["Rarity"].isString())
+        card->setManaCost(static_cast<unsigned int>(obj["Mana Cost"].toInt()));
         card->setCardRarity(Card::StringToRarity(obj["Rarity"].toString().toStdString()));
-    //  setMaxLevel(StringToRarity(obj["Rarity"].toString().toStdString()));
-    if (obj.contains("Level") && obj["Level"].isDouble())
+       if (obj.contains("Level") && obj["Level"].isDouble())
         card->setCardLevel(static_cast<unsigned int>(obj["Level"].toInt()));
     if (obj.contains("Description") && obj["Description"].isString())
         card->setDescription(obj["Description"].toString().toStdString());
-
     if(card->getType()== "Building" || card->getType()=="Attacking Building" || card->getType()=="Building-Troop Spawner"){
         Building* buildingCard= dynamic_cast<Building*>(card);
         if (obj.contains("Build Health") && obj["Build Health"].isDouble())
@@ -1712,4 +1517,82 @@ void MainWindow::readJson(Card *card, const QJsonObject &obj){
             spellTroopSpawnerCard->setTimeSpawn(obj["Time Spawn"].toString().toStdString());
     }
 
+}
+//Load File
+void MainWindow::loadFile(){
+    QString fileName = QFileDialog::getOpenFileName(this->menu, tr("Open File"), "../ClashRoyaleDB/Load&Save", tr("JSON files (*.json)"));
+        if (!fileName.isEmpty()) {
+            if (!fileName.endsWith(".json")) {
+                QMessageBox msgBox;
+                msgBox.setText("Invalid format. Please select a .json file.");
+                if(!StyleWhite)
+                {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+                else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
+                msgBox.exec();
+            }
+            else {
+                QFile loadFile(fileName);
+                loadFile.open(QIODevice::ReadOnly);
+                QByteArray dataArray = loadFile.readAll();
+                loadFile.close();
+                QJsonDocument docJson = QJsonDocument::fromJson(dataArray);
+                QJsonArray arrayJson = docJson.array();
+                if (arrayJson.isEmpty()) {
+                    QMessageBox msgBox;
+                    msgBox.setText("The file is empty.");
+                    if(!StyleWhite)
+                    {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+                    else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
+                     msgBox.exec();
+                }
+                else {
+                    if (container.getSize() != 0)
+                                       container.clear();
+                               foreach (const QJsonValue& value, arrayJson) {
+                                        QJsonObject obj = value.toObject();if (obj.contains("Type") && obj["Type"].isString()) {
+                                            QString type = obj["Type"].toString();
+                                            DeepPtr<Card> card;
+                                            if (type == "Spell") card = new Spell(); //Switch case ??
+                                            else if (type == "Troop") card = new Troop();
+                                            else if (type == "Building") card = new Building();
+                                            else if (type == "Building-Troop Spawner") card = new BuildingTroopSpawner();
+                                            else if (type == "Spell-Troop Spawner") card = new SpellTroopSpawner();
+                                            else if (type == "Attacking Building") card = new AttackingBuilding();
+                                            else if (type == "Troop Spawner") card = new TroopSpawner();
+                                            readJson(card.operator ->(),obj);
+                                            container.insert(card);
+                                        }
+                               }
+                    clearLayout(infolayout);
+                    resetlist();
+                      }
+              }
+
+        }
+}
+//Save File
+void MainWindow::saveFile() const{
+     if (container.getSize() != 0) {
+        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save File"), "../ClashRoyaleDB/Load&Save", tr("JSON files (*.json)"));
+        if (!fileName.endsWith(".json"))
+            fileName.append(".json");
+        QJsonArray arrayJson;
+       //ciclo il container e faccio il push sull Json
+        for (unsigned int i = 0; i < container.getSize(); ++i)
+        arrayJson.push_back(QJsonValue(writeJson(container[i].operator ->())));
+        QJsonDocument docJson(arrayJson);
+        QString docString = docJson.toJson();
+        QFile saveFile(fileName);
+        saveFile.open(QIODevice::WriteOnly);
+        saveFile.write(docString.toUtf8());
+        saveFile.close();
+     }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText("The container is empty.");
+        if(!StyleWhite)
+        {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+        else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
+        msgBox.exec();
+    }
 }

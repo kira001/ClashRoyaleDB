@@ -1,12 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>Load&amp;Save/InputTest.json</file>
-        <file>img/search.png</file>
-        <file>img/infobox.png</file>
-        <file>img/whitesearch.png</file>
-        <file>img/add.png</file>
-        <file>img/save.png</file>
-        <file>img/background.png</file>
         <file>img/insertIcon/cardType.png</file>
         <file>img/insertIcon/count.png</file>
         <file>img/insertIcon/crownTowerDamage.png</file>
@@ -25,21 +19,25 @@
         <file>img/insertIcon/shield.png</file>
         <file>img/insertIcon/spawnDD.png</file>
         <file>Style/white.css</file>
-        <file>img/x.png</file>
         <file>Style/dark.css</file>
-        <file>img/min.png</file>
-        <file>img/icon.png</file>
         <file>img/iconCard/FireballCard.png</file>
         <file>img/iconCard/GiantCard.png</file>
         <file>img/iconCard/GiantSnowballCard.png</file>
         <file>img/iconCard/GoblinGangCard.png</file>
         <file>img/iconCard/GolemCard.png</file>
         <file>img/iconCard/MortarCard.png</file>
-        <file>img/iconCard/testcard.png</file>
         <file>img/iconCard/ValkyrieCard.png</file>
         <file>img/iconCard/ArchersCard.png</file>
         <file>img/iconCard/BarbarianHutCard.png</file>
         <file>img/iconCard/BombTowerCard.png</file>
         <file>img/iconCard/default.png</file>
+        <file>img/insertIcon/add.png</file>
+        <file>img/insertIcon/background.png</file>
+        <file>img/insertIcon/icon.png</file>
+        <file>img/insertIcon/infobox.png</file>
+        <file>img/insertIcon/min.png</file>
+        <file>img/insertIcon/whitesearch.png</file>
+        <file>img/insertIcon/save.png</file>
+        <file>img/insertIcon/x.png</file>
     </qresource>
 </RCC>

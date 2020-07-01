@@ -19,9 +19,8 @@
 #include <QMenuBar>
 #include <QPushButton>
 #include <QPixmap>
-#include <QIcon> // Aggiunte
+#include <QIcon>
 #include <QFileDialog>
-#include <QToolBar>
 #include <QMessageBox>
 #include <QStackedWidget>
 #include <QComboBox>
@@ -36,7 +35,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-//stacked W
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -46,22 +45,16 @@ private:
     QWidget* infoWidget;
     QWidget* insertWidget;
     QListWidget* list;
-
     QStackedWidget *stackedWidget;
-
+    //Layout
     QHBoxLayout* mainLayout;
     QVBoxLayout* leftLayout;
     QVBoxLayout* infolayout;
     QVBoxLayout* rightLayout;
     QVBoxLayout* insertLayout;
-
-    string pathImg;
-
-    QListWidget* listImg;
-
-    QLineEdit* searchbox; //Search
-    QCompleter* completer; //SuggestionWordsFromSearch
-    QMessageBox* popup;
+    // Search & Filter
+    QLineEdit* searchbox;
+    QCompleter* completer;
     QComboBox* filterTypeBox;
     QComboBox* filterRarityBox;
     // Menu
@@ -82,7 +75,7 @@ private:
     void addInsertWidget(bool Edit=false, unsigned int cardPos=0);
     void setStackedWidgetPage(int);
     void findNameCard(const QString& std);
-    void resetlist(); // "Ripristina lista originale" utile per filtrare o per il search
+    void resetlist();
     void infoguide() const;
     int findListItemInContainer(int itemPos) const;
     void clearLayout(QLayout*);
@@ -91,6 +84,9 @@ private:
     bool isCardNameInContainer(string cardName) const;
     QJsonObject writeJson(Card* card) const;
     void readJson(Card* card, const QJsonObject& obj);
+    //String for path IMG
+    string pathImg;
+    bool StyleWhite;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
