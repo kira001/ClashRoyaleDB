@@ -114,7 +114,7 @@ void MainWindow::addLeftLayout(){
    buttonLayout->addWidget(insertButton);
    buttonLayout->addWidget(deleteButton);
    //Filters
-   filterTypeBox->addItem("All");
+   filterTypeBox->addItem("All types");
    filterTypeBox->addItem("Spell");
    filterTypeBox->addItem("Troop");
    filterTypeBox->addItem("Building");
@@ -126,7 +126,7 @@ void MainWindow::addLeftLayout(){
            if(container.getSize()>0)
           combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
    });
-   filterRarityBox->addItem("All");
+   filterRarityBox->addItem("All rarities");
    filterRarityBox->addItem("Common");
    filterRarityBox->addItem("Rare");
    filterRarityBox->addItem("Epic");
@@ -379,7 +379,7 @@ void MainWindow::viewCardInfo(int pos)
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
       pathImg= pathImg+building->getPath();
 
-      QLabel* healthBuilding=new QLabel("Health: "+ QString::number(building->getBuildHealth()));
+      QLabel* healthBuilding=new QLabel("Health: "+ QString::number(std::floor(building->getBuildHealth())));
       QLabel* lifetimeBuilding=new QLabel("Life Time: "+ QString::number(building->getLifeTime()));
 
       formLayout1->addRow(healthLabel,healthBuilding);
@@ -393,8 +393,8 @@ void MainWindow::viewCardInfo(int pos)
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
     pathImg=pathImg+ spell->getPath();
 
-    QLabel* damageSpell=new QLabel("Damage: "+ QString::number(spell->getSpellDamage()));
-    QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(spell->getCrownTowerDamage()));
+    QLabel* damageSpell=new QLabel("Damage: "+ QString::number(std::floor(spell->getSpellDamage())));
+    QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(std::floor(spell->getCrownTowerDamage())));
     QLabel* radius=new QLabel("Radius: "+ QString::number(spell->getRadius()));
 
     formLayout1->addRow(dmgSpellLabel,damageSpell);
@@ -408,11 +408,11 @@ void MainWindow::viewCardInfo(int pos)
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
        pathImg= pathImg+troop->getPath();
 
-      QLabel* shieldTroop=new QLabel("Shield: "+ QString::number(troop->getShield()));
-      QLabel* healthTroop=new QLabel("Health: "+ QString::number(troop->getTroopHealth()));
+      QLabel* shieldTroop=new QLabel("Shield: "+ QString::number(std::floor(troop->getShield())));
+      QLabel* healthTroop=new QLabel("Health: "+ QString::number(std::floor(troop->getTroopHealth())));
       QLabel* hitxsecTroop=new QLabel("Hit (per second): "+ QString::number(troop->getHitxSec()));
-      QLabel* damagexsecTroop=new QLabel("Damage (per second): "+ QString::number(troop->getDamagexSec()));
-      QLabel* sddTroop=new QLabel("Spawn/Death Damage: "+ QString::number(troop->getSpawnDD()));
+      QLabel* damagexsecTroop=new QLabel("Damage (per second): "+ QString::number(std::floor(troop->getDamagexSec())));
+      QLabel* sddTroop=new QLabel("Spawn/Death Damage: "+ QString::number(std::floor(troop->getSpawnDD())));
       QLabel* rangeTroop=new QLabel("Range("+QString::fromStdString(troop->dimRange())+"): "+ QString::number(troop->getRange()));
       QLabel* countTroop=new QLabel("Count: "+ QString::number(troop->getCount()));
 
@@ -432,10 +432,10 @@ void MainWindow::viewCardInfo(int pos)
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
       pathImg=pathImg+ attackingBuilding->getPath();
 
-      QLabel* healthAttBuilding=new QLabel("Health: "+ QString::number(attackingBuilding->getBuildHealth()));
+      QLabel* healthAttBuilding=new QLabel("Health: "+ QString::number(std::floor(attackingBuilding->getBuildHealth())));
       QLabel* lifetimeAttBuilding=new QLabel("Life Time: "+ QString::number(attackingBuilding->getLifeTime()));
       QLabel* hitxsecAttBuilding=new QLabel("Hit (per second): "+ QString::number(attackingBuilding->getHitPerSecond()));
-      QLabel* damagexsecAttBuilding=new QLabel("Damage (per second): "+ QString::number(attackingBuilding->getDamagePerSecond()));
+      QLabel* damagexsecAttBuilding=new QLabel("Damage (per second): "+ QString::number(std::floor(attackingBuilding->getDamagePerSecond())));
       QLabel* rangeAttBuilding=new QLabel("Range("+QString::fromStdString(attackingBuilding->dimRange())+"): "+ QString::number(attackingBuilding->getRange()));
 
       formLayout1->addRow(healthBuildingLabel,healthAttBuilding);
@@ -451,14 +451,14 @@ void MainWindow::viewCardInfo(int pos)
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
       pathImg= pathImg+buildingTroopSpawner->getPath();
 
-      QLabel* health1BuildingTroop=new QLabel("Building Health: "+ QString::number(buildingTroopSpawner->getBuildHealth()));
-      QLabel* health2BuildingTroop=new QLabel("Troop Health: "+ QString::number(buildingTroopSpawner->getTroopHealth()));
+      QLabel* health1BuildingTroop=new QLabel("Building Health: "+ QString::number(std::floor(buildingTroopSpawner->getBuildHealth())));
+      QLabel* health2BuildingTroop=new QLabel("Troop Health: "+ QString::number(std::floor(buildingTroopSpawner->getTroopHealth())));
       QLabel* lifetimeBuildingTroop=new QLabel("Life Time: "+ QString::number(buildingTroopSpawner->getLifeTime()));
       QLabel* spawnsecondBuildingTroop=new QLabel("Spawn Speed: "+ QString::number(buildingTroopSpawner->getSpawnSpeed()));
-      QLabel* shieldBuildingTroop=new QLabel("Shield: "+ QString::number(buildingTroopSpawner->getShield()));
+      QLabel* shieldBuildingTroop=new QLabel("Shield: "+ QString::number(std::floor(buildingTroopSpawner->getShield())));
       QLabel* hitxsecBuildingTroop=new QLabel("hit (per second): "+ QString::number(buildingTroopSpawner->getHitxSec()));
-      QLabel* damagexsecBuildingTroop=new QLabel("Damage (per second): "+ QString::number(buildingTroopSpawner->getDamagexSec()));
-      QLabel* sddBuildingTroop=new QLabel("Spawn/Death Damage: "+ QString::number(buildingTroopSpawner->getSpawnDD()));
+      QLabel* damagexsecBuildingTroop=new QLabel("Damage (per second): "+ QString::number(std::floor(buildingTroopSpawner->getDamagexSec())));
+      QLabel* sddBuildingTroop=new QLabel("Spawn/Death Damage: "+ QString::number(std::floor(buildingTroopSpawner->getSpawnDD())));
       QLabel* rangeBuildingTroop=new QLabel("Range("+QString::fromStdString(buildingTroopSpawner->dimRange())+"): "+ QString::number(buildingTroopSpawner->getRange()));
       QLabel* countBuildingTroop=new QLabel("Count: "+ QString::number(buildingTroopSpawner->getCount()));
 
@@ -481,15 +481,15 @@ void MainWindow::viewCardInfo(int pos)
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
        pathImg=pathImg+spellTroopSpawner->getPath();
 
-        QLabel* shieldSpellTroop=new QLabel("Shield: "+ QString::number(spellTroopSpawner->getShield()));
-        QLabel* healthSpellTroop=new QLabel("Health: "+ QString::number(spellTroopSpawner->getTroopHealth()));
+        QLabel* shieldSpellTroop=new QLabel("Shield: "+ QString::number(std::floor(spellTroopSpawner->getShield())));
+        QLabel* healthSpellTroop=new QLabel("Health: "+ QString::number(std::floor(spellTroopSpawner->getTroopHealth())));
         QLabel* hitxsecSpellTroop=new QLabel("Hit (per second): "+ QString::number(spellTroopSpawner->getHitxSec()));
-        QLabel* damagexsecSpellTroop=new QLabel("Damage (per second): "+ QString::number(spellTroopSpawner->getDamagexSec()));
-        QLabel* sddSpellTroop=new QLabel("Spawn Death Damage: "+ QString::number(spellTroopSpawner->getSpawnDD()));
+        QLabel* damagexsecSpellTroop=new QLabel("Damage (per second): "+ QString::number(std::floor(spellTroopSpawner->getDamagexSec())));
+        QLabel* sddSpellTroop=new QLabel("Spawn Death Damage: "+ QString::number(std::floor(spellTroopSpawner->getSpawnDD())));
         QLabel* rangeSpellTroop=new QLabel("Range("+QString::fromStdString(spellTroopSpawner->dimRange())+"): "+ QString::number(spellTroopSpawner->getRange()));
         QLabel* countSpellTroop=new QLabel("Count: "+ QString::number(spellTroopSpawner->getCount()));
-        QLabel* damageSpellTroop=new QLabel("Damage: "+ QString::number(spellTroopSpawner->getSpellDamage()));
-        QLabel* crowntowerdamageSpellTroop=new QLabel("Crown Tower Damage: "+ QString::number(spellTroopSpawner->getCrownTowerDamage()));
+        QLabel* damageSpellTroop=new QLabel("Damage: "+ QString::number(std::floor(spellTroopSpawner->getSpellDamage())));
+        QLabel* crowntowerdamageSpellTroop=new QLabel("Crown Tower Damage: "+ QString::number(std::floor(spellTroopSpawner->getCrownTowerDamage())));
         QLabel* radiusSpellTroop=new QLabel("Radius: "+ QString::number(spellTroopSpawner->getRadius()));
         QLabel* tsSpellTroop=new QLabel("Time Spawn: "+ QString::fromStdString(spellTroopSpawner->getTimeSpawn()));
 
@@ -513,11 +513,11 @@ void MainWindow::viewCardInfo(int pos)
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
      pathImg=pathImg+troopSpawner->getPath();
 
-     QLabel* shieldTroopSpawner=new QLabel("Shield: "+ QString::number(troopSpawner->getShield()));
-     QLabel* healthTroopSpawner=new QLabel("Health: "+ QString::number(troopSpawner->getTroopHealth()));
+     QLabel* shieldTroopSpawner=new QLabel("Shield: "+ QString::number(std::floor(troopSpawner->getShield())));
+     QLabel* healthTroopSpawner=new QLabel("Health: "+ QString::number(std::floor(troopSpawner->getTroopHealth())));
      QLabel* hitxsecTroopSpawner=new QLabel("Hit (per second): "+ QString::number(troopSpawner->getHitxSec()));
-     QLabel* damagexsecTroopSpawner=new QLabel("Damage (per second): "+ QString::number(troopSpawner->getDamagexSec()));
-     QLabel* sddTroopSpawner=new QLabel("Spawn Death Damage: "+ QString::number(troopSpawner->getSpawnDD()));
+     QLabel* damagexsecTroopSpawner=new QLabel("Damage (per second): "+ QString::number(std::floor(troopSpawner->getDamagexSec())));
+     QLabel* sddTroopSpawner=new QLabel("Spawn Death Damage: "+ QString::number(std::floor(troopSpawner->getSpawnDD())));
      QLabel* rangeTroopSpawner=new QLabel("Range("+QString::fromStdString(troopSpawner->dimRange())+"): "+ QString::number(troopSpawner->getRange()));
      QLabel* countTroopSpawner=new QLabel("Count: "+ QString::number(troopSpawner->getCount()));
      QLabel* timedescTroopSpawner=new QLabel("Time and Description: "+ QString::fromStdString(troopSpawner->getTimeDesc()));
@@ -1023,7 +1023,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
              pathImg=pathImgCard;
 
              BoxImg->setPixmap(img);
-             BoxImg->setScaledContents(true);
+
          }
          else
          {
@@ -1154,32 +1154,32 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
         string dir=QFileInfo(".").absolutePath().toStdString() + "/ClashRoyaleDB";
         QPixmap cardImg= QPixmap(QString::fromStdString(dir+container[cardPos]->getPath()));
         BoxImg->setPixmap(cardImg);
-        BoxImg->setScaledContents(true);
+
         /************ Other attributes ************/
 
         QString typeCard= QString::fromStdString(container[cardPos]->getType());
 
         if (typeCard == "Spell" || typeCard == "Spell-Troop Spawner"){
             Spell* spellCard= dynamic_cast<Spell*> (container[cardPos].operator ->());
-            spellDamageEdit->setText(QString::number(spellCard->getSpellDamage()));
-            crownTowerDamageEdit->setText(QString::number(spellCard->getCrownTowerDamage()));
+            spellDamageEdit->setText(QString::number(std::floor(spellCard->getSpellDamage())));
+            crownTowerDamageEdit->setText(QString::number(std::floor(spellCard->getCrownTowerDamage())));
             radiusEdit->setText(QString::number(spellCard->getRadius()));
         }
 
         if (typeCard == "Troop" || typeCard == "Building-Troop Spawner" || typeCard == "Spell-Troop Spawner" || typeCard == "Troop Spawner") {
             Troop* troopCard= dynamic_cast<Troop*> (container[cardPos].operator ->());
-            shieldEdit->setText(QString::number(troopCard->getShield()));
-            troopHealthEdit->setText(QString::number(troopCard->getTroopHealth()));
+            shieldEdit->setText(QString::number(std::floor(troopCard->getShield())));
+            troopHealthEdit->setText(QString::number(std::floor(troopCard->getTroopHealth())));
             hitPerSecondTroopEdit->setText(QString::number(troopCard->getHitxSec()));
-            damagePerSecondTroopEdit->setText(QString::number(troopCard->getDamagexSec()));
-            spawnDDEdit->setText(QString::number(troopCard->getSpawnDD()));
+            damagePerSecondTroopEdit->setText(QString::number(std::floor(troopCard->getDamagexSec())));
+            spawnDDEdit->setText(QString::number(std::floor(troopCard->getSpawnDD())));
             rangeTroopEdit->setText(QString::number(troopCard->getRange()));
             countEdit->setText(QString::number(troopCard->getCount()));
         }
 
         if (typeCard == "Building" || typeCard == "Building-Troop Spawner" || typeCard == "Attacking Building") {
             Building* buildingCard= dynamic_cast<Building*> (container[cardPos].operator ->());
-            buildHealthEdit->setText(QString::number(buildingCard->getBuildHealth()));
+            buildHealthEdit->setText(QString::number(std::floor(buildingCard->getBuildHealth())));
             lifeTimeBuildEdit->setText(QString::number(buildingCard->getLifeTime()));
         }
 
@@ -1208,6 +1208,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
     // Set size Button And BoxImg
     BoxImg->setFixedSize(190,190);
+    BoxImg->setScaledContents(true);
     choseImg->setFixedSize(90,40);
     deleteImg->setFixedSize(90,40);
 
@@ -1331,11 +1332,11 @@ void MainWindow::clearLayout(QLayout* layout){
 
 void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
 
-    if(type=="All"&&rarity=="All") resetlist();
-    if(rarity!= "All"){
+    if(type=="All types"&&rarity=="All rarities") resetlist();
+    if(rarity!= "All rarities"){
         list->reset();
         list->clear();
-        if(type=="All"){
+        if(type=="All types"){
             for(unsigned int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->RarityToString())== rarity)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));
@@ -1347,10 +1348,10 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
         }
     }
 
-    if(type!= "All"){
+    if(type!= "All types"){
         list->reset();
         list->clear();
-        if(rarity=="All"){
+        if(rarity=="All rarities"){
             for(unsigned int i=0; i<container.getSize(); ++i)
                 if(QString::fromStdString(container[i]->getType())== type)
                     list->addItem(new QListWidgetItem(QString::fromStdString(container[i]->getName())));

@@ -71,11 +71,11 @@ double AttackingBuilding::damage() const{
 
 string AttackingBuilding::getType() const{return "Attacking Building";}
 void AttackingBuilding::upgradeStats(){
-    damagePerSecond= (damagePerSecond*(100+5*Card::getCardLevel()))/100;
+    damagePerSecond= (damagePerSecond*(100+2*Card::getCardLevel()))/100;
 }
 
 void AttackingBuilding::downgradeStats(){
-    damagePerSecond= (damagePerSecond*100/(100+5*Card::getCardLevel()));
+    damagePerSecond= (damagePerSecond*100/(100+2*Card::getCardLevel()));
 }
 
 AttackingBuilding::AttackingBuilding(std::string p,std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc,double bHealth, double lTime, double hPerSecond, double dPerSecond, double rng):

@@ -4,57 +4,57 @@
 template<class T>
 class DeepPtr {
 private:
-    T* ptr;
+    T* pointer;
 
 public:
-    // Constructors/destructors
-    DeepPtr(T* p = nullptr);
-    DeepPtr(const DeepPtr& dp);
+
+    DeepPtr(T* ptr = nullptr);
+    DeepPtr(const DeepPtr& deepPtr);
     ~DeepPtr();
 
-    // Operators overloading
-    DeepPtr& operator=(const DeepPtr& dp);
-    bool operator==(const DeepPtr& dp) const;
-    bool operator!=(const DeepPtr& dp) const;
-    bool operator<(const DeepPtr& dp) const;
     T* operator->() const;
     T& operator*() const;
+    DeepPtr& operator=(const DeepPtr& deepPtr);
+    bool operator==(const DeepPtr& deepPtr) const;
+    bool operator!=(const DeepPtr& deepPtr) const;
+    bool operator<(const DeepPtr& deepPtr) const;
+
 };
 
-/******************** CONSTRUCTORS/DESTRUCTORS ********************/
 template<class T>
-DeepPtr<T>::DeepPtr(T* p): ptr(p) {}
+DeepPtr<T>::DeepPtr(T* ptr): pointer(ptr) {}
 
 template<class T>
-DeepPtr<T>::DeepPtr(const DeepPtr& dp) : ptr(dp.ptr != nullptr ? dp.ptr->clone() : nullptr) {}
+DeepPtr<T>::DeepPtr(const DeepPtr& deepPtr) : pointer(deepPtr.pointer != nullptr ? deepPtr.pointer->clone() : nullptr) {}
 
 template<class T>
-DeepPtr<T>::~DeepPtr<T>() { if (ptr) delete ptr; }
+DeepPtr<T>::~DeepPtr<T>() { if (pointer) delete pointer; }
 
 
-/******************** OPERATORS OVERLOADING ********************/
+
 template<class T>
-DeepPtr<T>& DeepPtr<T>::operator=(const DeepPtr& dp) {
-    if (this != &dp) {
-        if (ptr) delete ptr;
-        ptr = dp.ptr != nullptr ? dp.ptr->clone() : nullptr;
+DeepPtr<T>& DeepPtr<T>::operator=(const DeepPtr& deepPtr) {
+    if (this != &deepPtr) {
+        if (pointer) delete pointer;
+        pointer = deepPtr.pointer != nullptr ? deepPtr.pointer->clone() : nullptr;
     }
     return *this;
 }
+template<class T>
+T* DeepPtr<T>::operator->() const { return pointer; }
 
 template<class T>
-bool DeepPtr<T>::operator==(const DeepPtr& dp) const { return *ptr == *dp; }
+T& DeepPtr<T>::operator*() const { return *pointer; }
 
 template<class T>
-bool DeepPtr<T>::operator!=(const DeepPtr& dp) const { return *ptr != *dp; }
+bool DeepPtr<T>::operator==(const DeepPtr& deepPtr) const { return *pointer == *deepPtr; }
 
 template<class T>
-bool DeepPtr<T>::operator<(const DeepPtr &dp) const { return *ptr < *dp; }
+bool DeepPtr<T>::operator!=(const DeepPtr& deepPtr) const { return *pointer != *deepPtr; }
 
 template<class T>
-T* DeepPtr<T>::operator->() const { return ptr; }
+bool DeepPtr<T>::operator<(const DeepPtr &deepPtr) const { return *pointer < *deepPtr; }
 
-template<class T>
-T& DeepPtr<T>::operator*() const { return *ptr; }
+
 
 #endif // DEEPPTR_H

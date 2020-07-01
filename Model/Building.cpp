@@ -52,11 +52,11 @@ Building* Building::clone() const{
 
 
 void Building::upgradeStats(){
-    buildHealth= (buildHealth*(100+7*Card::getCardLevel()))/100;
+    buildHealth= (buildHealth*(100+5*Card::getCardLevel()))/100;
 }
 
 void Building::downgradeStats(){
-    buildHealth= (buildHealth*100/(100+7*Card::getCardLevel()));
+    buildHealth= (buildHealth*100/(100+5*Card::getCardLevel()));
 }
 
 Building::Building(std::string p, std::string n, unsigned int mana, Card::rarity rar, unsigned int cLevel, std::string desc, double bHealth, double lTime):
