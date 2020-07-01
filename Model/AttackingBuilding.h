@@ -24,7 +24,8 @@ public:
     //OVERLOADING
     virtual bool  operator==(const AttackingBuilding&) const;
     virtual bool  operator!=(const AttackingBuilding&) const;
-
+    
+    string dimRange() const;
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();

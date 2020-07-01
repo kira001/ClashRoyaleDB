@@ -23,6 +23,12 @@ double AttackingBuilding::getRange() const{
 void AttackingBuilding::setRange(double rng){
     range = rng;
 }
+string AttackingBuilding::dimRange() const
+{
+    if(range>2) return "Large Range";
+    if(range>1) return "Medium Range";
+    return "Short Range";
+}
 
 bool AttackingBuilding::operator==(const AttackingBuilding & ab) const
 {

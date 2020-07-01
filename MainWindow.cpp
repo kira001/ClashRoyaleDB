@@ -5,6 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent){
     setWindowIcon(QIcon(":/img/insertIcon/icon.png"));
+
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout;
     stackedWidget = new QStackedWidget;
@@ -351,7 +352,7 @@ void MainWindow::viewCardInfo(int pos)
     QTextEdit* desc=new QTextEdit(QString::fromStdString(container[fixPos]->getDescription()));
     desc->setReadOnly(true);
     desc->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    desc->setFixedSize(200,100);
+    desc->setFixedHeight(100);
 
     //Form BasicInfo
     formLayout0->addRow(nameLabel,nameCard);
@@ -412,7 +413,7 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* hitxsecTroop=new QLabel("Hit (per second): "+ QString::number(troop->getHitxSec()));
       QLabel* damagexsecTroop=new QLabel("Damage (per second): "+ QString::number(troop->getDamagexSec()));
       QLabel* sddTroop=new QLabel("Spawn/Death Damage: "+ QString::number(troop->getSpawnDD()));
-      QLabel* rangeTroop=new QLabel("Range: "+ QString::number(troop->getRange()));
+      QLabel* rangeTroop=new QLabel("Range("+QString::fromStdString(troop->dimRange())+"): "+ QString::number(troop->getRange()));
       QLabel* countTroop=new QLabel("Count: "+ QString::number(troop->getCount()));
 
       formLayout1->addRow(shieldLabel,shieldTroop);
@@ -435,7 +436,7 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* lifetimeAttBuilding=new QLabel("Life Time: "+ QString::number(attackingBuilding->getLifeTime()));
       QLabel* hitxsecAttBuilding=new QLabel("Hit (per second): "+ QString::number(attackingBuilding->getHitPerSecond()));
       QLabel* damagexsecAttBuilding=new QLabel("Damage (per second): "+ QString::number(attackingBuilding->getDamagePerSecond()));
-      QLabel* rangeAttBuilding=new QLabel("Range: "+ QString::number(attackingBuilding->getRange()));
+      QLabel* rangeAttBuilding=new QLabel("Range("+QString::fromStdString(attackingBuilding->dimRange())+"): "+ QString::number(attackingBuilding->getRange()));
 
       formLayout1->addRow(healthBuildingLabel,healthAttBuilding);
       formLayout1->addRow(lifeTimeBuildingLabel,lifetimeAttBuilding);
@@ -458,7 +459,7 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* hitxsecBuildingTroop=new QLabel("hit (per second): "+ QString::number(buildingTroopSpawner->getHitxSec()));
       QLabel* damagexsecBuildingTroop=new QLabel("Damage (per second): "+ QString::number(buildingTroopSpawner->getDamagexSec()));
       QLabel* sddBuildingTroop=new QLabel("Spawn/Death Damage: "+ QString::number(buildingTroopSpawner->getSpawnDD()));
-      QLabel* rangeBuildingTroop=new QLabel("Range: "+ QString::number(buildingTroopSpawner->getRange()));
+      QLabel* rangeBuildingTroop=new QLabel("Range("+QString::fromStdString(buildingTroopSpawner->dimRange())+"): "+ QString::number(buildingTroopSpawner->getRange()));
       QLabel* countBuildingTroop=new QLabel("Count: "+ QString::number(buildingTroopSpawner->getCount()));
 
       formLayout1->addRow(shieldLabel,shieldBuildingTroop);
@@ -485,7 +486,7 @@ void MainWindow::viewCardInfo(int pos)
         QLabel* hitxsecSpellTroop=new QLabel("Hit (per second): "+ QString::number(spellTroopSpawner->getHitxSec()));
         QLabel* damagexsecSpellTroop=new QLabel("Damage (per second): "+ QString::number(spellTroopSpawner->getDamagexSec()));
         QLabel* sddSpellTroop=new QLabel("Spawn Death Damage: "+ QString::number(spellTroopSpawner->getSpawnDD()));
-        QLabel* rangeSpellTroop=new QLabel("Range: "+ QString::number(spellTroopSpawner->getRange()));
+        QLabel* rangeSpellTroop=new QLabel("Range("+QString::fromStdString(spellTroopSpawner->dimRange())+"): "+ QString::number(spellTroopSpawner->getRange()));
         QLabel* countSpellTroop=new QLabel("Count: "+ QString::number(spellTroopSpawner->getCount()));
         QLabel* damageSpellTroop=new QLabel("Damage: "+ QString::number(spellTroopSpawner->getSpellDamage()));
         QLabel* crowntowerdamageSpellTroop=new QLabel("Crown Tower Damage: "+ QString::number(spellTroopSpawner->getCrownTowerDamage()));
@@ -517,7 +518,7 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* hitxsecTroopSpawner=new QLabel("Hit (per second): "+ QString::number(troopSpawner->getHitxSec()));
      QLabel* damagexsecTroopSpawner=new QLabel("Damage (per second): "+ QString::number(troopSpawner->getDamagexSec()));
      QLabel* sddTroopSpawner=new QLabel("Spawn Death Damage: "+ QString::number(troopSpawner->getSpawnDD()));
-     QLabel* rangeTroopSpawner=new QLabel("Range: "+ QString::number(troopSpawner->getRange()));
+     QLabel* rangeTroopSpawner=new QLabel("Range("+QString::fromStdString(troopSpawner->dimRange())+"): "+ QString::number(troopSpawner->getRange()));
      QLabel* countTroopSpawner=new QLabel("Count: "+ QString::number(troopSpawner->getCount()));
      QLabel* timedescTroopSpawner=new QLabel("Time and Description: "+ QString::fromStdString(troopSpawner->getTimeDesc()));
 
@@ -822,7 +823,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QLineEdit* lifeTimeBuildEdit = new QLineEdit();
     QValidator* lifeTimeValidator = new QDoubleValidator(0,99999,6);
     lifeTimeBuildEdit->setValidator(lifeTimeValidator);
-    lifeTimeBuildEdit->setPlaceholderText("Life time");
+    lifeTimeBuildEdit->setPlaceholderText("Life time (in sec)");
 
 
     // -----> BuildingForm <-----
@@ -1260,10 +1261,9 @@ void MainWindow::setStackedWidgetPage(int index)
 
 void MainWindow::setWidgetStyle()
 {
-    mainLayout->setSpacing(6);
-    //SetSiz
-   setMaximumSize(QSize(1200,800));
-   //setMinimumSize(QSize(800,500));
+   mainLayout->setSpacing(6);
+   //SetSiz
+   setFixedSize(980,620);
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    //setStule
    QFile file(":/Style/dark.css");
@@ -1276,8 +1276,7 @@ void MainWindow::setWidgetStyleWhite(){
 
    mainLayout->setSpacing(6);
    //setSize
-   setMaximumSize(QSize(1200,800));
-   //setMinimumSize(QSize(800,500));
+   setFixedSize(980,620);
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    //set Style
    QFile file(":/Style/white.css");
