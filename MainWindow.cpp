@@ -579,7 +579,6 @@ void MainWindow::viewCardInfo(int pos)
   lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
   lvDowngrade->setFixedSize(40,40);
   lvDowngrade->setIconSize(QSize(30,30));
-  lvDowngrade->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
   //Set Img Card
   QString s=QString::fromStdString(pathImg);
   pathImg=":/img/iconCard/default.png"; //Reset PathImg
@@ -1009,25 +1008,25 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     //DeafultImg
     QPixmap imgDefault = QPixmap(":/img/iconCard/default.png");
     BoxImg->setPixmap(imgDefault);
-
+    if(Edit) pathImg=container[cardPos]->getPath();
     //InserImg
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
-
-       QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
-     pathImg=img.toStdString();
-     if(img!=""){
-     BoxImg->setPixmap(img);
-     BoxImg->setScaledContents(true);
-     }else
-     {
-           pathImg=":/img/iconCard/default.png";
-     }
+         QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
+         pathImg=img.toStdString();
+         if(img!=""){
+             BoxImg->setPixmap(img);
+             BoxImg->setScaledContents(true);
+         }
+         else
+         {
+               pathImg=":/img/iconCard/default.png";
+         }
      });
     //DeleteImg
     connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
-        pathImg=":/img/iconCard/default.png";
+       pathImg=":/img/iconCard/default.png";
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
-       });
+    });
 
     connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
             shieldEdit,troopHealthEdit,hitPerSecondTroopEdit,damagePerSecondTroopEdit,spawnDDEdit,rangeTroopEdit,countEdit,
@@ -1263,7 +1262,7 @@ void MainWindow::setWidgetStyle()
 {
    mainLayout->setSpacing(6);
    //SetSiz
-   setFixedSize(980,620);
+   setFixedHeight(620);
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    //setStule
    QFile file(":/Style/dark.css");

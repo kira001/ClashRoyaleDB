@@ -26,8 +26,9 @@ void AttackingBuilding::setRange(double rng){
 string AttackingBuilding::dimRange() const
 {
     if(range>2) return "Large Range";
-    if(range>1) return "Medium Range";
-    return "Short Range";
+    if(range>=1.5) return "Melee: Long";
+    if(range>=1) return "Melee: Medium";
+    return "Melee: Short";
 }
 
 bool AttackingBuilding::operator==(const AttackingBuilding & ab) const
