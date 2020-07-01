@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     completer= new QCompleter;
     filterTypeBox=new QComboBox;
     filterRarityBox=new QComboBox;
-    pathImg=":/img/iconCard/default.png";
+    pathImg="/img/iconCard/default.png";
     StyleWhite=false;
     addMenu();
     addLeftLayout();
@@ -581,7 +581,7 @@ void MainWindow::viewCardInfo(int pos)
   lvDowngrade->setIconSize(QSize(30,30));
   //Set Img Card
   QString s=QString::fromStdString(pathImg);
-  pathImg=":/img/iconCard/default.png"; //Reset PathImg
+  pathImg="/img/iconCard/default.png"; //Reset PathImg
   QPixmap cardimg =QPixmap(s);
   QLabel* cardLabel=new QLabel();
   cardLabel->setPixmap(cardimg);
@@ -919,7 +919,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
     connect(comboClassEdit, &QComboBox::currentTextChanged, [comboClassEdit, troopWidget,spellWidget,buildingWidget,troopSpawnerWidget,spellTroopSpawnerWidget,
             buildingTroopSpawnerWidget,attackingBuildingWidget] {
-                QTimer::singleShot(300,[comboClassEdit, troopWidget,spellWidget,buildingWidget,troopSpawnerWidget,spellTroopSpawnerWidget,
+                QTimer::singleShot(100,[comboClassEdit, troopWidget,spellWidget,buildingWidget,troopSpawnerWidget,spellTroopSpawnerWidget,
                            buildingTroopSpawnerWidget,attackingBuildingWidget]()->void {
                                if (comboClassEdit->currentText()=="Select card type") {
                                    troopWidget->setVisible(false);
@@ -1027,12 +1027,12 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
          }
          else
          {
-               pathImg=":/img/iconCard/default.png";
+               pathImg="/img/iconCard/default.png";
          }
      });
     //DeleteImg
     connect(deleteImg, &QPushButton::clicked, [this,BoxImg] {
-       pathImg=":/img/iconCard/default.png";
+       pathImg="/img/iconCard/default.png";
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
     });
 
