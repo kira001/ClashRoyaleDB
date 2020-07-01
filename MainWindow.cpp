@@ -373,11 +373,11 @@ void MainWindow::viewCardInfo(int pos)
   QFormLayout* formLayout1 = new QFormLayout();
   QFormLayout* formLayout2 = new QFormLayout();
   QFormLayout* formLayout3 = new QFormLayout();
-
+    pathImg=QFileInfo(".").absolutePath().toStdString() + "/ClashRoyaleDB";
   if(container[fixPos]->getType()=="Building")
   {
       Building* building = dynamic_cast<Building*>(container[fixPos].operator->());
-      pathImg= building->getPath();
+      pathImg= pathImg+building->getPath();
 
       QLabel* healthBuilding=new QLabel("Health: "+ QString::number(building->getBuildHealth()));
       QLabel* lifetimeBuilding=new QLabel("Life Time: "+ QString::number(building->getLifeTime()));
@@ -391,7 +391,7 @@ void MainWindow::viewCardInfo(int pos)
   else if(container[fixPos]->getType()=="Spell")
   {
     Spell* spell = dynamic_cast<Spell*>(container[fixPos].operator->());
-    pathImg= spell->getPath();
+    pathImg=pathImg+ spell->getPath();
 
     QLabel* damageSpell=new QLabel("Damage: "+ QString::number(spell->getSpellDamage()));
     QLabel* crownTowerDamage=new QLabel("Crown Tower Damage: "+ QString::number(spell->getCrownTowerDamage()));
@@ -406,7 +406,7 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Troop"){
       Troop* troop = dynamic_cast<Troop*>(container[fixPos].operator->());
-       pathImg= troop->getPath();
+       pathImg= pathImg+troop->getPath();
 
       QLabel* shieldTroop=new QLabel("Shield: "+ QString::number(troop->getShield()));
       QLabel* healthTroop=new QLabel("Health: "+ QString::number(troop->getTroopHealth()));
@@ -430,7 +430,7 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Attacking Building"){
       AttackingBuilding* attackingBuilding = dynamic_cast<AttackingBuilding*>(container[fixPos].operator->());
-      pathImg= attackingBuilding->getPath();
+      pathImg=pathImg+ attackingBuilding->getPath();
 
       QLabel* healthAttBuilding=new QLabel("Health: "+ QString::number(attackingBuilding->getBuildHealth()));
       QLabel* lifetimeAttBuilding=new QLabel("Life Time: "+ QString::number(attackingBuilding->getLifeTime()));
@@ -449,7 +449,7 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Building-Troop Spawner"){
       BuildingTroopSpawner* buildingTroopSpawner = dynamic_cast<BuildingTroopSpawner*>(container[fixPos].operator->());
-      pathImg= buildingTroopSpawner->getPath();
+      pathImg= pathImg+buildingTroopSpawner->getPath();
 
       QLabel* health1BuildingTroop=new QLabel("Building Health: "+ QString::number(buildingTroopSpawner->getBuildHealth()));
       QLabel* health2BuildingTroop=new QLabel("Troop Health: "+ QString::number(buildingTroopSpawner->getTroopHealth()));
@@ -479,7 +479,7 @@ void MainWindow::viewCardInfo(int pos)
   }
   else if(container[fixPos]->getType()=="Spell-Troop Spawner"){
        SpellTroopSpawner* spellTroopSpawner = dynamic_cast<SpellTroopSpawner*>(container[fixPos].operator->());
-       pathImg=spellTroopSpawner->getPath();
+       pathImg=pathImg+spellTroopSpawner->getPath();
 
         QLabel* shieldSpellTroop=new QLabel("Shield: "+ QString::number(spellTroopSpawner->getShield()));
         QLabel* healthSpellTroop=new QLabel("Health: "+ QString::number(spellTroopSpawner->getTroopHealth()));
@@ -511,7 +511,7 @@ void MainWindow::viewCardInfo(int pos)
       }
   else if(container[fixPos]->getType()=="Troop Spawner"){
     TroopSpawner* troopSpawner = dynamic_cast<TroopSpawner*>(container[fixPos].operator->());
-     pathImg=troopSpawner->getPath();
+     pathImg=pathImg+troopSpawner->getPath();
 
      QLabel* shieldTroopSpawner=new QLabel("Shield: "+ QString::number(troopSpawner->getShield()));
      QLabel* healthTroopSpawner=new QLabel("Health: "+ QString::number(troopSpawner->getTroopHealth()));
@@ -1008,12 +1008,20 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     //DeafultImg
     QPixmap imgDefault = QPixmap(":/img/iconCard/default.png");
     BoxImg->setPixmap(imgDefault);
+
+
     if(Edit) pathImg=container[cardPos]->getPath();
     //InserImg
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
          QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
-         pathImg=img.toStdString();
+
+
          if(img!=""){
+             QFileInfo fi(img);
+             QString name=fi.fileName();
+             string pathImgCard="/img/iconCard/"+name.toStdString();
+             pathImg=pathImgCard;
+
              BoxImg->setPixmap(img);
              BoxImg->setScaledContents(true);
          }
@@ -1143,8 +1151,8 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
         comboRarity->setCurrentText(QString::fromStdString(container[cardPos]->RarityToString()));
         cardLevelEdit->setText(QString::number(container[cardPos]->getCardLevel()));
         descEdit->setText(QString::fromStdString(container[cardPos]->getDescription()));
-
-        QPixmap cardImg= QPixmap(QString::fromStdString(container[cardPos]->getPath()));
+        string dir=QFileInfo(".").absolutePath().toStdString() + "/ClashRoyaleDB";
+        QPixmap cardImg= QPixmap(QString::fromStdString(dir+container[cardPos]->getPath()));
         BoxImg->setPixmap(cardImg);
         BoxImg->setScaledContents(true);
         /************ Other attributes ************/

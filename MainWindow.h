@@ -36,6 +36,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+
+#include <QApplication>
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
