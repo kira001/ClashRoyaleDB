@@ -62,9 +62,9 @@ damagexSec(x.getDamagexSec()),spawnDD(x.getSpawnDD()),range(x.getRange()),count(
 
    string Troop::dimRange() const
    {
-       if(range>2) return "Large Range";
-       if(range>=1.5) return "Melee: Long";
-       if(range>=1) return "Melee: Medium";
+       if(range>2) return "Ranged";
+       if(range>=1.6) return "Melee: Long";
+       if(range>=1.2) return "Melee: Medium";
        return "Melee: Short";
    }
 
