@@ -247,7 +247,7 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* hitPerSecondLabel= new QLabel();
      hitPerSecondLabel->setPixmap(hitPerSecondIcon);
 
-     QPixmap damageIcon= QPixmap(":/img/insertIcon/damagePerSecond.png");
+     QPixmap damageIcon= QPixmap(":/img/insertIcon/dmg.png");
      QLabel* damageLabel= new QLabel();
      damageLabel->setPixmap(damageIcon);
 
@@ -415,11 +415,13 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* sddTroop=new QLabel("Spawn/Death Damage: "+ QString::number(std::floor(troop->getSpawnDD())));
       QLabel* rangeTroop=new QLabel("Range("+QString::fromStdString(troop->dimRange())+"): "+ QString::number(troop->getRange()));
       QLabel* countTroop=new QLabel("Count: "+ QString::number(troop->getCount()));
+      QLabel* damageTroop=new QLabel("Damage: "+ QString::number(std::floor(troop->damage())));
 
       formLayout1->addRow(shieldLabel,shieldTroop);
       formLayout1->addRow(healthLabel,healthTroop);
       formLayout1->addRow(hitPerSecondLabel,hitxsecTroop);
       formLayout1->addRow(damagePerSecondLabel,damagexsecTroop);
+      formLayout1->addRow(damageLabel,damageTroop);
       formLayout1->addRow(spawnDDLabel,sddTroop);
       formLayout2->addRow(rangeLabel,rangeTroop);
       formLayout2->addRow(countLabel,countTroop);
@@ -437,11 +439,13 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* hitxsecAttBuilding=new QLabel("Hit (per second): "+ QString::number(attackingBuilding->getHitPerSecond()));
       QLabel* damagexsecAttBuilding=new QLabel("Damage (per second): "+ QString::number(std::floor(attackingBuilding->getDamagePerSecond())));
       QLabel* rangeAttBuilding=new QLabel("Range("+QString::fromStdString(attackingBuilding->dimRange())+"): "+ QString::number(attackingBuilding->getRange()));
+      QLabel* damageAttBuilding=new QLabel("Damage: "+ QString::number(std::floor(attackingBuilding->damage())));
 
       formLayout1->addRow(healthBuildingLabel,healthAttBuilding);
       formLayout1->addRow(lifeTimeBuildingLabel,lifetimeAttBuilding);
       formLayout1->addRow(hitPerSecondAttackingBuildingLabel,hitxsecAttBuilding);
       formLayout1->addRow(damagePerSecondAttackingBuildingLabel,damagexsecAttBuilding);
+      formLayout1->addRow(damageLabel,damageAttBuilding);
       formLayout1->addRow(rangeAttackingBuildingLabel,rangeAttBuilding);
 
       Multiform->addLayout(formLayout1);
@@ -461,11 +465,13 @@ void MainWindow::viewCardInfo(int pos)
       QLabel* sddBuildingTroop=new QLabel("Spawn/Death Damage: "+ QString::number(std::floor(buildingTroopSpawner->getSpawnDD())));
       QLabel* rangeBuildingTroop=new QLabel("Range("+QString::fromStdString(buildingTroopSpawner->dimRange())+"): "+ QString::number(buildingTroopSpawner->getRange()));
       QLabel* countBuildingTroop=new QLabel("Count: "+ QString::number(buildingTroopSpawner->getCount()));
+      QLabel* damageBuildingTroop=new QLabel("Damage: "+ QString::number(std::floor(buildingTroopSpawner->damage())));
 
       formLayout1->addRow(shieldLabel,shieldBuildingTroop);
       formLayout1->addRow (healthLabel,health2BuildingTroop);
       formLayout1->addRow(hitPerSecondLabel,hitxsecBuildingTroop);
-      formLayout1->addRow(damageLabel,damagexsecBuildingTroop);
+      formLayout1->addRow(damagePerSecondLabel,damagexsecBuildingTroop);
+      formLayout1->addRow(damageLabel,damageBuildingTroop);
       formLayout1->addRow(spawnDDLabel,sddBuildingTroop);
       formLayout2->addRow(rangeLabel,rangeBuildingTroop);
       formLayout2->addRow(countLabel,countBuildingTroop);
@@ -488,15 +494,17 @@ void MainWindow::viewCardInfo(int pos)
         QLabel* sddSpellTroop=new QLabel("Spawn Death Damage: "+ QString::number(std::floor(spellTroopSpawner->getSpawnDD())));
         QLabel* rangeSpellTroop=new QLabel("Range("+QString::fromStdString(spellTroopSpawner->dimRange())+"): "+ QString::number(spellTroopSpawner->getRange()));
         QLabel* countSpellTroop=new QLabel("Count: "+ QString::number(spellTroopSpawner->getCount()));
-        QLabel* damageSpellTroop=new QLabel("Damage: "+ QString::number(std::floor(spellTroopSpawner->getSpellDamage())));
+        QLabel* damageSpellTroop=new QLabel("Spell Damage: "+ QString::number(std::floor(spellTroopSpawner->getSpellDamage())));
         QLabel* crowntowerdamageSpellTroop=new QLabel("Crown Tower Damage: "+ QString::number(std::floor(spellTroopSpawner->getCrownTowerDamage())));
         QLabel* radiusSpellTroop=new QLabel("Radius: "+ QString::number(spellTroopSpawner->getRadius()));
         QLabel* tsSpellTroop=new QLabel("Time Spawn: "+ QString::fromStdString(spellTroopSpawner->getTimeSpawn()));
+        QLabel* damageTSpellTroop=new QLabel("Troop Damage: "+ QString::number(std::floor(spellTroopSpawner->damage())));
 
         formLayout1->addRow(shieldLabel,shieldSpellTroop);
         formLayout1->addRow(healthLabel,healthSpellTroop);
         formLayout1->addRow(hitPerSecondLabel,hitxsecSpellTroop);
         formLayout1->addRow(damagePerSecondLabel,damagexsecSpellTroop);
+        formLayout1->addRow(damageLabel,damageTSpellTroop);
         formLayout1->addRow(spawnDDLabel,sddSpellTroop);
         formLayout2->addRow(rangeLabel,rangeSpellTroop);
         formLayout2->addRow(countLabel,countSpellTroop);
@@ -521,11 +529,13 @@ void MainWindow::viewCardInfo(int pos)
      QLabel* rangeTroopSpawner=new QLabel("Range("+QString::fromStdString(troopSpawner->dimRange())+"): "+ QString::number(troopSpawner->getRange()));
      QLabel* countTroopSpawner=new QLabel("Count: "+ QString::number(troopSpawner->getCount()));
      QLabel* timedescTroopSpawner=new QLabel("Time and Description: "+ QString::fromStdString(troopSpawner->getTimeDesc()));
+     QLabel* damageTroopSpawner=new QLabel("Damage: "+ QString::number(std::floor(troopSpawner->damage())));
 
      formLayout1->addRow(shieldLabel,shieldTroopSpawner);
      formLayout1->addRow(healthLabel,healthTroopSpawner);
      formLayout1->addRow(hitPerSecondLabel,hitxsecTroopSpawner);
      formLayout1->addRow(damagePerSecondLabel,damagexsecTroopSpawner);
+     formLayout1->addRow(damageLabel,damageTroopSpawner);
      formLayout1->addRow(spawnDDLabel,sddTroopSpawner);
      formLayout2->addRow(rangeLabel,rangeTroopSpawner);
      formLayout2->addRow(countLabel,countTroopSpawner);
