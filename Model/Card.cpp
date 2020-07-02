@@ -86,8 +86,8 @@ bool Card::isDowngradable() const
          case Card::rarity::rare:  return cardLevel>3? true: throw MyException("Minimum level reached for rare");
          case Card::rarity::epic:  return cardLevel>6? true: throw MyException("Minimum level reached for epic");
          case Card::rarity::legendary:  return cardLevel>9? true: throw MyException("Minimum level reached for legendary");
-       }
-
+           }
+return false;
 }
 
 void Card::controlRarityLevel(rarity cardRar, unsigned int cLevel) const{

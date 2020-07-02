@@ -9,13 +9,13 @@ selection-background-color: rgb(190,190,190);
 
 QPushButton {
     border-radius: 20px;
-    background-color: rgb(12,80,187);
-    color: black;
+    background-color: rgb(30,30,30);
+    color: white;
 
 }
 
 QPushButton:hover {
-background-color: rgb(190,190,190);
+background-color: rgb(140,140,140);
    }
 
 QMenu {
@@ -32,7 +32,7 @@ border: 0.5px solid black;
 border-radius: 4px;
 height:20%;
 min-width: 5em;
-font: 17px;
+font: 13px;
  }
 QToolBar{
 spacing: 15px;

@@ -536,7 +536,7 @@ void MainWindow::viewCardInfo(int pos)
   }
 
   // Button Upgrade stats
-  QPushButton* lvUpgrade = new QPushButton();
+  QPushButton* lvUpgrade = new QPushButton("Upgrade");
   connect(lvUpgrade, &QPushButton::clicked, [this,fixPos] {
       try {
           container[fixPos]->lvlUpgrade();
@@ -545,12 +545,15 @@ void MainWindow::viewCardInfo(int pos)
       } catch (MyException e) {
           QMessageBox msgBox;
           msgBox.setText(QString::fromStdString(e.getMsgException()));
+          if(!StyleWhite)
+          {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+          else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
           msgBox.exec();
       }
   });
 
   // Button Upgrade stats
-  QPushButton* lvDowngrade = new QPushButton();
+  QPushButton* lvDowngrade = new QPushButton("Downgrade");
   connect(lvDowngrade, &QPushButton::clicked, [this,fixPos] {
       try {
           container[fixPos]->lvlDowngrade();
@@ -560,6 +563,9 @@ void MainWindow::viewCardInfo(int pos)
       } catch (MyException e) {
           QMessageBox msgBox;
           msgBox.setText(QString::fromStdString(e.getMsgException()));
+          if(!StyleWhite)
+          {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+          else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
           msgBox.exec();
       }
 
@@ -569,15 +575,15 @@ void MainWindow::viewCardInfo(int pos)
   QPixmap pixmap1(":/img/insertIcon/add.png");
   QIcon ButtonIcon1(pixmap1);
   lvUpgrade->setIcon(ButtonIcon1);
-  lvUpgrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
-  lvUpgrade->setFixedSize(40,40);
+  lvUpgrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30); color:white;} QPushButton:hover {background-color: rgb(120,120,120);}");
+  lvUpgrade->setFixedSize(100,40);
   lvUpgrade->setIconSize(QSize(30,30));
   //Set icon Downgrade Button
   QPixmap pixmap2(":/img/insertIcon/min.png");
   QIcon ButtonIcon2(pixmap2);
   lvDowngrade->setIcon(ButtonIcon2);
-  lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30);} QPushButton:hover {background-color: rgb(246,163,5);}");
-  lvDowngrade->setFixedSize(40,40);
+  lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30); color:white;} QPushButton:hover {background-color: rgb(120,120,120);}");
+  lvDowngrade->setFixedSize(110,40);
   lvDowngrade->setIconSize(QSize(30,30));
   //Set Img Card
   QString s=QString::fromStdString(pathImg);
@@ -1014,8 +1020,6 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     //InserImg
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
          QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
-
-
          if(img!=""){
              QFileInfo fi(img);
              QString name=fi.fileName();
@@ -1035,6 +1039,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
        pathImg="/img/iconCard/default.png";
        BoxImg->setPixmap(QPixmap(":/img/iconCard/default.png"));
     });
+
 
     connect(confirmInsert, &QPushButton::clicked, [this,comboClassEdit,nameEdit,manaCostEdit,comboRarity,cardLevelEdit,descEdit,
             shieldEdit,troopHealthEdit,hitPerSecondTroopEdit,damagePerSecondTroopEdit,spawnDDEdit,rangeTroopEdit,countEdit,
@@ -1284,7 +1289,7 @@ void MainWindow::setWidgetStyleWhite(){
 
    mainLayout->setSpacing(6);
    //setSize
-   setFixedSize(980,620);
+   setFixedHeight(620);
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    //set Style
    QFile file(":/Style/white.css");

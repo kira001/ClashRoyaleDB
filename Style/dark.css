@@ -32,7 +32,7 @@ border: 0.5px solid white;
  border-radius: 4px;
 height:20%;
 min-width: 5em;
- font: 17px;
+ font: 13px;
  }
 
 QToolBar{
@@ -44,7 +44,3 @@ QMenuBar::item:selected,QComboBox:hover,QMenu::item:selected{
 background-color: rgb(87,87,87);
 height: 70px;
 }
-
-
-
-
