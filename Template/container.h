@@ -8,41 +8,37 @@ private:
     unsigned int size;
     T* array;
 
-    // Methods
-    void resize();
+    void resizeArray();
 
 public:
-    // Constructors/destructors
+
     Container();
-    Container(const Container& cnt);
+    Container(const Container& container);
     ~Container();
 
-    // Getters/setters
     unsigned int getCapacity() const;
     unsigned int getSize() const;
 
-    // Operators overloading
-    Container& operator=(const Container& cnt);
-    bool operator==(const Container& cnt) const;
-    bool operator!=(const Container& cnt) const;
+    Container& operator=(const Container& container);
     T& operator[](unsigned int i) const;
+    bool operator==(const Container& container) const;
+    bool operator!=(const Container& container) const;
 
-    // Methods
     void clear();
-    int search(const T& obj) const;
     void insert(const T& obj);
     void remove(const T& obj);
+    int search(const T& obj) const;
     void remove(int pos);
 };
 
 /******************** CONSTRUCTORS/DESTRUCTORS ********************/
 template<class T>
-Container<T>::Container() : capacity(10), size(0), array(new T[capacity]) {}
+Container<T>::Container() : capacity(0), size(0), array(nullptr) {}
 
 template<class T>
-Container<T>::Container(const Container& cnt) : capacity(cnt.capacity), size(cnt.size), array(new T[capacity]) {
+Container<T>::Container(const Container& container) : capacity(container.capacity), size(container.size), array(new T[capacity]) {
     for (unsigned int i = 0; i < size; ++i)
-        array[i] = cnt.array[i];
+        array[i] = container.array[i];
 }
 
 template<class T>
@@ -59,24 +55,29 @@ unsigned int Container<T>::getSize() const { return size; }
 
 /******************** OPERATORS OVERLOADING ********************/
 template<class T>
-Container<T>& Container<T>::operator=(const Container& cnt) {
-    if (this == &cnt)
-        return *this;
-    if (size > 0) delete[] array;
-    capacity = cnt.capacity;
-    size = cnt.size;
-    array = new T[capacity];
-    for (unsigned int i = 0; i < size; ++i)
-        array[i] = cnt.array[i];
+Container<T>& Container<T>::operator=(const Container& container) {
+    if(!container.getCapacity()&&!container.getSize())
+        clear();
+    else if(this!= &container){
+        delete[] array;
+        capacity=container.getCapacity();
+        size=container.getSize();
+        array= new T[capacity];
+        for(unsigned int i=0; i<size;i++)
+            array[i]=container[i];
+    }
     return *this;
 }
 
 template<class T>
-bool Container<T>::operator==(const Container& cnt) const {
-    if (array && cnt.array) {
-        if (size == cnt.size) {
+T& Container<T>::operator[](unsigned int i) const { return array[i]; }
+
+template<class T>
+bool Container<T>::operator==(const Container& container) const {
+    if (array && container.array) {
+        if (size == container.size) {
             for (unsigned int i = 0; i < size; ++i) {
-                if (array[i] != cnt.array[i])
+                if (array[i] != container.array[i])
                     return false;
             }
             return true;
@@ -86,31 +87,59 @@ bool Container<T>::operator==(const Container& cnt) const {
 }
 
 template<class T>
-bool Container<T>::operator!=(const Container& cnt) const {
-    return !(*this == cnt);
+bool Container<T>::operator!=(const Container& container) const {
+    return !(*this == container);
 }
-
-template<class T>
-T& Container<T>::operator[](unsigned int i) const { return array[i]; }
 
 
 /******************** METHODS ********************/
 template<class T>
 void Container<T>::clear() {
-    delete[] array;
-    capacity = 10;
-    size = 0;
-    array = new T[capacity];
+    delete [] array;
+    array=nullptr;
+    capacity=0;
+    size=0;
 }
 
 template<class T>
-void Container<T>::resize() {
-    capacity = capacity + 10;
-    T* temp = new T[capacity];
-    for (unsigned int i = 0; i < size; ++i)
-        temp[i] = array[i];
-    delete[] array;
-    array = temp;
+void Container<T>::resizeArray() {
+    if(!capacity) {capacity= 1; array= new T[capacity];}
+    else{
+        capacity=capacity*2;
+        T* tmp= new T[capacity];
+        for(unsigned int i=0; i<size; i++)
+            tmp[i]=array[i];
+        delete[] array;
+        array=tmp;
+    }
+}
+
+template<class T>
+void Container<T>::insert(const T& obj) {
+    if (size + 1 > capacity) resizeArray();
+    size++;
+    array[size-1] = obj;
+}
+
+template<class T>
+void Container<T>::remove(const T& obj) {
+    if (size > 0) {
+        int pos = search(obj);
+        if (pos != -1) {
+            unsigned int u_pos = static_cast<unsigned int>(pos);
+            T* tmp = new T[capacity];
+            unsigned int j = 0;
+            for (unsigned int i = 0; i < size; ++i) {
+                if (i != u_pos) {
+                    tmp[j] = array[i];
+                    j++;
+                }
+            }
+            size--;
+            delete[] array;
+            array = tmp;
+        }
+    }
 }
 
 template<class T>
@@ -122,50 +151,23 @@ int Container<T>::search(const T& obj) const {
     return -1;
 }
 
-template<class T>
-void Container<T>::insert(const T& obj) {
-    if (size + 1 > capacity)
-        resize();
-    size++;
-    array[size-1] = obj;
-}
 
-template<class T>
-void Container<T>::remove(const T& obj) {
-    if (size > 0) {
-        int pos = search(obj);
-        if (pos != -1) {
-            unsigned int u_pos = static_cast<unsigned int>(pos);
-            T* temp = new T[capacity];
-            unsigned int j = 0;
-            for (unsigned int i = 0; i < size; ++i) {
-                if (i != u_pos) {
-                    temp[j] = array[i];
-                    j++;
-                }
-            }
-            size--;
-            delete[] array;
-            array = temp;
-        }
-    }
-}
 
 template<class T>
 void Container<T>::remove(int pos) {
     if (pos >=0 && pos < static_cast<int>(size)) {
         unsigned int u_pos = static_cast<unsigned int>(pos);
-        T* temp = new T[capacity];
+        T* tmp = new T[capacity];
         unsigned int j = 0;
         for (unsigned int i = 0; i < size; ++i) {
             if (i != u_pos) {
-                temp[j] = array[i];
+                tmp[j] = array[i];
                 j++;
             }
         }
         size--;
         delete[] array;
-        array = temp;
+        array = tmp;
     }
 }
 
