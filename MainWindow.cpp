@@ -370,7 +370,6 @@ void MainWindow::viewCardInfo(int pos)
     QLabel* manaCostCard=new QLabel("Mana Cost: "+ QString::number(container[fixPos]->getManaCost()));
     QTextEdit* desc=new QTextEdit(QString::fromStdString(container[fixPos]->getDescription()));
     desc->setReadOnly(true);
-    desc->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     desc->setFixedHeight(100);
 
     //Form BasicInfo
