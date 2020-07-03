@@ -84,6 +84,7 @@ private:
     void clearLayout(QLayout*);
     void filterTypeRarity(const QString& type, const QString &rarity);
     void combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt);
+    void resetSearchAndFilter();
     bool isCardNameInContainer(string cardName) const;
     QJsonObject writeJson(Card* card) const;
     void readJson(Card* card, const QJsonObject& obj);

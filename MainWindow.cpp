@@ -91,11 +91,13 @@ void MainWindow::addLeftLayout(){
          if (container.getSize() > 0)
              combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
-   //insert&delete Button
+   //insert&delete&resetSearchFilters Button
    QPushButton* insertButton = new QPushButton("Insert");
    QPushButton* deleteButton= new QPushButton("Delete");
+   QPushButton* resetSearchFiltersButton= new QPushButton("Reset Filters");
    insertButton->setFixedSize(100,50);
    deleteButton->setFixedSize(100,50);
+   resetSearchFiltersButton->setFixedSize(100,50);
    connect(insertButton, &QPushButton::clicked, [this] {
    clearLayout(insertLayout);
    addInsertWidget();
@@ -111,8 +113,12 @@ void MainWindow::addLeftLayout(){
            setStackedWidgetPage(0);
        }
    });
+   connect(resetSearchFiltersButton, &QPushButton::clicked, [this] {
+       resetSearchAndFilter();
+   });
    buttonLayout->addWidget(insertButton);
    buttonLayout->addWidget(deleteButton);
+   buttonLayout->addWidget(resetSearchFiltersButton);
    //Filters
    filterTypeBox->addItem("All types");
    filterTypeBox->addItem("Spell");
@@ -159,7 +165,7 @@ void MainWindow::addMenu(){
     menu->addAction(load);
     menu2->addAction(white);
     menu2->addAction(dark);
-    connect(load, &QAction::triggered, [this] {loadFile();});
+    connect(load, &QAction::triggered, [this] {loadFile();resetSearchAndFilter();setStackedWidgetPage(0);});
     connect(save, &QAction::triggered, [this] {saveFile();});
     connect(dark, &QAction::triggered, [this] {
         StyleWhite=false;
@@ -770,7 +776,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QLineEdit* troopHealthEdit = new QLineEdit();
     QValidator* troopHealthValidator = new QDoubleValidator(0,99999,6);
     troopHealthEdit->setValidator(troopHealthValidator);
-    troopHealthEdit->setPlaceholderText("Troop healt");
+    troopHealthEdit->setPlaceholderText("Troop health");
     //hitxSec
     QLineEdit* hitPerSecondTroopEdit = new QLineEdit();
     QValidator* hitPerSecondTroopValidator = new QDoubleValidator(0,99999,6);
@@ -1133,6 +1139,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                               else
                               container.insert(card);
                               resetlist();
+                              resetSearchAndFilter();
                               clearLayout(infolayout);
                               viewCardInfo(list->count()-1);
                               setStackedWidgetPage(1);
@@ -1384,6 +1391,12 @@ void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString&
     list->clear();
     filterTypeRarity(filterTypeTxt, filterRarityTxt);
     findNameCard(searchTxt);
+}
+
+void MainWindow::resetSearchAndFilter(){
+    filterRarityBox->setCurrentText("All rarities");
+    filterTypeBox->setCurrentText("All types");
+    searchbox->clear();
 }
 
 bool MainWindow::isCardNameInContainer(std::string cardName) const
