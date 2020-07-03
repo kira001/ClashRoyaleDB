@@ -25,12 +25,12 @@ public:
     virtual bool  operator==(const AttackingBuilding&) const;
     virtual bool  operator!=(const AttackingBuilding&) const;
     
-    virtual string dimRange() const;
+    string dimRange() const;
     virtual string getType() const;
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual AttackingBuilding* clone() const;
-    virtual double damage() const;
+    double damage() const;
 
 };
 #endif // ATTACKINGBUILDING

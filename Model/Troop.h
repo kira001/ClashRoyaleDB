@@ -41,8 +41,8 @@ public:
     virtual bool  operator==(const Troop&) const;
     virtual bool  operator!=(const Troop&) const;
     // METHODS
-    virtual double damage() const;
-    virtual string dimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
+    double damage() const;
+    string dimRange() const;//METODO CHE RITORNA IN STRINGA LA PORTATA DEL RANGE (SHORT,MEDIUM,LONG)
     virtual void lvlUpgrade();
     virtual void lvlDowngrade();
     virtual string getType() const;
