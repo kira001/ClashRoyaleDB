@@ -1166,7 +1166,8 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                               resetSearchAndFilter();
                               clearLayout(infolayout);
                               viewCardInfo(list->count()-1);
-                              setStackedWidgetPage(0);
+                              setStackedWidgetPage(1);
+                              list->setCurrentRow(list->count()-1);
                               insertButton->setVisible(true);
                               deleteAllButton->setVisible(true);
 
@@ -1367,6 +1368,7 @@ int MainWindow::findListItemInContainer(int itemPos) const{
     return -1;
 }
 
+
 void MainWindow::clearLayout(QLayout* layout){
     while(layout->count() > 0){
         QLayoutItem* item = layout->takeAt(0);
@@ -1417,6 +1419,7 @@ void MainWindow::filterTypeRarity(const QString &type, const QString &rarity){
 void MainWindow::combineSearchAndFilter(const QString& searchTxt, const QString& filterTypeTxt, const QString& filterRarityTxt){
     list->reset();
     list->clear();
+    setStackedWidgetPage(0);
     filterTypeRarity(filterTypeTxt, filterRarityTxt);
     findNameCard(searchTxt);
 }
