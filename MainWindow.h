@@ -60,6 +60,9 @@ private:
     QCompleter* completer;
     QComboBox* filterTypeBox;
     QComboBox* filterRarityBox;
+    //Buttons Delete & Insert
+    QPushButton* insertButton;
+    QPushButton* deleteButton;
     // Menu
     QMenu* menu;
     QMenu* menu2;

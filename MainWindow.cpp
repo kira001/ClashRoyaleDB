@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     completer= new QCompleter;
     filterTypeBox=new QComboBox;
     filterRarityBox=new QComboBox;
+    insertButton = new QPushButton("Insert");
+    deleteButton= new QPushButton("Delete");
     pathImg="/img/iconCard/default.png";
     StyleWhite=false;
     addMenu();
@@ -81,6 +83,8 @@ void MainWindow::addLeftLayout(){
           clearLayout(infolayout);
           viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
+          insertButton->setVisible(true);
+          deleteButton->setVisible(true);
       }
     });
    //searchbox
@@ -92,8 +96,6 @@ void MainWindow::addLeftLayout(){
              combineSearchAndFilter(searchbox->text(),filterTypeBox->currentText(), filterRarityBox->currentText() );
               });
    //insert&delete&resetSearchFilters Button
-   QPushButton* insertButton = new QPushButton("Insert");
-   QPushButton* deleteButton= new QPushButton("Delete");
    QPushButton* resetSearchFiltersButton= new QPushButton("Reset Filters");
    insertButton->setFixedSize(100,50);
    deleteButton->setFixedSize(100,50);
@@ -103,6 +105,8 @@ void MainWindow::addLeftLayout(){
    addInsertWidget();
    insertWidget->setLayout(insertLayout);
    setStackedWidgetPage(2);
+   insertButton->setVisible(false);
+   deleteButton->setVisible(false);
    });
    connect(deleteButton, &QPushButton::clicked, [this] {
        if (list->count() > 0 && list->currentRow() != -1) {
@@ -117,8 +121,9 @@ void MainWindow::addLeftLayout(){
        resetSearchAndFilter();
    });
    buttonLayout->addWidget(insertButton);
-   buttonLayout->addWidget(deleteButton);
    buttonLayout->addWidget(resetSearchFiltersButton);
+   buttonLayout->addWidget(deleteButton);
+
    //Filters
    filterTypeBox->addItem("All types");
    filterTypeBox->addItem("Spell");
@@ -165,7 +170,12 @@ void MainWindow::addMenu(){
     menu->addAction(load);
     menu2->addAction(white);
     menu2->addAction(dark);
-    connect(load, &QAction::triggered, [this] {loadFile();resetSearchAndFilter();setStackedWidgetPage(0);});
+    connect(load, &QAction::triggered, [this] {
+        loadFile();
+        resetSearchAndFilter();
+        setStackedWidgetPage(0);
+        insertButton->setVisible(true);
+        deleteButton->setVisible(true);});
     connect(save, &QAction::triggered, [this] {saveFile();});
     connect(dark, &QAction::triggered, [this] {
         StyleWhite=false;
@@ -373,6 +383,8 @@ void MainWindow::viewCardInfo(int pos)
     addInsertWidget(true,fixPos);
     insertWidget->setLayout(insertLayout);
     setStackedWidgetPage(2);
+    insertButton->setVisible(false);
+    deleteButton->setVisible(false);
     });
 
    //layout info Card
@@ -1143,6 +1155,8 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                               clearLayout(infolayout);
                               viewCardInfo(list->count()-1);
                               setStackedWidgetPage(1);
+                              insertButton->setVisible(true);
+                              deleteButton->setVisible(true);
 
 
                         }
@@ -1158,6 +1172,8 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
      });
 
     connect(cancelInsert, &QPushButton::clicked, [this] {
+        insertButton->setVisible(true);
+        deleteButton->setVisible(true);
         if(list->count() < 1) setStackedWidgetPage(0);
         else setStackedWidgetPage(1);
 
