@@ -62,7 +62,7 @@ private:
     QComboBox* filterRarityBox;
     //Buttons Delete & Insert
     QPushButton* insertButton;
-    QPushButton* deleteButton;
+    QPushButton* deleteAllButton;
     // Menu
     QMenu* menu;
     QMenu* menu2;

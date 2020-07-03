@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     filterTypeBox=new QComboBox;
     filterRarityBox=new QComboBox;
     insertButton = new QPushButton("Insert");
-    deleteButton= new QPushButton("Delete");
+    deleteAllButton= new QPushButton("Delete All");
     pathImg="/img/iconCard/default.png";
     StyleWhite=false;
     addMenu();
@@ -84,7 +84,7 @@ void MainWindow::addLeftLayout(){
           viewCardInfo(findListItemInContainer(list->currentRow()));
           setStackedWidgetPage(1);
           insertButton->setVisible(true);
-          deleteButton->setVisible(true);
+          deleteAllButton->setVisible(true);
       }
     });
    //searchbox
@@ -98,7 +98,7 @@ void MainWindow::addLeftLayout(){
    //insert&delete&resetSearchFilters Button
    QPushButton* resetSearchFiltersButton= new QPushButton("Reset Filters");
    insertButton->setFixedSize(100,50);
-   deleteButton->setFixedSize(100,50);
+   deleteAllButton->setFixedSize(100,50);
    resetSearchFiltersButton->setFixedSize(100,50);
    connect(insertButton, &QPushButton::clicked, [this] {
    clearLayout(insertLayout);
@@ -106,14 +106,12 @@ void MainWindow::addLeftLayout(){
    insertWidget->setLayout(insertLayout);
    setStackedWidgetPage(2);
    insertButton->setVisible(false);
-   deleteButton->setVisible(false);
+   deleteAllButton->setVisible(false);
    });
-   connect(deleteButton, &QPushButton::clicked, [this] {
-       if (list->count() > 0 && list->currentRow() != -1) {
-           container.remove(findListItemInContainer(list->currentRow()));
-           list->takeItem(list->currentRow());
-       }
-       if(list->currentRow() == -1){
+   connect(deleteAllButton, &QPushButton::clicked, [this] {
+       if (list->count() > 0) {
+           container.clear();
+           list->clear();
            setStackedWidgetPage(0);
        }
    });
@@ -122,7 +120,7 @@ void MainWindow::addLeftLayout(){
    });
    buttonLayout->addWidget(insertButton);
    buttonLayout->addWidget(resetSearchFiltersButton);
-   buttonLayout->addWidget(deleteButton);
+   buttonLayout->addWidget(deleteAllButton);
 
    //Filters
    filterTypeBox->addItem("All types");
@@ -175,7 +173,7 @@ void MainWindow::addMenu(){
         resetSearchAndFilter();
         setStackedWidgetPage(0);
         insertButton->setVisible(true);
-        deleteButton->setVisible(true);});
+        deleteAllButton->setVisible(true);});
     connect(save, &QAction::triggered, [this] {saveFile();});
     connect(dark, &QAction::triggered, [this] {
         StyleWhite=false;
@@ -359,6 +357,11 @@ void MainWindow::viewCardInfo(int pos)
     editButton->setFixedSize(100,50);
     buttonLayout->addWidget(editButton);
 
+    //Button Delete
+    QPushButton* deleteButton = new QPushButton("Delete Card");
+    deleteButton->setFixedSize(100,50);
+    buttonLayout->addWidget(deleteButton);
+
     //Label Text
     string cardNameLevel= container[fixPos]->getName() + " [" + "Level: "+ std::to_string(container[fixPos]->getCardLevel())+"]";
     QLabel* nameCard=new QLabel(QString::fromStdString(cardNameLevel));
@@ -384,9 +387,18 @@ void MainWindow::viewCardInfo(int pos)
     insertWidget->setLayout(insertLayout);
     setStackedWidgetPage(2);
     insertButton->setVisible(false);
-    deleteButton->setVisible(false);
+    deleteAllButton->setVisible(false);
     });
-
+    //Action deleteButton
+    connect(deleteButton, &QPushButton::clicked, [this] {
+        if (list->count() > 0 && list->currentRow() != -1) {
+            container.remove(findListItemInContainer(list->currentRow()));
+            list->takeItem(list->currentRow());
+        }
+        if(list->currentRow() == -1){
+            setStackedWidgetPage(0);
+        }
+    });
    //layout info Card
   QFormLayout* formLayout1 = new QFormLayout();
   QFormLayout* formLayout2 = new QFormLayout();
@@ -1156,7 +1168,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                               viewCardInfo(list->count()-1);
                               setStackedWidgetPage(1);
                               insertButton->setVisible(true);
-                              deleteButton->setVisible(true);
+                              deleteAllButton->setVisible(true);
 
 
                         }
@@ -1173,7 +1185,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
 
     connect(cancelInsert, &QPushButton::clicked, [this] {
         insertButton->setVisible(true);
-        deleteButton->setVisible(true);
+        deleteAllButton->setVisible(true);
         if(list->count() < 1) setStackedWidgetPage(0);
         else setStackedWidgetPage(1);
 
