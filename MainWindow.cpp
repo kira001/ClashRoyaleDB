@@ -634,6 +634,7 @@ void MainWindow::viewCardInfo(int pos)
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
   //Set Layout
+  buttonLayout->setMargin(5);
   imgAndButton->addWidget(cardLabel);
   buttonUpAndDown->addWidget(lvDowngrade);
   buttonUpAndDown->addWidget(lvUpgrade);
@@ -1306,7 +1307,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
-    buttonInsertLatout->setMargin(10);
+    buttonInsertLatout->setMargin(5);
     insertLayout->addLayout(buttonInsertLatout);
 
 }
@@ -1514,6 +1515,7 @@ void MainWindow::readJson(Card *card, const QJsonObject &obj){
         card->setName(obj["Card Name"].toString().toStdString());
     if (obj.contains("Mana Cost") && obj["Mana Cost"].isDouble())
         card->setManaCost(static_cast<unsigned int>(obj["Mana Cost"].toInt()));
+     if (obj.contains("Rarity") && Card::StringToRarity(obj["Rarity"].toString().toStdString()))
         card->setCardRarity(Card::StringToRarity(obj["Rarity"].toString().toStdString()));
        if (obj.contains("Level") && obj["Level"].isDouble())
         card->setCardLevel(static_cast<unsigned int>(obj["Level"].toInt()));

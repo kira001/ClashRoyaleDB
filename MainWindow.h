@@ -35,8 +35,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-
-
+#include <math.h>
 #include <QApplication>
 
 class MainWindow : public QMainWindow
