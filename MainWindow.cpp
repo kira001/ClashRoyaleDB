@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     completer= new QCompleter;
     filterTypeBox=new QComboBox;
     filterRarityBox=new QComboBox;
-    insertButton = new QPushButton("Insert");
+    insertButton = new QPushButton("Insert Card");
     deleteAllButton= new QPushButton("Delete All");
     pathImg="/img/iconCard/default.png";
     StyleWhite=false;
@@ -353,7 +353,7 @@ void MainWindow::viewCardInfo(int pos)
     QHBoxLayout* buttonLayout=new QHBoxLayout();
 
     //Button Edit
-    QPushButton* editButton = new QPushButton("Edit");
+    QPushButton* editButton = new QPushButton("Edit Card");
     editButton->setFixedSize(100,50);
     buttonLayout->addWidget(editButton);
 
@@ -1166,7 +1166,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
                               resetSearchAndFilter();
                               clearLayout(infolayout);
                               viewCardInfo(list->count()-1);
-                              setStackedWidgetPage(1);
+                              setStackedWidgetPage(0);
                               insertButton->setVisible(true);
                               deleteAllButton->setVisible(true);
 
