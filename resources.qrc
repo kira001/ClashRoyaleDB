@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>Load&amp;Save/InputTest.json</file>
         <file>img/insertIcon/cardType.png</file>
         <file>img/insertIcon/count.png</file>
         <file>img/insertIcon/crownTowerDamage.png</file>
@@ -39,5 +38,13 @@
         <file>img/insertIcon/whitesearch.png</file>
         <file>img/insertIcon/save.png</file>
         <file>img/insertIcon/x.png</file>
+        <file>img/iconCard/NightWitchCard.png</file>
+        <file>img/iconCard/BabyDragonCard.png</file>
+        <file>img/iconCard/RocketCard.png</file>
+        <file>img/iconCard/PrincessCard.png</file>
+        <file>img/iconCard/GiantSkeletonCard.png</file>
+        <file>img/iconCard/DarkPrinceCard.png</file>
+        <file>img/iconCard/BatsCard.png</file>
+        <file>Load&amp;Save/Cards.json</file>
     </qresource>
 </RCC>
