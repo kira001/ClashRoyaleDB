@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    MainWindow.cpp \
     Model/AttackingBuilding.cpp \
     Model/Building.cpp \
     Model/BuildingTroopSpawner.cpp \
@@ -26,10 +25,10 @@ SOURCES += \
     Model/Troop.cpp \
     Model/TroopSpawner.cpp \
     Model/myexception.cpp \
+    View/MainWindow.cpp \
     main.cpp
 
 HEADERS += \
-    MainWindow.h \
     Model/AttackingBuilding.h \
     Model/Building.h \
     Model/BuildingTroopSpawner.h \
@@ -40,7 +39,8 @@ HEADERS += \
     Model/TroopSpawner.h \
     Model/myexception.h \
     Template/container.h \
-    Template/deepptr.h
+    Template/deepptr.h \
+    View/MainWindow.h
 
 
 # Default rules for deployment.

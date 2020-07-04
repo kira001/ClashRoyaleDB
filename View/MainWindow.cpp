@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "View/MainWindow.h"
 #include "Model/myexception.h"
 
 

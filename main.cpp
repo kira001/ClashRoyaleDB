@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "View/MainWindow.h"
 
 #include <QApplication>
 #include "Model/Card.h"
