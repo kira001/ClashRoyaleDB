@@ -3,8 +3,6 @@
 
 #include "Spell.h"
 #include "Troop.h"
-#include <string>
-using std::string;
 
 class SpellTroopSpawner:public Spell, public Troop{
 private:
