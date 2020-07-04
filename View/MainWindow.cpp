@@ -623,7 +623,7 @@ void MainWindow::viewCardInfo(int pos)
   QIcon ButtonIcon2(pixmap2);
   lvDowngrade->setIcon(ButtonIcon2);
   lvDowngrade->setStyleSheet("QPushButton{background-color: rgb(30,30,30); color:white; font:9pt;} QPushButton:hover {background-color: rgb(120,120,120);}");
-  lvDowngrade->setFixedSize(110,40);
+  lvDowngrade->setFixedSize(100,40);
   lvDowngrade->setIconSize(QSize(30,30));
   //Set Img Card
   QString s=QString::fromStdString(pathImg);
@@ -634,7 +634,7 @@ void MainWindow::viewCardInfo(int pos)
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
   //Set Layout
-  buttonLayout->setMargin(5);
+  buttonLayout->setMargin(12);
   imgAndButton->addWidget(cardLabel);
   buttonUpAndDown->addWidget(lvDowngrade);
   buttonUpAndDown->addWidget(lvUpgrade);
@@ -1307,7 +1307,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
-    buttonInsertLatout->setMargin(5);
+    buttonInsertLatout->setMargin(12);
     insertLayout->addLayout(buttonInsertLatout);
 
 }
