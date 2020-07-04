@@ -5,7 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent){
     setWindowIcon(QIcon(":/img/insertIcon/icon.png"));
-    QWidget::setWindowTitle ("ClashRoyaleWiki");
+
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout;
     stackedWidget = new QStackedWidget;
@@ -53,7 +53,7 @@ void MainWindow::resetlist(){
 void MainWindow::infoguide() const{
     QMessageBox Box;
     Box.setWindowTitle("About");
-    Box.setText("\n\n Welcome to ClashRoyaleWiki v1.0");
+    Box.setText("\n\n Welcome to ClashRoyale Wiki v1.0");
     Box.setInformativeText("\n Developed by \n KokoGorillaTEAM \n");
     QPixmap logo = QPixmap(":/img/insertIcon/infobox.png");
     logo = logo.scaledToWidth(150);
@@ -634,7 +634,7 @@ void MainWindow::viewCardInfo(int pos)
   cardLabel->setFixedSize(190,190);
   cardLabel->setScaledContents(true);
   //Set Layout
-  buttonLayout->setMargin(12);
+  buttonLayout->setMargin(10);
   imgAndButton->addWidget(cardLabel);
   buttonUpAndDown->addWidget(lvDowngrade);
   buttonUpAndDown->addWidget(lvUpgrade);
@@ -1307,7 +1307,7 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     QHBoxLayout* buttonInsertLatout=new QHBoxLayout();
     buttonInsertLatout->addWidget(confirmInsert);
     buttonInsertLatout->addWidget(cancelInsert);
-    buttonInsertLatout->setMargin(12);
+    buttonInsertLatout->setMargin(10);
     insertLayout->addLayout(buttonInsertLatout);
 
 }
