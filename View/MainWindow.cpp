@@ -5,7 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent){
     setWindowIcon(QIcon(":/img/insertIcon/icon.png"));
-
+    QWidget::setWindowTitle ("ClashRoyaleWiki");
     mainWidget=new QWidget(this);
     mainLayout=new QHBoxLayout;
     stackedWidget = new QStackedWidget;
@@ -53,7 +53,7 @@ void MainWindow::resetlist(){
 void MainWindow::infoguide() const{
     QMessageBox Box;
     Box.setWindowTitle("About");
-    Box.setText("\n\n Welcome to ClashRoyale v1.0");
+    Box.setText("\n\n Welcome to ClashRoyaleWiki v1.0");
     Box.setInformativeText("\n Developed by \n KokoGorillaTEAM \n");
     QPixmap logo = QPixmap(":/img/insertIcon/infobox.png");
     logo = logo.scaledToWidth(150);
