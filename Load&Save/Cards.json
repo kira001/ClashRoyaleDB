@@ -40,7 +40,8 @@
         "Rarity": "Epic",
         "Shield": 0,
         "Spawn Death Damage": 195,
-        "Time and Description": "Upon death spawn 2 Golemites",
+        "Time and Description": "Upon death 
+         spawn 2 Golemites",
         "Troop Health": 3200,
         "Type": "Troop Spawner"
     },
@@ -147,7 +148,8 @@
         "Rarity": "Legendary",
         "Shield": 0,
         "Spawn Death Damage": 0,
-        "Time and Description": "Every 7 Seconds and Upon Death spawns 2 bats",
+        "Time and Description": "Every 7 Seconds 
+         and Upon Death spawns 2 bats",
         "Troop Health": 750,
         "Type": "Troop Spawner"
     },
