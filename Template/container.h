@@ -31,7 +31,7 @@ public:
     void remove(int pos);
 };
 
-/******************** CONSTRUCTORS/DESTRUCTORS ********************/
+
 template<class T>
 Container<T>::Container() : capacity(0), size(0), array(nullptr) {}
 
@@ -45,7 +45,7 @@ template<class T>
 Container<T>::~Container<T>() { if (array) delete[] array; }
 
 
-/******************** GETTERS/SETTERS ********************/
+
 template<class T>
 unsigned int Container<T>::getCapacity() const { return capacity; }
 
@@ -53,7 +53,7 @@ template<class T>
 unsigned int Container<T>::getSize() const { return size; }
 
 
-/******************** OPERATORS OVERLOADING ********************/
+
 template<class T>
 Container<T>& Container<T>::operator=(const Container& container) {
     if(!container.getCapacity()&&!container.getSize())
@@ -92,7 +92,7 @@ bool Container<T>::operator!=(const Container& container) const {
 }
 
 
-/******************** METHODS ********************/
+
 template<class T>
 void Container<T>::clear() {
     delete [] array;
