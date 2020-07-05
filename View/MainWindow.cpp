@@ -1062,13 +1062,27 @@ void MainWindow::addInsertWidget(bool Edit, unsigned int cardPos)
     connect(choseImg, &QPushButton::clicked, [this,BoxImg] {
          QString img= QFileDialog::getOpenFileName(this,tr("Choose"),"../ClashRoyaleDB/img/iconCard",tr("images (*.png *.jpg *.jpeg *.gif)"));
          if(img!=""){
-             QFileInfo fi(img);
-             QString name=fi.fileName();
-             string pathImgCard="/img/iconCard/"+name.toStdString();
-             pathImg=pathImgCard;
-
-             BoxImg->setPixmap(img);
-
+              string dir=QFileInfo(".").absolutePath().toStdString() + "/ClashRoyaleDB";
+              QFileInfo fi(img);
+              QString name=fi.fileName();
+              string pathImgCard="/img/iconCard/"+name.toStdString();
+              try {
+                  if(img.toStdString()==(dir+pathImgCard)){
+                    pathImg=pathImgCard;
+                    BoxImg->setPixmap(img);
+                  }
+                  else
+                  {
+                        throw MyException("The image "+name.toStdString()+" must be in the folder: ClashRoyaleDB/img/iconCard");
+                  }
+              } catch (MyException e) {
+                  QMessageBox msgBox;
+                  msgBox.setText(QString::fromStdString(e.getMsgException()));
+                  if(!StyleWhite)
+                  {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
+                  else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
+                  msgBox.exec();
+              }
          }
          else
          {
@@ -1640,27 +1654,32 @@ void MainWindow::loadFile(){
 }
 //Save File
 void MainWindow::saveFile() const{
-     if (container.getSize() != 0) {
-        QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save File"), "../ClashRoyaleDB/Load&Save", tr("JSON files (*.json)"));
-        if (!fileName.endsWith(".json"))
-            fileName.append(".json");
-        QJsonArray arrayJson;
-       //ciclo il container e faccio il push sull Json
-        for (unsigned int i = 0; i < container.getSize(); ++i)
-        arrayJson.push_back(QJsonValue(writeJson(container[i].operator ->())));
-        QJsonDocument docJson(arrayJson);
-        QString docString = docJson.toJson();
-        QFile saveFile(fileName);
-        saveFile.open(QIODevice::WriteOnly);
-        saveFile.write(docString.toUtf8());
-        saveFile.close();
-     }
-    else {
+    try {
+        if (container.getSize() != 0) {
+           QString fileName = QFileDialog::getSaveFileName(this->menu, tr("Save File"), "../ClashRoyaleDB/Load&Save", tr("JSON files (*.json)"));
+           if (!fileName.endsWith(".json"))
+               fileName.append(".json");
+           QJsonArray arrayJson;
+          //ciclo il container e faccio il push sull Json
+           for (unsigned int i = 0; i < container.getSize(); ++i)
+           arrayJson.push_back(QJsonValue(writeJson(container[i].operator ->())));
+           QJsonDocument docJson(arrayJson);
+           QString docString = docJson.toJson();
+           QFile saveFile(fileName);
+           saveFile.open(QIODevice::WriteOnly);
+           saveFile.write(docString.toUtf8());
+           saveFile.close();
+       }
+       else {
+          throw  MyException("The container is empty.");
+       }
+    } catch (MyException e) {
         QMessageBox msgBox;
-        msgBox.setText("The container is empty.");
+        msgBox.setText(QString::fromStdString(e.getMsgException()));
         if(!StyleWhite)
         {msgBox.setStyleSheet("background-color: rgb(30,30,30); color: rgb(225,225,225);");}
         else{msgBox.setStyleSheet("background-color: rgb(220,220,220);");}
         msgBox.exec();
     }
+
 }
