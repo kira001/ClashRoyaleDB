@@ -8,10 +8,13 @@ Clash Royale è un videogioco di carte strategico in real-time sviluppato per i 
 - ricerca e filtraggio per tipologia o rarità della carta; 
 - salvataggio e caricamento delle carte nel container.
 ### Tecnologie e strumenti utilizzati 
--Ambiente di Sviluppo: Qt Creator v5.14.1;
--Linguaggio di programmazione: C++;
--Versionamento del software: Github;
--Creazione Immagini e Sfondi: Photoshop CC.
+**Ambiente di Sviluppo:** *Qt Creator v5.14.1*
+
+**Linguaggio di programmazione:** *C++*
+
+**Versionamento del software:** *Github*
+
+**Creazione Immagini e Sfondi:** *Photoshop CC*.
 #### Team di sviluppo
 - Gerardo Kokoshari
 - Foad Farid
