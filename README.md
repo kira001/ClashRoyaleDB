@@ -16,6 +16,6 @@ Clash Royale è un videogioco di carte strategico in real-time sviluppato per i 
 **Creazione Immagini e Sfondi:** *Photoshop CC*.
 #### Team di sviluppo
 - Gerardo Kokoshari
-- Foad Farid
+- Fouad Farid
 - Ian Nicolas di Menna
 
